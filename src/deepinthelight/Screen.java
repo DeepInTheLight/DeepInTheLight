@@ -153,7 +153,7 @@ public class Screen {
     }
 
     public void populate() {
-        if (populated) {
+        if (populated || (x==0 && y==0)) {
             return;
         }
 
