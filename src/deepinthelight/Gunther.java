@@ -20,7 +20,7 @@ public class Gunther extends Element {
     }
 
     private final int RADIUS = 5;
-    private final String IMAGE_PATH = "wherever/the/fuck/lol.png";
+    private final String IMAGE_PATH = "images/baleine.jpg";
     private Image image;
 
     private final int BASE_ENERGY = 42;
