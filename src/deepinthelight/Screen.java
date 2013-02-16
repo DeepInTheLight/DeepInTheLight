@@ -176,6 +176,11 @@ public class Screen {
             if (malus != null) {
                 elements.add(malus);
             }
+
+            BonusFish bf = createBF();
+            if (bf != null) {
+                elements.add(bf);
+            }
             i++;
         }
 
@@ -224,6 +229,27 @@ public class Screen {
 
         obstacleSize += malus.getSize();
         return malus;
+    }
+
+    public BonusFish createBF() {
+        float centerX = x + generator.nextInt(Main.width);
+        float centerY = y + generator.nextInt(Main.height);
+        BonusFish bf = null;
+        try {
+            bf = new BonusFish(centerX, centerY, this);
+        } catch (SlickException ex) {
+            ex.printStackTrace();
+            return null;
+        }
+
+        for (Element element : getAllElements()) {
+            if (bf.getBox().intersects(element.getBox())) {
+                return null;
+            }
+        }
+
+        obstacleSize += bf.getSize();
+        return bf;
     }
 
     public void deleteElement(Element el) {
