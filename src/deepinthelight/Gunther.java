@@ -71,7 +71,6 @@ public class Gunther extends Element {
 
     public void eat(Element e) {
         // TODO: change animation
-        GamePlay.getGamePlay().world.queueForDeletion(e);
     }
 
     public void recharge(int amount) {

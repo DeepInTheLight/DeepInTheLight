@@ -47,7 +47,7 @@ public class Malus extends Element {
     @Override
     public boolean collide() {
         GamePlay.getGamePlay().gunther.changeHealth(-damage);
-        GamePlay.getGamePlay().world.queueForDeletion(this);
+        screen.deleteElement(this);
         // TODO: call "hurting" or "eating" animation or make gunther blink?
         return false;
     }

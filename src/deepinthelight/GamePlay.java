@@ -101,7 +101,6 @@ public class GamePlay extends BasicGameState {
             this.gunther.moveBack();
         }
 
-        world.deletePending(); 
         checkScreenBorders();
 
     }
