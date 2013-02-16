@@ -202,15 +202,6 @@ public class Screen {
         return obs;
     }
 
-    public void deleteElement(Element el) {
-        elements.remove(el);
-        elementChanged = true;
-    }
-
-    public boolean elementChanged() {
-        return elementChanged;
-    }
-
     public Malus createMalus() {
         float centerX = x + generator.nextInt(Main.width);
         float centerY = y + generator.nextInt(Main.height);
@@ -232,6 +223,15 @@ public class Screen {
         return malus;
     }
 
+    public void deleteElement(Element el) {
+        elements.remove(el);
+        elementChanged = true;
+    }
+
+    public boolean elementChanged() {
+        return elementChanged;
+    }
+
     private String serialize() {
         return Screen.serialize(x, y);
     }
@@ -239,4 +239,21 @@ public class Screen {
     private static String serialize(float x, float y) {
         return new String("X" + Math.round(x) + "Y" + Math.round(y));
     }
+
+    public float getTopBoundary() {
+        return y;
+    }
+
+    public float getBottomBoundary() {
+        return y + Main.height;
+    }
+
+    public float getLeftBoundary() {
+        return x;
+    }
+
+    public float getRightBoundary() {
+        return x + Main.width;
+    }
+
 }
