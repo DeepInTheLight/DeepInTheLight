@@ -4,6 +4,8 @@
  */
 package deepinthelight;
 
+import org.newdawn.slick.Image;
+import org.newdawn.slick.SlickException;
 import org.newdawn.slick.geom.Circle;
 
 /**
@@ -18,7 +20,8 @@ public class Gunther extends Element {
     }
 
     private final int RADIUS = 5;
-    
+    private final String IMAGE_PATH = "wherever/the/fuck/lol.png";
+    private Image image;
 
     private final int BASE_ENERGY = 42;
     private final int ENERGY_DEC = 5;
@@ -28,8 +31,9 @@ public class Gunther extends Element {
     private final float SPEED = 5;
     private final float DIAG_SPEED = SPEED/(float)java.lang.Math.sqrt(2);
 
-    public Gunther() {
+    public Gunther() throws SlickException {
         box = new Circle(0, 0, RADIUS);
+        image = new Image(IMAGE_PATH);
     }
 
     @Override
@@ -39,18 +43,17 @@ public class Gunther extends Element {
 
     @Override
     public void render(float offsetX, float offsetY) {
-        
+        image.draw( box.getX() - offsetX, box.getY() - offsetY );
     }
 
     @Override
     public void collide() {
-        // useless
+        // useless?
     }
 
     public void move(Direction newDir) {
         currentDir = newDir;
         
-        //TODO: actually move
         float curX = box.getCenterX();
         float curY = box.getCenterY();
         
