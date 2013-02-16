@@ -1,5 +1,6 @@
 package deepinthelight;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 
 import org.newdawn.slick.geom.Shape;
@@ -7,26 +8,38 @@ import org.newdawn.slick.geom.Shape;
 public class Screen {
 
     public static HashMap<String, Screen> ScreenMap = null;
-    private final int maxObstacleSize = 20;
+    private final int maxObstacleSize = 10;
     private int obstacleSize = 0;
     private boolean populated;
+    private ArrayList<Element> elements;
 
     public enum Zone {
-        UP, DOWN, LEFT, RIGHT
+        UP, DOWN, LEFT, RIGHT, UPLEFT, UPRIGHT, DOWNLEFT, DOWNRIGHT
     }
 
-    private float top;
-    private float bottom;
-    private float left;
-    private float right;
+    private float x;
+    private float y;
 
-    private Screen(float top, float bottom, float left, float right) {
-        this.top = top;
-        this.bottom = bottom;
-        this.left = left;
-        this.right = right;
+    private Screen(float x, float y) {
+        this.x = x;
+        this.y = y;
         populated = false;
+        elements = new ArrayList<Element>();
         ScreenMap.put(this.serialize(), this);
+    }
+
+    public ArrayList<Element> getAllElements() {
+        ArrayList<Element> allElements = new ArrayList<Element>();
+        int i = 0;
+        for (Zone where : Zone.values()) {
+            allElements.addAll(getNextScreen(where).getElements());
+        }
+
+        return allElements;
+    }
+
+    public ArrayList<Element> getElements() {
+        return elements;
     }
 
     public static Screen init(float screenX, float screenY) {
@@ -35,16 +48,31 @@ public class Screen {
         }
 
         ScreenMap = new HashMap<String, Screen>(100);
-        return new Screen(screenY, screenY + Main.height,
-                          screenX, screenX + Main.height);
+        return new Screen(screenY, screenX);
     }
 
     public Screen getNextScreen(Gunther gunther) {
+        float top = y;
+        float bottom = y + Main.height;
+        float left = x;
+        float right = x + Main.width;
         Shape box = gunther.getBox();
         Screen nextScreen = null;
         if (box.getCenterY() > top) {
+            if (box.getCenterX() < left) {
+                nextScreen = getNextScreen(Zone.UPLEFT);
+            } else if (box.getCenterX() > right) {
+                nextScreen = getNextScreen(Zone.UPRIGHT);
+            }
+
             nextScreen = getNextScreen(Zone.UP);
         } else if (box.getCenterY() < bottom) {
+            if (box.getCenterX() < left) {
+                nextScreen = getNextScreen(Zone.DOWNLEFT);
+            } else if (box.getCenterX() > right) {
+                nextScreen = getNextScreen(Zone.DOWNRIGHT);
+            }
+
             nextScreen = getNextScreen(Zone.DOWN);
         } else if (box.getCenterX() < left) {
             nextScreen = getNextScreen(Zone.LEFT);
@@ -52,37 +80,43 @@ public class Screen {
             nextScreen = getNextScreen(Zone.RIGHT);
         }
 
-        if (!nextScreen.isInScreen(gunther)) {
-            return nextScreen.getNextScreen(gunther);
-        }
-
         return nextScreen;
     }
 
     public Screen getNextScreen(Zone where) {
-        float nexttop = top;
-        float nextbottom = bottom;
-        float nextleft = left;
-        float nextright = right;
+        float nextx = x;
+        float nexty = y;
         switch(where) {
+        case UPLEFT:
+            nextx -= Main.width;
         case UP :
-            nexttop += Main.height;
+            nexty -= Main.height;
             break;
+        case DOWNRIGHT :
+            nextx += Main.width;
         case DOWN :
-            nextbottom += Main.height;
+            nexty += Main.height;
             break;
+        case DOWNLEFT:
+            nexty += Main.height;
         case LEFT :
-            nextleft += Main.width;
+            nextx -= Main.width;
             break;
+        case UPRIGHT :
+            nexty -= Main.height;
         case RIGHT :
-            nextright += Main.width;
+            nextx += Main.width;
             break;
         }
 
-        return getScreen(nexttop, nextbottom, nextleft, nextright);
+        return getScreen(nextx, nexty);
     }
 
     public boolean isInScreen(Gunther gunther) {
+        float top = y;
+        float bottom = y + Main.height;
+        float left = x;
+        float right = x + Main.width;
         Shape box = gunther.getBox();
         if (box.getCenterY() > top || box.getCenterY() < bottom ||
             box.getCenterX() < left || box.getCenterX() > right) {
@@ -93,10 +127,9 @@ public class Screen {
     }
 
     public void populateNeighbors() {
-        this.getNextScreen(Zone.UP).populate();
-        this.getNextScreen(Zone.DOWN).populate();
-        this.getNextScreen(Zone.LEFT).populate();
-        this.getNextScreen(Zone.RIGHT).populate();
+        for (Zone where : Zone.values()) {
+            this.getNextScreen(where).populate();
+        }
     }
 
     public void populate() {
@@ -107,22 +140,20 @@ public class Screen {
         populated = true;
     }
 
-    private Screen getScreen(float top, float bottom, float left, float right) {
-        Screen nextScreen = ScreenMap.get(Screen.serialize(top, bottom,
-                                                           left, right));
+    private Screen getScreen(float x, float y) {
+        Screen nextScreen = ScreenMap.get(Screen.serialize(x, y));
         if (nextScreen == null) {
-            nextScreen = new Screen(top, bottom, left, right);
+            nextScreen = new Screen(x, y);
         }
 
         return nextScreen;
     }
 
     private String serialize() {
-        return Screen.serialize(top, bottom, left, right);
+        return Screen.serialize(x, y);
     }
 
-    private static String serialize(float top, float bottom, float left, float right) {
-        return new String("T" + Math.round(top) + "B" + Math.round(bottom) +
-                          "L" + Math.round(left) + "R" + Math.round(right));
+    private static String serialize(float x, float y) {
+        return new String("X" + Math.round(x) + "Y" + Math.round(y));
     }
 }

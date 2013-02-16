@@ -5,6 +5,7 @@
 package deepinthelight;
 
 import java.util.Date;
+import java.util.Random;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.geom.Circle;
@@ -13,30 +14,22 @@ import org.newdawn.slick.geom.Circle;
  *
  * @author peniblec
  */
-public class Gunther extends Element {
+public class BonusFish extends Element {
 
     private final int RADIUS = 5;
-    private final String IMAGE_PATH = "images/gunther/Gunther-bulblight-NB.png";
+    private final String IMAGE_PATH = "images/gunther/Gunther-eyelight-color.png"; // TODO change image
     private Image image;
 
-    private final int BASE_ENERGY = 42;
-    private final int MAX_ENERGY = 100;
-    private final int MAX_DECREASE = MAX_ENERGY / 20;
-    private final int DECREASE_THRESHOLD = MAX_ENERGY / 2;
-    private int energyLeft = BASE_ENERGY;
-    private long lastDecrease = new Date().getTime();
-
-    private final int MAX_HEALTH = 100;
-
-    private int health = MAX_HEALTH;
+    private final int ENERGY_BONUS = 20;
 
     private Direction currentDir = Direction.NONE;
-    private final float SPEED = 5;
+    private final float SPEED = 2;
     private final float DIAG_SPEED = SPEED/(float)java.lang.Math.sqrt(2);
 
     private float oldX, oldY;
+    long lastMove = new Date().getTime();
 
-    public Gunther() throws SlickException {
+    public BonusFish() throws SlickException {
         box = new Circle(0, 0, RADIUS);
         image = new Image(IMAGE_PATH);
 
@@ -46,37 +39,44 @@ public class Gunther extends Element {
 
     @Override
     public void update() {
-
         long now = new Date().getTime();
-        if ( now - lastDecrease >= 1000 ) {
-            energyLeft-= getEnergyDecrease();
-            lastDecrease = now;
+        if ( now - lastMove >= 5000 ) {
+            changeDirection();
+        }
+        move(currentDir);
+    }
+
+    private void changeDirection() {
+
+        switch (new Random().nextInt(8)) {
+
+        case 0:
+            currentDir = Direction.LEFT;
+            break;
+        case 1:
+            currentDir = Direction.RIGHT;
+            break;
+        case 2:
+            currentDir = Direction.UP;
+            break;
+        case 3:
+            currentDir = Direction.DOWN;
+            break;
+        case 4:
+            currentDir = Direction.LEFTUP;
+            break;
+        case 5:
+            currentDir = Direction.LEFTDOWN;
+            break;
+        case 6:
+            currentDir = Direction.RIGHTUP;
+            break;
+        case 7:
+            currentDir = Direction.RIGHTDOWN;
+            break;
         }
     }
 
-    private int getEnergyDecrease() {
-
-        if ( energyLeft > DECREASE_THRESHOLD ) {
-            return MAX_DECREASE;
-        }
-
-        int dec = ( energyLeft * MAX_DECREASE ) / DECREASE_THRESHOLD;
-        if ( dec < 1 && energyLeft > 0 ) {
-            return 1;
-        }
-        else {
-            return dec;
-        }
-    }
-
-    public void eat(Element e) {
-        // TODO: change animation?
-    }
-
-    public void recharge(int amount) {
-        energyLeft+= ( energyLeft + amount > MAX_ENERGY ? MAX_ENERGY
-                       : energyLeft + amount );
-    }
 
     @Override
     public void render(float offsetX, float offsetY) {
@@ -85,6 +85,8 @@ public class Gunther extends Element {
 
     @Override
     public boolean collide() {
+        GamePlay.getGamePlay().gunther.eat(this);
+        GamePlay.getGamePlay().gunther.recharge(ENERGY_BONUS);
         return true;
     }
 
@@ -129,35 +131,10 @@ public class Gunther extends Element {
             box.setCenterY( oldY + DIAG_SPEED );
             break;
         }
-        
-    }
-
-    public void changeHealth(int amount) {
-        if ( amount < 0 ) {
-            if ( health - amount < 0 ) {
-                health = 0;
-                die();
-            }
-            else {
-                health-= amount;
-            }
-        }
-        if ( amount > 0 ) {
-            health = ( health + amount > MAX_HEALTH ? MAX_HEALTH
-                       : health + amount );
-        }
     }
     
-    public int getHealth() {
-        return health;
-    }
-    
-    public void die() {
-        // TODO : gameover ?
-    }
-
-    @Override
     public int getSize() {
         return 1;
     }
+    
 }
