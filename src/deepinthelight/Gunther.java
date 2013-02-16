@@ -31,7 +31,7 @@ public class Gunther extends Element {
     private int energyLeft = BASE_ENERGY;
     private long lastDecrease = new Date().getTime();
 
-    private final int MAX_HEALTH;
+    private final int MAX_HEALTH = 100;
     private int health = MAX_HEALTH;
 
     private Direction currentDir = Direction.NONE;
@@ -55,15 +55,17 @@ public class Gunther extends Element {
 
     private int getEnergyDecrease() {
 
-        if ( energyLeft > DECREASE_THRESHOLD )
+        if ( energyLeft > DECREASE_THRESHOLD ) {
             return MAX_DECREASE;
+        }
 
         int dec = ( energyLeft * MAX_DECREASE ) / DECREASE_THRESHOLD;
         if ( dec < 1 && energyLeft > 0 ) {
             return 1;
         }
-        else
+        else {
             return dec;
+        }
     }
 
     public void recharge(int amount) {
@@ -120,10 +122,30 @@ public class Gunther extends Element {
         
     }
 
-    public getHealth() {
+    public void changeHealth(int amount) {
+        if ( amount < 0 ) {
+            if ( health - amount < 0 ) {
+                health = 0;
+                die();
+            }
+            else {
+                health-= amount;
+            }
+        }
+        if ( amount > 0 ) {
+            health = ( health + amount > MAX_HEALTH ? MAX_HEALTH
+                       : health + amount );
+        }
+    }
+    
+    public int getHealth() {
         return health;
     }
     
+    public void die() {
+        // TODO : gameover ?
+    }
+
     @Override
     public int getSize() {
         return 1;
