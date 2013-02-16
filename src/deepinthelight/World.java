@@ -19,7 +19,7 @@ public class World {
     }
 
     public ArrayList<Element> getElements() {
-        return elements;
+        return currentScreen.getAllElements();
     }
 
     public void update() {
