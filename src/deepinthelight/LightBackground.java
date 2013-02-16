@@ -73,7 +73,7 @@ public class LightBackground {
         alphaMap = spriteSheet.getSubImage(0, TILE_SIZE + TILE_SPACING, ALPHA_MAP_SIZE, ALPHA_MAP_SIZE);
 
         //reset the lighting
-        lights.add(new Light(0, 0, 0.3f));
+        lights.add(new Light(0, 0, 0.3f, new Color(0, 0, 1)));
     }
 
     Image randomTile() {

@@ -21,7 +21,7 @@ public class Gunther extends Element {
     }
 
     private final int RADIUS = 5;
-    private final String IMAGE_PATH = "images/baleine.jpg";
+    private final String IMAGE_PATH = "images/gunther/Gunther-bulblight-NB.png";
     private Image image;
 
     private final int BASE_ENERGY = 42;
