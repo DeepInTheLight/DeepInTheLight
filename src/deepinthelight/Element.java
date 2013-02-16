@@ -5,13 +5,19 @@ import org.newdawn.slick.geom.Shape;
 
 public abstract class Element {
 
+    public enum Direction {
+        NONE, LEFT, RIGHT, UP, DOWN,
+            LEFTUP, LEFTDOWN, RIGHTUP, RIGHTDOWN
+    }
+
     protected Shape box = null;
 
     public abstract void update();
 
-    public abstract void render(float offsetX, float offsetY, Graphics g);
+    public abstract void render(float offsetX, float offsetY);
 
-    public abstract void collide();
+    // true: can't go through ; false: can go through
+    public abstract boolean collide();
 
     public abstract int getSize();
 

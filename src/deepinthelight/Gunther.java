@@ -16,11 +16,6 @@ import org.newdawn.slick.geom.Circle;
  */
 public class Gunther extends Element {
 
-    public enum Direction {
-        NONE, LEFT, RIGHT, UP, DOWN,
-            LEFTUP, LEFTDOWN, RIGHTUP, RIGHTDOWN
-    }
-
     private final int RADIUS = 5;
     private final String IMAGE_PATH = "images/gunther/Gunther-bulblight-color.png";
     private Image image;
@@ -32,16 +27,22 @@ public class Gunther extends Element {
     private int energyLeft = BASE_ENERGY;
     private long lastDecrease = new Date().getTime();
 
-    private final int MAX_HEALTH = 1000;
+    private final int MAX_HEALTH = 100;
+
     private int health = MAX_HEALTH;
 
     private Direction currentDir = Direction.NONE;
     private final float SPEED = 5;
     private final float DIAG_SPEED = SPEED/(float)java.lang.Math.sqrt(2);
 
+    private float oldX, oldY;
+
     public Gunther() throws SlickException {
         box = new Circle(0, 0, RADIUS);
         image = new Image(IMAGE_PATH);
+
+        oldX = 0;
+        oldY = 0;
     }
 
     @Override
@@ -56,15 +57,21 @@ public class Gunther extends Element {
 
     private int getEnergyDecrease() {
 
-        if ( energyLeft > DECREASE_THRESHOLD )
+        if ( energyLeft > DECREASE_THRESHOLD ) {
             return MAX_DECREASE;
+        }
 
         int dec = ( energyLeft * MAX_DECREASE ) / DECREASE_THRESHOLD;
         if ( dec < 1 && energyLeft > 0 ) {
             return 1;
         }
-        else
+        else {
             return dec;
+        }
+    }
+
+    public void eat(Element e) {
+        // TODO: change animation?
     }
 
     public void recharge(int amount) {
@@ -72,59 +79,85 @@ public class Gunther extends Element {
                        : energyLeft + amount );
     }
 
-    public void render(float offsetX, float offsetY, Graphics g) {
+    @Override
+    public void render(float offsetX, float offsetY) {
            
         image.draw( box.getX() - offsetX, box.getY() - offsetY, 0.3f);        
     }
 
     @Override
-    public void collide() {
-        // useless?
+    public boolean collide() {
+        return false; // Gunther can't collide with itself
+    }
+
+    public void moveBack() {
+        box.setCenterX(oldX);
+        box.setCenterY(oldY);
     }
 
     public void move(Direction newDir) {
         currentDir = newDir;
         
-        float curX = box.getCenterX();
-        float curY = box.getCenterY();
+        oldX = box.getCenterX();
+        oldY = box.getCenterY();
         
         switch(currentDir) {
         case LEFT :
-            box.setCenterX( curX - SPEED );
+            box.setCenterX( oldX - SPEED );
             break;
         case RIGHT :
-            box.setCenterX( curX + SPEED );
+            box.setCenterX( oldX + SPEED );
             break;
         case DOWN :
-            box.setCenterY( curY + SPEED );
+            box.setCenterY( oldY + SPEED );
             break;
         case UP :
-            box.setCenterY( curY - SPEED );
+            box.setCenterY( oldY - SPEED );
             break;
         case LEFTUP :
-            box.setCenterX( curX - DIAG_SPEED );
-            box.setCenterY( curY - DIAG_SPEED );
+            box.setCenterX( oldX - DIAG_SPEED );
+            box.setCenterY( oldY - DIAG_SPEED );
             break;
         case LEFTDOWN :
-            box.setCenterX( curX - DIAG_SPEED );
-            box.setCenterY( curY + DIAG_SPEED );
+            box.setCenterX( oldX - DIAG_SPEED );
+            box.setCenterY( oldY + DIAG_SPEED );
             break;
         case RIGHTUP :
-            box.setCenterX( curX + DIAG_SPEED );
-            box.setCenterY( curY - DIAG_SPEED );
+            box.setCenterX( oldX + DIAG_SPEED );
+            box.setCenterY( oldY - DIAG_SPEED );
             break;
         case RIGHTDOWN :
-            box.setCenterX( curX + DIAG_SPEED );
-            box.setCenterY( curY + DIAG_SPEED );
+            box.setCenterX( oldX + DIAG_SPEED );
+            box.setCenterY( oldY + DIAG_SPEED );
             break;
         }
         
     }
 
+    public void changeHealth(int amount) {
+        if ( amount < 0 ) {
+            if ( health - amount < 0 ) {
+                health = 0;
+                die();
+            }
+            else {
+                health-= amount;
+            }
+        }
+        if ( amount > 0 ) {
+            health = ( health + amount > MAX_HEALTH ? MAX_HEALTH
+                       : health + amount );
+        }
+    }
+    
     public int getHealth() {
         return health;
     }
     
+    public void die() {
+        // TODO : gameover ?
+    }
+
     @Override
     public int getSize() {
         return 1;
