@@ -39,9 +39,14 @@ public class Gunther extends Element {
     private final float SPEED = 5;
     private final float DIAG_SPEED = SPEED/(float)java.lang.Math.sqrt(2);
 
+    private float oldX, oldY;
+
     public Gunther() throws SlickException {
         box = new Circle(0, 0, RADIUS);
         image = new Image(IMAGE_PATH);
+
+        oldX = 0;
+        oldY = 0;
     }
 
     @Override
@@ -79,45 +84,49 @@ public class Gunther extends Element {
         image.draw( box.getX() - offsetX, box.getY() - offsetY );
     }
 
+    // as far as Gunther is concerned, collide() will put him back to
+    // his old position
     @Override
     public boolean collide() {
+        box.setCenterX(oldX);
+        box.setCenterY(oldY);
         return true;
     }
 
     public void move(Direction newDir) {
         currentDir = newDir;
         
-        float curX = box.getCenterX();
-        float curY = box.getCenterY();
+        oldX = box.getCenterX();
+        oldY = box.getCenterY();
         
         switch(currentDir) {
         case LEFT :
-            box.setCenterX( curX - SPEED );
+            box.setCenterX( oldX - SPEED );
             break;
         case RIGHT :
-            box.setCenterX( curX + SPEED );
+            box.setCenterX( oldX + SPEED );
             break;
         case DOWN :
-            box.setCenterY( curY + SPEED );
+            box.setCenterY( oldY + SPEED );
             break;
         case UP :
-            box.setCenterY( curY - SPEED );
+            box.setCenterY( oldY - SPEED );
             break;
         case LEFTUP :
-            box.setCenterX( curX - DIAG_SPEED );
-            box.setCenterY( curY - DIAG_SPEED );
+            box.setCenterX( oldX - DIAG_SPEED );
+            box.setCenterY( oldY - DIAG_SPEED );
             break;
         case LEFTDOWN :
-            box.setCenterX( curX - DIAG_SPEED );
-            box.setCenterY( curY + DIAG_SPEED );
+            box.setCenterX( oldX - DIAG_SPEED );
+            box.setCenterY( oldY + DIAG_SPEED );
             break;
         case RIGHTUP :
-            box.setCenterX( curX + DIAG_SPEED );
-            box.setCenterY( curY - DIAG_SPEED );
+            box.setCenterX( oldX + DIAG_SPEED );
+            box.setCenterY( oldY - DIAG_SPEED );
             break;
         case RIGHTDOWN :
-            box.setCenterX( curX + DIAG_SPEED );
-            box.setCenterY( curY + DIAG_SPEED );
+            box.setCenterX( oldX + DIAG_SPEED );
+            box.setCenterY( oldY + DIAG_SPEED );
             break;
         }
         
