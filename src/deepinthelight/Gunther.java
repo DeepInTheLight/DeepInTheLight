@@ -5,6 +5,9 @@
 package deepinthelight;
 
 import org.newdawn.slick.geom.Circle;
+import org.newdawn.slick.Image;
+import org.newdawn.slick.Renderable;
+import org.newdawn.slick.SlickException;
 
 /**
  *
@@ -18,7 +21,8 @@ public class Gunther extends Element {
     }
 
     private final int RADIUS = 5;
-    
+    private final String IMAGE_PATH = "wherever/the/fuck/lol.png";
+    private Image image;
 
     private final int BASE_ENERGY = 42;
     private final int ENERGY_DEC = 5;
@@ -30,6 +34,7 @@ public class Gunther extends Element {
 
     public Gunther() {
         box = new Circle(0, 0, RADIUS);
+        image = new Image(IMAGE_PATH);
     }
 
     @Override
@@ -44,13 +49,12 @@ public class Gunther extends Element {
 
     @Override
     public void collide() {
-        // useless
+        // useless?
     }
 
     public void move(Direction newDir) {
         currentDir = newDir;
         
-        //TODO: actually move
         float curX = box.getCenterX();
         float curY = box.getCenterY();
         
