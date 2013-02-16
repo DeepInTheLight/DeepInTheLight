@@ -77,7 +77,8 @@ public class BonusFish extends Element {
             moved = true;
 
             for (Element e : GamePlay.getGamePlay().world.getElements()) {
-                if ( e!=this && e.getBox().intersects(this.getBox()) && e.collide() ) {
+                if ( e.getBox().intersects(this.getBox()) 
+                     && e.getClass()==Obstacle.class ) {
                     abortMove();
                     moved = false;
                     break;
