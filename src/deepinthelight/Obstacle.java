@@ -8,10 +8,10 @@ public class Obstacle extends Element {
 
     private Image img;
     private int size;
-    private static final String[] obstacleImgRes = { "coucou1", "coucou2",
-                                                     "coucou3", "coucou4",
-                                                     "coucou5", "coucou6",
-                                                     "coucou7", "coucou8" };
+    private static final String[] obstacleImgRes = { "images/obstacles/bigstone1.png", "images/obstacles/bigstone2.png",
+                                                     "images/obstacles/bigstone3.png", "images/obstacles/bigstone4.png",
+                                                     "images/obstacles/smallstone1.png", "images/obstacles/smallstone2.png",
+                                                     "images/obstacles/smallstone3.png", "images/obstacles/smallstone4.png" };
     public Obstacle(int type, float centerX, float centerY)
                     throws SlickException {
         //img = new Image(obstacleImgRes[type%8]);

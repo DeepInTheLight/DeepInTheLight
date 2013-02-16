@@ -22,7 +22,7 @@ import org.newdawn.slick.state.StateBasedGame;
  */
 public class LightBackground {
 
-    public static final int MIN_RADIUS = 50;
+    public static final int MIN_RADIUS = 500;
     
     //number of tiles in our simple horizontal sprite sheet
     public static final int TILE_COUNT = 5;
