@@ -127,14 +127,9 @@ public class Screen {
     }
 
     public void populateNeighbors() {
-        this.getNextScreen(Zone.UP).populate();
-        this.getNextScreen(Zone.DOWN).populate();
-        this.getNextScreen(Zone.LEFT).populate();
-        this.getNextScreen(Zone.RIGHT).populate();
-        this.getNextScreen(Zone.UPRIGHT).populate();
-        this.getNextScreen(Zone.UPLEFT).populate();
-        this.getNextScreen(Zone.DOWNRIGHT).populate();
-        this.getNextScreen(Zone.DOWNLEFT).populate();
+        for (Zone where : Zone.values()) {
+            this.getNextScreen(where).populate();
+        }
     }
 
     public void populate() {
