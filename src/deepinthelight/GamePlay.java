@@ -121,14 +121,14 @@ public class GamePlay extends BasicGameState {
         float guntherY = gunther.getBox().getCenterY();
         
         if ( guntherX - MIN_X_FROM_BORDER < screenX ) {
-            screenX = gunther - MIN_X_FROM_BORDER;
+            screenX = guntherX - MIN_X_FROM_BORDER;
         }
         else if ( guntherX + MIN_X_FROM_BORDER > screenX + Main.width ) {
             screenX = guntherX + MIN_X_FROM_BORDER;
         }
 
         if ( guntherY - MIN_Y_FROM_BORDER < screenY ) {
-            screenY = gunther - MIN_Y_FROM_BORDER;
+            screenY = guntherY - MIN_Y_FROM_BORDER;
         }
         else if ( guntherY + MIN_Y_FROM_BORDER > screenY + Main.height ) {
             screenY = guntherY + MIN_Y_FROM_BORDER;
