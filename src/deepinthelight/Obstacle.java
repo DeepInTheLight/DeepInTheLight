@@ -6,10 +6,13 @@ import org.newdawn.slick.SlickException;
 public class Obstacle extends Element {
 
     private Image img;
-
-    public Obstacle(String source, float centerX,
-                    float centerY, int size) throws SlickException {
-        img = new Image(source);
+    private static final String[] obstacleImgRes = { "coucou1", "coucou2",
+                                                     "coucou3", "coucou4",
+                                                     "coucou5", "coucou6",
+                                                     "coucou7", "coucou8" };
+    public Obstacle(int type, float centerX, float centerY)
+                    throws SlickException {
+        img = new Image(obstacleImgRes[type%8]);
     }
 
     public boolean collide() {

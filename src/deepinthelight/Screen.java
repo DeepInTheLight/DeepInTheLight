@@ -2,13 +2,17 @@ package deepinthelight;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Random;
 
 import org.newdawn.slick.geom.Shape;
+import org.newdawn.slick.SlickException;
 
 public class Screen {
 
-    public static HashMap<String, Screen> ScreenMap = null;
-    private final int maxObstacleSize = 10;
+    private static HashMap<String, Screen> ScreenMap = null;
+    private static Random generator = null;
+    private static final int maxObstacleSize = 10;
+    private static final int objectTypeNumber = 8;
     private int obstacleSize = 0;
     private boolean populated;
     private ArrayList<Element> elements;
@@ -21,6 +25,7 @@ public class Screen {
     private float y;
 
     private Screen(float x, float y) {
+        //System.out.println("New screen : " + x + ", " + y);
         this.x = x;
         this.y = y;
         populated = false;
@@ -43,10 +48,12 @@ public class Screen {
     }
 
     public static Screen init(float screenX, float screenY) {
+        //System.out.println("Init screen");
         if (ScreenMap != null) {
             return null;
         }
 
+        generator = new Random();
         ScreenMap = new HashMap<String, Screen>(100);
         return new Screen(screenY, screenX);
     }
@@ -112,6 +119,15 @@ public class Screen {
         return getScreen(nextx, nexty);
     }
 
+    private Screen getScreen(float x, float y) {
+        Screen nextScreen = ScreenMap.get(Screen.serialize(x, y));
+        if (nextScreen == null) {
+            nextScreen = new Screen(x, y);
+        }
+
+        return nextScreen;
+    }
+
     public boolean isInScreen(Gunther gunther) {
         float top = y;
         float bottom = y + Main.height;
@@ -137,16 +153,40 @@ public class Screen {
             return;
         }
 
+        final int maxIter = 20;
+        int i = 0;
+        while (obstacleSize < maxObstacleSize && i < maxIter) {
+            Obstacle obs = createObstacle();
+            if (obs != null) {
+                elements.add(obs);
+            }
+            i++;
+        }
+
         populated = true;
     }
 
-    private Screen getScreen(float x, float y) {
-        Screen nextScreen = ScreenMap.get(Screen.serialize(x, y));
-        if (nextScreen == null) {
-            nextScreen = new Screen(x, y);
+    public Obstacle createObstacle() {
+        int type = generator.nextInt(8);
+        int size = 1 + type/4;
+        float centerX = x + generator.nextInt(Main.width);
+        float centerY = y + generator.nextInt(Main.height);
+        Obstacle obs = null;
+        try {
+            obs = new Obstacle(type, centerX, centerY);
+        } catch (SlickException ex) {
+            ex.printStackTrace();
+            return null;
         }
 
-        return nextScreen;
+        for (Element element : getAllElements()) {
+            if (obs.getBox().intersects(element.getBox())) {
+                return null;
+            }
+        }
+
+        obstacleSize += size;
+        return obs;
     }
 
     private String serialize() {
