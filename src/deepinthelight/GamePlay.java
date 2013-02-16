@@ -35,8 +35,8 @@ public class GamePlay extends BasicGameState {
 
     public float screenX;
     public float screenY;
-    public final float MIN_X_FROM_BORDER = 200;
-    public final float MIN_Y_FROM_BORDER = 110;
+    public final float MIN_X_FROM_BORDER = Main.width/4;
+    public final float MIN_Y_FROM_BORDER = Main.height/4;
 
     public int score;
 
