@@ -31,6 +31,8 @@ public class Gunther extends Element {
     private int energyLeft = BASE_ENERGY;
     private long lastDecrease = new Date().getTime();
 
+    private final int MAX_HEALTH;
+    private int health = MAX_HEALTH;
 
     private Direction currentDir = Direction.NONE;
     private final float SPEED = 5;
@@ -118,6 +120,10 @@ public class Gunther extends Element {
         
     }
 
+    public getHealth() {
+        return health;
+    }
+    
     @Override
     public int getSize() {
         return 1;
