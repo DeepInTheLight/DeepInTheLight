@@ -32,6 +32,7 @@ public class Gunther extends Element {
     private long lastDecrease = new Date().getTime();
 
     private final int MAX_HEALTH = 100;
+
     private int health = MAX_HEALTH;
 
     private Direction currentDir = Direction.NONE;
