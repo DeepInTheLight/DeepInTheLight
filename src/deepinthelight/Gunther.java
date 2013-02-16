@@ -85,7 +85,7 @@ public class Gunther extends Element {
 
     @Override
     public boolean collide() {
-        return true;
+        return false; // Gunther can't collide with itself
     }
 
     public void moveBack() {
