@@ -1,13 +1,7 @@
 package deepinthelight;
 
-import org.newdawn.slick.GameContainer;
-import org.newdawn.slick.geom.Circle;
-import org.newdawn.slick.geom.Shape;
-import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
-import org.newdawn.slick.state.BasicGameState;
-import org.newdawn.slick.state.StateBasedGame;
 
 public class Obstacle extends Element {
 
@@ -25,6 +19,10 @@ public class Obstacle extends Element {
     }
 
     public void update() {
+    }
+
+    @Override
+    public void render(float offsetX, float offsetY) {
     }
 
 }
