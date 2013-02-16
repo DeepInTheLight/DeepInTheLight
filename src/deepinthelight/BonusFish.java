@@ -50,8 +50,8 @@ public class BonusFish extends Element {
 
         this.screen = screen;
         
-        posX = 0;
-        posY = 0;
+        posX = posX;
+        posY = posY;
 
         currentDir = Direction.NONE;
     }
@@ -59,7 +59,7 @@ public class BonusFish extends Element {
     @Override
     public void update() {
         long now = new Date().getTime();
-        if ( now - lastDirChange >= 2500 ) {
+        if ( now - lastDirChange >= 4000 ) {
             changeDirection();
             lastDirChange = now;
         }
@@ -71,7 +71,8 @@ public class BonusFish extends Element {
             moved = true;
 
             for (Element e : GamePlay.getGamePlay().world.getElements()) {
-                if (e.getBox().intersects(this.getBox()) && e.collide()) {
+                if ( (e.getBox().intersects(this.getBox()) && e.collide())
+                     || outOfScreen() ) {
                     box.setCenterX(oldX);
                     box.setCenterY(oldY);
                     changeDirection();
@@ -81,6 +82,11 @@ public class BonusFish extends Element {
             }
 
         }
+    }
+
+    private boolean outOfScreen() {
+        return ( oldX < screen.getLeftBoundary() || oldX > screen.getRightBoundary()
+                 || oldY < screen.getTopBoundary() || oldY > screen.getBottomBoundary() );
     }
 
     private void changeDirection() {
