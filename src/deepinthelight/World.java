@@ -19,6 +19,9 @@ public class World {
         GamePlay gc = GamePlay.getGamePlay();
         currentScreen = Screen.init(gc.screenX, gc.screenY);
         currentScreen.populateNeighbors();
+        allElements.clear();
+        allElements.addAll(elements);
+        allElements.addAll(currentScreen.getAllElements());
     }
 
     public ArrayList<Element> getElements() {
