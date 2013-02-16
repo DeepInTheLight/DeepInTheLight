@@ -135,12 +135,12 @@ public class Gunther extends Element {
 
     public void changeHealth(int amount) {
         if ( amount < 0 ) {
-            if ( health - amount < 0 ) {
+            if ( health + amount < 0 ) {
                 health = 0;
                 die();
             }
             else {
-                health-= amount;
+                health+= amount;
             }
         }
         if ( amount > 0 ) {
