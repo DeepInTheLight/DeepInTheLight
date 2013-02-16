@@ -35,8 +35,8 @@ public class GamePlay extends BasicGameState {
 
     public float screenX;
     public float screenY;
-    public final float MIN_X_FROM_BORDER = 200;
-    public final float MIN_Y_FROM_BORDER = 110;
+    public final float MIN_X_FROM_BORDER = Main.width/4;
+    public final float MIN_Y_FROM_BORDER = Main.height/4;
 
     public int score;
 
@@ -75,6 +75,9 @@ public class GamePlay extends BasicGameState {
  
         lbackground.render(gc, sbg, grphcs);
         renderBoxes(gc);
+
+        renderLigths();
+        
         uiIndicators.render(grphcs);
     }
 
@@ -96,7 +99,6 @@ public class GamePlay extends BasicGameState {
             this.gunther.moveBack();
         }
 
-        world.deletePending(); 
         checkScreenBorders();
 
     }
@@ -135,24 +137,56 @@ public class GamePlay extends BasicGameState {
     private void manageInput(GameContainer gc, StateBasedGame sbg, int delta) throws SlickException {
         Input input = gc.getInput();
 
-        if (input.isKeyDown(Input.KEY_UP) && input.isKeyDown(Input.KEY_RIGHT)) {
+        if (isUP(input) && isRIGHT(input)) {
             gunther.move(Direction.RIGHTUP);
-        } else if (input.isKeyDown(Input.KEY_UP) && input.isKeyDown(Input.KEY_LEFT)) {
+        } else if (isUP(input) && isLEFT(input)) {
             gunther.move(Direction.LEFTUP);
-        } else if (input.isKeyDown(Input.KEY_DOWN) && input.isKeyDown(Input.KEY_RIGHT)) {
+        } else if (isDOWN(input) && isRIGHT(input)) {
             gunther.move(Direction.RIGHTDOWN);
-        } else if (input.isKeyDown(Input.KEY_DOWN) && input.isKeyDown(Input.KEY_LEFT)) {
+        } else if (isDOWN(input) && isLEFT(input)) {
             gunther.move(Direction.LEFTDOWN);
-        } else if (input.isKeyDown(Input.KEY_UP)) {
+        } else if (isUP(input)) {
             gunther.move(Direction.UP);
-        } else if (input.isKeyDown(Input.KEY_DOWN)) {
+        } else if (isDOWN(input)) {
             gunther.move(Direction.DOWN);
-        } else if (input.isKeyDown(Input.KEY_LEFT)) {
+        } else if (isLEFT(input)) {
             gunther.move(Direction.LEFT);
-        } else if (input.isKeyDown(Input.KEY_RIGHT)) {
+        } else if (isRIGHT(input)) {
             gunther.move(Direction.RIGHT);
         } else {
             gunther.move(Direction.NONE);
+        }
+    }
+
+    private boolean isUP(Input input){
+        if(input.isKeyDown(Input.KEY_UP) || input.isKeyDown(Input.KEY_Z) || input.isKeyDown(Input.KEY_W)) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    private boolean isDOWN(Input input){
+        if(input.isKeyDown(Input.KEY_DOWN) || input.isKeyDown(Input.KEY_S)) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    private boolean isRIGHT(Input input){
+        if(input.isKeyDown(Input.KEY_RIGHT) || input.isKeyDown(Input.KEY_D)) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    private boolean isLEFT(Input input){
+        if(input.isKeyDown(Input.KEY_LEFT) || input.isKeyDown(Input.KEY_Q) || input.isKeyDown(Input.KEY_A)) {
+            return true;
+        } else {
+            return false;
         }
     }
 
@@ -171,6 +205,14 @@ public class GamePlay extends BasicGameState {
 
             gc.getGraphics().translate(this.screenX, this.screenY);
             gc.getGraphics().setColor(c);
+        }
+    }
+
+    private void renderLigths() {
+        for (Element e : this.world.getElements()) {
+            if(e instanceof BonusFish) {
+                ((BonusFish) e).drawLight(screenX, screenY);
+            }
         }
     }
 }

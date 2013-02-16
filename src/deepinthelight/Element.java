@@ -11,7 +11,11 @@ public abstract class Element {
     }
 
     protected Shape box = null;
+    protected Screen screen = null;
 
+    protected float boxOffsetX = 0;
+    protected float boxOffsetY = 0;
+    
     public abstract void update();
 
     public abstract void render(float offsetX, float offsetY);

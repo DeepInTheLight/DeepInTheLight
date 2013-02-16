@@ -70,7 +70,7 @@ public class LightBackground {
         //spriteSheet = new Image("images/light.png", false, Image.FILTER_NEAREST);
         background = new Image("images/white.png", false);
         foregroundBlack = new Image("images/Black.png", false);
-        spot = new Image("images/spot3.png", true);
+        spot = new Image("images/spot.png", true);
 
         //grab the tiles
 //        tileSprites = new Image[TILE_COUNT];

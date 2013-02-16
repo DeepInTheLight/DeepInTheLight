@@ -13,7 +13,7 @@ public class Malus extends Element {
     private Image img;
     private int damage = 10;
 
-    public Malus(float posX, float posY) throws SlickException {
+    public Malus(float posX, float posY, Screen screen) throws SlickException {
         int res = (int) Math.random() * 3;
         boolean flip = ((int) Math.random()) == 0 ? true : false;
 
@@ -31,6 +31,8 @@ public class Malus extends Element {
                 this.box = new Rectangle(posX, posY, 40, 40);
                 break;
         }
+
+        this.screen = screen;
     }
 
     @Override
@@ -45,7 +47,7 @@ public class Malus extends Element {
     @Override
     public boolean collide() {
         GamePlay.getGamePlay().gunther.changeHealth(-damage);
-        GamePlay.getGamePlay().world.queueForDeletion(this);
+        screen.deleteElement(this);
         // TODO: call "hurting" or "eating" animation or make gunther blink?
         return false;
     }

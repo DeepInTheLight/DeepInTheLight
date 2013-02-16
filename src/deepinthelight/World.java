@@ -13,7 +13,6 @@ public class World {
 
     private ArrayList<Element> elements = new ArrayList<Element>();
     private ArrayList<Element> allElements = new ArrayList<Element>();
-    private List<Element> toDelete = new ArrayList<Element>();
 
     public World() {
         GamePlay gc = GamePlay.getGamePlay();
@@ -37,16 +36,10 @@ public class World {
             allElements.clear();
             allElements.addAll(elements);
             allElements.addAll(currentScreen.getAllElements());
+        } else if (currentScreen.elementChanged()) {
+            allElements.clear();
+            allElements.addAll(elements);
+            allElements.addAll(currentScreen.getAllElements());
         }
-    }
-
-    public void queueForDeletion(Element e) {
-        if ( elements.remove(e) ) {
-            toDelete.add(e);
-        }
-    }
-    
-    public void deletePending() {
-        toDelete.clear();
     }
 }

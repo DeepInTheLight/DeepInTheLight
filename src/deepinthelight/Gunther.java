@@ -16,9 +16,11 @@ import org.newdawn.slick.geom.Circle;
  */
 public class Gunther extends Element {
 
-    public final int RADIUS = 5;
-    private final String IMAGE_PATH = "images/gunther/Gunther-bulblight-color.png";
-    private Image image;
+    public final int RADIUS = 40;
+    private final String IMAGE_PATH = "images/gunther/Gunther-finalblue.png";
+    private final float IMAGE_SCALE = 0.09f;
+
+    public Image image;
 
     private final int BASE_ENERGY = 42;
     private final int MAX_ENERGY = 100;
@@ -38,16 +40,18 @@ public class Gunther extends Element {
     private float oldX, oldY;
 
     public Gunther() throws SlickException {
-        box = new Circle(0, 0, RADIUS);
+        box = new Circle(Main.width / 2, Main.height / 2, RADIUS);
         image = new Image(IMAGE_PATH);
 
-        oldX = 0;
-        oldY = 0;
+        oldX = Main.width / 2;
+        oldY = Main.height / 2;
+
+        boxOffsetX = 20;
+        boxOffsetY = 20;
     }
 
     @Override
     public void update() {
-
         long now = new Date().getTime();
         if ( now - lastDecrease >= 1000 ) {
             energyLeft-= getEnergyDecrease();
@@ -56,7 +60,6 @@ public class Gunther extends Element {
     }
 
     private int getEnergyDecrease() {
-
         if ( energyLeft > DECREASE_THRESHOLD ) {
             return MAX_DECREASE;
         }
@@ -72,7 +75,6 @@ public class Gunther extends Element {
 
     public void eat(Element e) {
         // TODO: change animation
-        GamePlay.getGamePlay().world.queueForDeletion(e);
     }
 
     public void recharge(int amount) {
@@ -82,8 +84,7 @@ public class Gunther extends Element {
 
     @Override
     public void render(float offsetX, float offsetY) {
-           
-        image.draw( box.getX() - offsetX, box.getY() - offsetY, 0.3f);        
+        image.draw(box.getX() - offsetX - boxOffsetX, box.getY() - offsetY - boxOffsetY, IMAGE_SCALE);
     }
 
     @Override
@@ -137,12 +138,12 @@ public class Gunther extends Element {
 
     public void changeHealth(int amount) {
         if ( amount < 0 ) {
-            if ( health - amount < 0 ) {
+            if ( health + amount < 0 ) {
                 health = 0;
                 die();
             }
             else {
-                health-= amount;
+                health+= amount;
             }
         }
         if ( amount > 0 ) {
