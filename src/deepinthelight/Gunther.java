@@ -21,7 +21,6 @@ public class Gunther extends Element {
 
     public Image image;
 
-
     private final int BASE_ENERGY = 42;
     private final int MAX_ENERGY = 100;
     private final int MAX_DECREASE = MAX_ENERGY / 20;
@@ -84,7 +83,42 @@ public class Gunther extends Element {
 
     @Override
     public void render(float offsetX, float offsetY) {
+
+        image.setCenterOfRotation( image.getWidth() * IMAGE_SCALE / 2,
+                                   image.getHeight() * IMAGE_SCALE / 2 );
+        float rotate = 0;
+
+        switch (currentDir) {
+        case LEFT :
+            rotate = 180;
+            break;
+        case RIGHT :
+            rotate = 0;
+            break;
+        case DOWN :
+            rotate = 90;
+            break;
+        case UP :
+            rotate = 270;
+            break;
+        case LEFTUP :
+            rotate = 135;
+            break;
+        case LEFTDOWN :
+            rotate = 225;
+            break;
+        case RIGHTUP :
+            rotate = 45;
+            break;
+        case RIGHTDOWN :
+            rotate = 315;
+            break;
+        }
+
+        float angle = rotate - image.getRotation();
+        image.rotate(angle);
         image.draw(box.getX() - offsetX - boxOffsetX, box.getY() - offsetY - boxOffsetY, IMAGE_SCALE);
+        
     }
 
     @Override
@@ -133,7 +167,6 @@ public class Gunther extends Element {
             box.setCenterY( oldY + DIAG_SPEED );
             break;
         }
-        
     }
 
     public void changeHealth(int amount) {
