@@ -16,7 +16,7 @@ import org.newdawn.slick.geom.Circle;
  */
 public class Gunther extends Element {
 
-    private final int RADIUS = 5;
+    public final int RADIUS = 5;
     private final String IMAGE_PATH = "images/gunther/Gunther-bulblight-color.png";
     private Image image;
 
@@ -168,4 +168,14 @@ public class Gunther extends Element {
     public int getSize() {
         return 1;
     }
+
+    public Image getImage() {
+        return image;
+    }
+
+    public void setImage(Image image) {
+        this.image = image;
+    }
+    
+    
 }

@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
+import javax.swing.CellEditor;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
@@ -21,6 +22,8 @@ import org.newdawn.slick.state.StateBasedGame;
  */
 public class LightBackground {
 
+    public static final int MIN_RADIUS = 50;
+    
     //number of tiles in our simple horizontal sprite sheet
     public static final int TILE_COUNT = 5;
     //width/height of tile in pixels
@@ -67,7 +70,7 @@ public class LightBackground {
         //spriteSheet = new Image("images/light.png", false, Image.FILTER_NEAREST);
         background = new Image("images/white.png", false);
         foregroundBlack = new Image("images/Black.png", false);
-        spot = new Image("images/spot.png", true);
+        spot = new Image("images/spot3.png", true);
 
         //grab the tiles
 //        tileSprites = new Image[TILE_COUNT];
@@ -80,7 +83,7 @@ public class LightBackground {
         //spot = spriteSheet.getSubImage(0, TILE_SIZE + TILE_SPACING, ALPHA_MAP_SIZE, ALPHA_MAP_SIZE);
 
         //reset the lighting
-        lights.add(new Light(0, 0, 0.3f, new Color(0, 0, 1)));
+        lights.add(new Light(0, 0, 1f, new Color(0, 0, 1)));
     }
 
     public void render(GameContainer container, StateBasedGame sbg, Graphics g) throws SlickException {
@@ -92,50 +95,51 @@ public class LightBackground {
 
         //each light requires a new pass to blend with the previous lights
         //FPS will be affected with too many lights at once
-        for (int i = 0; i < lights.size(); i++) {
-            Light light = lights.get(i);
 
-            //set up our alpha map for the light
-            //g.setDrawMode(Graphics.MODE_ALPHA_MAP);
-            //clear the alpha map before we draw to it...
-            //g.clearAlphaMap();
 
-            //centre the light
-            
-            int alphaW = (int) (200);
-            int alphaH = (int) (200);
-            int alphaX = (int) (light.x - alphaW / 2f);
-            int alphaY = (int) (light.y - alphaH / 2f);
+        //set up our alpha map for the light
+        //g.setDrawMode(Graphics.MODE_ALPHA_MAP);
+        //clear the alpha map before we draw to it...
+        //g.clearAlphaMap();
 
-            //we apply the light alpha here; RGB will be ignored
-            //sharedColor.a = light.alpha;
+        //centre the light
 
-            //draw the alpha map
-            //alphaMap.draw(alphaX, alphaY, alphaW, alphaH, sharedColor);
+//        int alphaW = (int) (200);
+//        int alphaH = (int) (200);
+//        int alphaX = (int) (light.x - alphaW / 2f);
+//        int alphaY = (int) (light.y - alphaH / 2f);
 
-            //start blending in our tiles
-           
-            //g.setDrawMode(Graphics.MODE_ALPHA_MAP);
-            //we'll clip to the alpha rectangle, since anything outside of it will be transparent
-            g.setClip(alphaX, alphaY, alphaW, alphaH);
-            
-            background.draw(0,0,Color.blue);
-            
-            //Dessiner les elements
-            for (Element e : gp.world.getElements()) {
-                e.render(gp.screenX, gp.screenY);
-            }
-            gp.gunther.render(gp.screenX, gp.screenY);
-            
-            //TODO dessiner elements
-           
-            spot.draw(0, 0, 1000f,1000f, Color.blue);
-            
-            g.setDrawMode(Graphics.MODE_ALPHA_MAP);
+        //we apply the light alpha here; RGB will be ignored
+        //sharedColor.a = light.alpha;
 
-            g.clearClip();
-            
+        //draw the alpha map
+        //alphaMap.draw(alphaX, alphaY, alphaW, alphaH, sharedColor);
+
+        //start blending in our tiles
+
+        //g.setDrawMode(Graphics.MODE_ALPHA_MAP);
+        //we'll clip to the alpha rectangle, since anything outside of it will be transparent
+        float enregy = gp.gunther.getEnergyLeft();
+        float radius = gp.gunther.RADIUS;
+        float lightRadius = radius + enregy;
+        float x = gp.gunther.getBox().getCenterX();
+        float y = gp.gunther.getBox().getCenterY();
+
+        g.setClip((int) Math.ceil( (double)(x - lightRadius - MIN_RADIUS/2 - gp.screenX)+10),(int) Math.ceil( (double)(y - lightRadius -MIN_RADIUS/2 - gp.screenY)+10),(int)Math.floor((double)(lightRadius*2f + MIN_RADIUS))-25,(int) Math.floor((double)(lightRadius*2f + MIN_RADIUS))-25);
+
+        background.draw(0,0,Color.blue);
+
+        //Dessiner les elements
+        for (Element e : gp.world.getElements()) {
+            e.render(gp.screenX, gp.screenY);
         }
+        gp.gunther.render(gp.screenX, gp.screenY);
+
+        spot.draw(x - lightRadius - gp.screenX - MIN_RADIUS/2, y - lightRadius - gp.screenY - MIN_RADIUS/2, lightRadius*2f + MIN_RADIUS, lightRadius*2f + MIN_RADIUS, Color.blue);
+
+        //spot.draw(2, 2, 400, 400);
+        g.setDrawMode(Graphics.MODE_ALPHA_BLEND);
+        g.clearClip();
 
         //reset the mode to normal before continuing..
         g.setDrawMode(Graphics.MODE_NORMAL);
