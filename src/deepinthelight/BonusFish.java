@@ -20,6 +20,8 @@ public class BonusFish extends Element {
     private final String IMAGE_PATH = "images/gunther/Gunther-eyelight-color.png"; // TODO change image
     private Image image;
 
+    private Image ligth;
+
     private final int ENERGY_BONUS = 20;
 
     private Direction currentDir;
@@ -48,10 +50,12 @@ public class BonusFish extends Element {
                 break;
         }
 
+        this.ligth = new Image("images/ligth-small.png");
+
         this.screen = screen;
         
-        posX = 0;
-        posY = 0;
+        posX = posX;
+        posY = posY;
 
         currentDir = Direction.NONE;
     }
@@ -59,7 +63,7 @@ public class BonusFish extends Element {
     @Override
     public void update() {
         long now = new Date().getTime();
-        if ( now - lastDirChange >= 2500 ) {
+        if ( now - lastDirChange >= 4000 ) {
             changeDirection();
             lastDirChange = now;
         }
@@ -71,7 +75,8 @@ public class BonusFish extends Element {
             moved = true;
 
             for (Element e : GamePlay.getGamePlay().world.getElements()) {
-                if (e.getBox().intersects(this.getBox()) && e.collide()) {
+                if ( (e.getBox().intersects(this.getBox()) && e.collide())
+                     || outOfScreen() ) {
                     box.setCenterX(oldX);
                     box.setCenterY(oldY);
                     changeDirection();
@@ -81,6 +86,11 @@ public class BonusFish extends Element {
             }
 
         }
+    }
+
+    private boolean outOfScreen() {
+        return ( oldX < screen.getLeftBoundary() || oldX > screen.getRightBoundary()
+                 || oldY < screen.getTopBoundary() || oldY > screen.getBottomBoundary() );
     }
 
     private void changeDirection() {
@@ -167,6 +177,10 @@ public class BonusFish extends Element {
     
     public int getSize() {
         return 1;
+    }
+
+    public void drawLight(float offsetX, float offsetY) {
+        ligth.draw(box.getX() - offsetX, box.getY() - offsetY );
     }
     
 }

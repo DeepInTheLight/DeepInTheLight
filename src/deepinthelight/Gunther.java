@@ -37,11 +37,11 @@ public class Gunther extends Element {
     private float oldX, oldY;
 
     public Gunther() throws SlickException {
-        box = new Circle(0, 0, RADIUS);
+        box = new Circle(Main.width / 2, Main.height / 2, RADIUS);
         image = new Image(IMAGE_PATH);
 
-        oldX = 0;
-        oldY = 0;
+        oldX = Main.width / 2;
+        oldY = Main.height / 2;
     }
 
     @Override
