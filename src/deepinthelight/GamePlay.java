@@ -117,7 +117,7 @@ public class GamePlay extends BasicGameState {
     }
 
     private void checkScreenBorders() {
-        float guntherX = gunther.getBox().getCenterX();
+        /*float guntherX = gunther.getBox().getCenterX();
         float guntherY = gunther.getBox().getCenterY();
         
         if ( guntherX - MIN_X_FROM_BORDER < screenX ) {
@@ -132,8 +132,8 @@ public class GamePlay extends BasicGameState {
         }
         else if ( guntherY + MIN_Y_FROM_BORDER > screenY + Main.height ) {
             screenY = guntherY + MIN_Y_FROM_BORDER;
-        }
-        
+        }*/
+        //TODO: sort out
     }
 
     private void manageInput(GameContainer gc, StateBasedGame sbg, int delta) throws SlickException {
