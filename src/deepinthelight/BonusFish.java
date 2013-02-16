@@ -20,6 +20,8 @@ public class BonusFish extends Element {
     private final String IMAGE_PATH = "images/gunther/Gunther-eyelight-color.png"; // TODO change image
     private Image image;
 
+    private Image ligth;
+
     private final int ENERGY_BONUS = 20;
 
     private Direction currentDir;
@@ -47,6 +49,8 @@ public class BonusFish extends Element {
                 this.box = new Rectangle(posX, posY, 40, 40);
                 break;
         }
+
+        this.ligth = new Image("images/ligth-small.png");
 
         this.screen = screen;
         
@@ -167,6 +171,10 @@ public class BonusFish extends Element {
     
     public int getSize() {
         return 1;
+    }
+
+    public void drawLight(float offsetX, float offsetY) {
+        ligth.draw(box.getX() - offsetX, box.getY() - offsetY );
     }
     
 }

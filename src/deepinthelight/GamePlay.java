@@ -78,6 +78,8 @@ public class GamePlay extends BasicGameState {
         
         renderBoxes(gc);
 
+        renderLigths();
+
         uiIndicators.render(grphcs);
     }
 
@@ -174,6 +176,14 @@ public class GamePlay extends BasicGameState {
 
             gc.getGraphics().translate(this.screenX, this.screenY);
             gc.getGraphics().setColor(c);
+        }
+    }
+
+    private void renderLigths() {
+        for (Element e : this.world.getElements()) {
+            if(e instanceof BonusFish) {
+                ((BonusFish) e).drawLight(screenX, screenY);
+            }
         }
     }
 }
