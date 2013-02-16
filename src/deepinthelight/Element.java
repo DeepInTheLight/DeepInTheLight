@@ -4,7 +4,7 @@ import org.newdawn.slick.geom.Shape;
 
 public abstract class Element {
 
-    private Shape box = null;
+    protected Shape box = null;
 
     public abstract void update();
 
