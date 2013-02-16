@@ -89,18 +89,24 @@ public class GamePlay extends BasicGameState {
             e.update();
         }
 
+        boolean needToStop = manageCollisions();
 
-
-        manageCollisions();
+        if(needToStop) {
+            this.gunther.moveBack();
+        }
 
     }
 
-    private void manageCollisions() {
+    private boolean manageCollisions() {
+        boolean needToStop = false;
         for (Element e : this.world.getElements()) {
             if (e.getBox().intersects(gunther.getBox())) {
-                e.collide();
+                boolean b = e.collide();
+                needToStop = b ? true : needToStop;
             }
         }
+
+        return needToStop;
     }
 
     private void manageInput(GameContainer gc, StateBasedGame sbg, int delta) throws SlickException {
