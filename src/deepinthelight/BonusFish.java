@@ -54,8 +54,8 @@ public class BonusFish extends Element {
 
         this.screen = screen;
         
-        posX = posX;
-        posY = posY;
+        oldX = posX;
+        oldY = posY;
 
         currentDir = Direction.NONE;
     }
