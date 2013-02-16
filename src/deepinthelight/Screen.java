@@ -136,13 +136,16 @@ public class Screen {
         Shape box = gunther.getBox();
         if (box.getCenterY() > top || box.getCenterY() < bottom ||
             box.getCenterX() < left || box.getCenterX() > right) {
+            //System.out.println("Gunther is in screen " + x + ", " + y);
             return true;
         }
 
+        //System.out.println("Gunther is NOT in screen " + x + ", " + y);
         return false;
     }
 
     public void populateNeighbors() {
+        //System.out.println("Populating neighbors");
         for (Zone where : Zone.values()) {
             this.getNextScreen(where).populate();
         }
@@ -153,6 +156,10 @@ public class Screen {
             return;
         }
 
+        //System.out.println("Populating " + x + ", " + y);
+        if (true) {
+            return; // We have to wait until obstacle is implemented
+        }
         final int maxIter = 20;
         int i = 0;
         while (obstacleSize < maxObstacleSize && i < maxIter) {

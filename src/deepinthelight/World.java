@@ -16,6 +16,7 @@ public class World {
         GamePlay gc = GamePlay.getGamePlay();
         elements = new ArrayList<Element>();
         currentScreen = Screen.init(gc.screenX, gc.screenY);
+        currentScreen.populateNeighbors();
     }
 
     public ArrayList<Element> getElements() {
@@ -29,18 +30,4 @@ public class World {
             currentScreen.populateNeighbors();
         }
     }
-
-    private Obstacle genObstacles(Gunther gunther) {
-        int centerX = 0;
-        int centerY = 0;
-        Obstacle newObstacle = null;
-        try {
-            newObstacle = new Obstacle(imageUrl, centerX, centerY, 1);
-        } catch (Exception ex) {
-            System.out.println("Bad obstacle image! " + ex.getMessage());
-        }
-
-        return newObstacle;
-    }
-
 }

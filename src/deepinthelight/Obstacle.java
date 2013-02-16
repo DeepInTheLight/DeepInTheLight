@@ -12,7 +12,8 @@ public class Obstacle extends Element {
                                                      "coucou7", "coucou8" };
     public Obstacle(int type, float centerX, float centerY)
                     throws SlickException {
-        img = new Image(obstacleImgRes[type%8]);
+        //img = new Image(obstacleImgRes[type%8]);
+        img = new Image("images/baleine.png");
     }
 
     public boolean collide() {
