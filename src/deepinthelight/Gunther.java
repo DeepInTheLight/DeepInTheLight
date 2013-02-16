@@ -70,7 +70,8 @@ public class Gunther extends Element {
     }
 
     public void eat(Element e) {
-        // TODO: change animation?
+        // TODO: change animation
+        GamePlay.getGamePlay().world.queueForDeletion(e);
     }
 
     public void recharge(int amount) {
@@ -150,6 +151,10 @@ public class Gunther extends Element {
     
     public int getHealth() {
         return health;
+    }
+    
+    public int getEnergyLeft() {
+        return energyLeft;
     }
     
     public void die() {

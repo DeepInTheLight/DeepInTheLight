@@ -90,8 +90,7 @@ public class GamePlay extends BasicGameState {
         for (Element e : this.world.getElements()) {
             e.update();
         }
-
-
+        world.deletePending(); // TODO: check whether right place?
 
         manageCollisions();
 
