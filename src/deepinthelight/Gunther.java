@@ -4,6 +4,7 @@
  */
 package deepinthelight;
 
+import java.util.Date;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.geom.Circle;
@@ -28,7 +29,9 @@ public class Gunther extends Element {
     private final int MAX_DECREASE = MAX_ENERGY / 20;
     private final int DECREASE_THRESHOLD = MAX_ENERGY / 2;
     private int energyLeft = BASE_ENERGY;
-    
+    private long lastDecrease = new Date().getTime();
+
+
     private Direction currentDir = Direction.NONE;
     private final float SPEED = 5;
     private final float DIAG_SPEED = SPEED/(float)java.lang.Math.sqrt(2);
@@ -40,17 +43,30 @@ public class Gunther extends Element {
 
     @Override
     public void update() {
-        energyLeft-= getEnergyDecrease();
+
+        long now = new Date().getTime();
+        if ( now - lastDecrease >= 1000 ) {
+            energyLeft-= getEnergyDecrease();
+            lastDecrease = now;
+        }
     }
 
     private int getEnergyDecrease() {
 
-        return ( energyLeft > DECREASE_THRESHOLD ? MAX_DECREASE :
-                 ( energyLeft * MAX_DECREASE ) / MAX_DECREASE );
+        if ( energyLeft > DECREASE_THRESHOLD )
+            return MAX_DECREASE;
+
+        int dec = ( energyLeft * MAX_DECREASE ) / DECREASE_THRESHOLD;
+        if ( dec < 1 && energyLeft > 0 ) {
+            return 1;
+        }
+        else
+            return dec;
     }
 
     public void recharge(int amount) {
-        energyLeft+= ( energyLeft + amount > MAX_ENERGY ? MAX_ENERGY : energyLeft + amount );
+        energyLeft+= ( energyLeft + amount > MAX_ENERGY ? MAX_ENERGY
+                       : energyLeft + amount );
     }
 
     @Override
