@@ -79,8 +79,8 @@ public class Gunther extends Element {
     }
 
     @Override
-    public void collide() {
-        // useless?
+    public boolean collide() {
+        return true;
     }
 
     public void move(Direction newDir) {
