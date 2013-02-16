@@ -40,6 +40,7 @@ public class Screen {
             allElements.addAll(getNextScreen(where).getElements());
         }
 
+        allElements.addAll(elements);
         return allElements;
     }
 
