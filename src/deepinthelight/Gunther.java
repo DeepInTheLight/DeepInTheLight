@@ -4,6 +4,8 @@
  */
 package deepinthelight;
 
+import org.newdawn.slick.geom.Circle;
+
 /**
  *
  * @author peniblec
@@ -15,15 +17,20 @@ public class Gunther extends Element {
             LEFTUP, LEFTDOWN, RIGHTUP, RIGHTDOWN
     }
 
+    private final int RADIUS = 5;
+    
 
-
-    private int energyLeft;
     private final int BASE_ENERGY = 42;
     private final int ENERGY_DEC = 5;
-
+    private int energyLeft = BASE_ENERGY;
+    
     private Direction currentDir = Direction.NONE;
     private final float SPEED = 5;
     private final float DIAG_SPEED = SPEED/(float)java.lang.Math.sqrt(2);
+
+    public Gunther() {
+        box = new Circle(0, 0, RADIUS);
+    }
 
     @Override
     public void update() {
@@ -32,12 +39,12 @@ public class Gunther extends Element {
 
     @Override
     public void render() {
-
+        
     }
 
     @Override
     public void collide() {
-
+        // useless
     }
 
     public void move(Direction newDir) {
