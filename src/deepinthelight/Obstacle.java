@@ -1,5 +1,6 @@
 package deepinthelight;
 
+import org.newdawn.slick.geom.Circle;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
 
@@ -13,7 +14,8 @@ public class Obstacle extends Element {
     public Obstacle(int type, float centerX, float centerY)
                     throws SlickException {
         //img = new Image(obstacleImgRes[type%8]);
-        img = new Image("images/baleine.png");
+        img = new Image("images/psc.png");
+        box = new Circle(centerX, centerY, 100);
     }
 
     public boolean collide() {

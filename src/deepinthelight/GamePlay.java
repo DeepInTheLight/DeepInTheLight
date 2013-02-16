@@ -87,21 +87,33 @@ public class GamePlay extends BasicGameState {
 
         this.gunther.update();
 
+        world.update();
+
         for (Element e : this.world.getElements()) {
             e.update();
         }
-        world.deletePending(); // TODO: check whether right place?
 
-        manageCollisions();
+        boolean needToStop = manageCollisions();
+
+        if(needToStop) {
+            this.gunther.moveBack();
+        }
+
+        world.deletePending(); 
         checkScreenBorders();
+
     }
 
-    private void manageCollisions() {
+    private boolean manageCollisions() {
+        boolean needToStop = false;
         for (Element e : this.world.getElements()) {
             if (e.getBox().intersects(gunther.getBox())) {
-                e.collide();
+                boolean b = e.collide();
+                needToStop = b ? true : needToStop;
             }
         }
+
+        return needToStop;
     }
 
     private void checkScreenBorders() {

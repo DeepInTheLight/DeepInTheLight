@@ -11,7 +11,8 @@ public class World {
     private final String imageUrl = "images/baleine.jpg";
     private Screen currentScreen;
 
-    private List<Element> elements = new ArrayList<Element>();
+    private ArrayList<Element> elements = new ArrayList<Element>();
+    private ArrayList<Element> allElements = new ArrayList<Element>();
     private List<Element> toDelete = new ArrayList<Element>();
 
     public World() {
@@ -21,14 +22,18 @@ public class World {
     }
 
     public ArrayList<Element> getElements() {
-        return currentScreen.getAllElements();
+        return allElements;
     }
 
     public void update() {
         Gunther gunther = GamePlay.getGamePlay().gunther;
+        //System.out.println("gunther pos : " + gunther.getBox().getCenterX() + ", " + gunther.getBox().getCenterY());
         if (!currentScreen.isInScreen(gunther)) {
             currentScreen = currentScreen.getNextScreen(gunther);
             currentScreen.populateNeighbors();
+            allElements.clear();
+            allElements.addAll(elements);
+            allElements.addAll(currentScreen.getAllElements());
         }
     }
 
