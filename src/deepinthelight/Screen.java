@@ -203,7 +203,7 @@ public class Screen {
         float centerY = y + generator.nextInt(Main.height);
         Malus malus = null;
         try {
-            malus = new Malus(centerX, centerY);
+            malus = new Malus(centerX, centerY, this);
         } catch (SlickException ex) {
             ex.printStackTrace();
             return null;

@@ -13,7 +13,7 @@ public class Malus extends Element {
     private Image img;
     private int damage = 10;
 
-    public Malus(float posX, float posY) throws SlickException {
+    public Malus(float posX, float posY, Screen screen) throws SlickException {
         int res = (int) Math.random() * 3;
         boolean flip = ((int) Math.random()) == 0 ? true : false;
 
@@ -31,6 +31,8 @@ public class Malus extends Element {
                 this.box = new Rectangle(posX, posY, 40, 40);
                 break;
         }
+
+        this.screen = screen;
     }
 
     @Override

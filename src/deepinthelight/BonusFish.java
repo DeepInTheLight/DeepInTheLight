@@ -8,7 +8,7 @@ import java.util.Date;
 import java.util.Random;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
-import org.newdawn.slick.geom.Circle;
+import org.newdawn.slick.geom.Rectangle;
 
 /**
  *
@@ -22,18 +22,38 @@ public class BonusFish extends Element {
 
     private final int ENERGY_BONUS = 20;
 
-    private Direction currentDir = Direction.NONE;
+    private Direction currentDir;
     private final float SPEED = 2;
     private final float DIAG_SPEED = SPEED/(float)java.lang.Math.sqrt(2);
 
     long lastDirChange = new Date().getTime();
     float oldX, oldY;
     
-    public BonusFish() throws SlickException {
-        box = new Circle(0, 0, RADIUS);
-        image = new Image(IMAGE_PATH);
-        oldX = 0;
-        oldY = 0;
+    public BonusFish(float posX, float posY, Screen screen) throws SlickException {
+        int res = (int) Math.random() * 3;
+        boolean flip = ((int) Math.random()) == 0 ? true : false;
+
+        switch (res) {
+            case 0:
+                this.image = new Image("images/baleine.png", flip);
+                this.box = new Rectangle(posX, posY, 40, 40);
+                break;
+            case 1:
+                this.image = new Image("images/baleine.png", flip);
+                this.box = new Rectangle(posX, posY, 40, 40);
+                break;
+            case 2:
+                this.image = new Image("images/baleine.png", flip);
+                this.box = new Rectangle(posX, posY, 40, 40);
+                break;
+        }
+
+        this.screen = screen;
+        
+        posX = 0;
+        posY = 0;
+
+        currentDir = Direction.NONE;
     }
 
     @Override
