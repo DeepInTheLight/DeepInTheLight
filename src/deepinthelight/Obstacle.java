@@ -7,6 +7,7 @@ import org.newdawn.slick.SlickException;
 public class Obstacle extends Element {
 
     private Image img;
+    private int size;
     private static final String[] obstacleImgRes = { "coucou1", "coucou2",
                                                      "coucou3", "coucou4",
                                                      "coucou5", "coucou6",
@@ -16,6 +17,7 @@ public class Obstacle extends Element {
         //img = new Image(obstacleImgRes[type%8]);
         img = new Image("images/psc.png");
         box = new Circle(centerX, centerY, 100);
+        size = 1 + type/2;
     }
 
     public boolean collide() {
@@ -32,7 +34,7 @@ public class Obstacle extends Element {
 
     @Override
     public int getSize() {
-        return 1; //TODO:change -> dynamic, depend de l'obstacle
+        return size;
     }
 
 }

@@ -165,6 +165,11 @@ public class Screen {
             if (obs != null) {
                 elements.add(obs);
             }
+
+            Malus malus = createMalus();
+            if (malus != null) {
+                elements.add(malus);
+            }
             i++;
         }
 
@@ -173,7 +178,6 @@ public class Screen {
 
     public Obstacle createObstacle() {
         int type = generator.nextInt(8);
-        int size = 1 + type/4;
         float centerX = x + generator.nextInt(Main.width);
         float centerY = y + generator.nextInt(Main.height);
         Obstacle obs = null;
@@ -190,8 +194,29 @@ public class Screen {
             }
         }
 
-        obstacleSize += size;
+        obstacleSize += obs.getSize();
         return obs;
+    }
+
+    public Malus createMalus() {
+        float centerX = x + generator.nextInt(Main.width);
+        float centerY = y + generator.nextInt(Main.height);
+        Malus malus = null;
+        try {
+            malus = new Malus(centerX, centerY);
+        } catch (SlickException ex) {
+            ex.printStackTrace();
+            return null;
+        }
+
+        for (Element element : getAllElements()) {
+            if (malus.getBox().intersects(element.getBox())) {
+                return null;
+            }
+        }
+
+        obstacleSize += malus.getSize();
+        return malus;
     }
 
     private String serialize() {
