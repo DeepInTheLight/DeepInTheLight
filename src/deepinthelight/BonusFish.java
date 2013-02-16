@@ -175,10 +175,14 @@ public class BonusFish extends Element {
         }
         
         if (newX < screen.getLeftBoundary() || newX > screen.getRightBoundary()) {
-            newX = oldX;
+            // WE HAVE TO GO BACK!
+            float diff = oldX - newX;
+            newX = oldX + diff;
         }
+
         if (newY < screen.getTopBoundary() || newY > screen.getBottomBoundary()) {
-            newY = oldY;
+            float diff = oldY - newY;
+            newY = oldY + diff;
         }
 
         box.setCenterY(newY);
