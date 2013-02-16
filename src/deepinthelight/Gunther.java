@@ -38,7 +38,7 @@ public class Gunther extends Element {
     }
 
     @Override
-    public void render() {
+    public void render(float offsetX, float offsetY) {
         
     }
 

@@ -8,7 +8,7 @@ public abstract class Element {
 
     public abstract void update();
 
-    public abstract void render();
+    public abstract void render(float offsetX, float offsetY);
 
     public abstract void collide();
 

@@ -22,6 +22,8 @@ public class GamePlay extends BasicGameState {
     public Gunther gunther;
     public World world;
 
+    public float screenX;
+    public float screenY;
 
 
     GamePlay(int stateID) {
@@ -38,14 +40,18 @@ public class GamePlay extends BasicGameState {
 
         this.gunther = new Gunther();
         this.world = new World();
+
+        this.screenX = 0;
+        this.screenY = 0;
+
     }
 
     public void render(GameContainer gc, StateBasedGame sbg, Graphics grphcs) throws SlickException {
-        this.gunther.render();
-
         for(Element e : this.world.getElements()) {
-            e.render();
+            e.render(this.screenX, this.screenY);
         }
+
+        this.gunther.render(this.screenX, this.screenY);
     }
 
     public void update(GameContainer gc, StateBasedGame sbg, int i) throws SlickException {
