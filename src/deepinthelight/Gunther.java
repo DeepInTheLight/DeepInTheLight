@@ -65,26 +65,26 @@ public class Gunther extends Element {
             box.setCenterX( curX + SPEED );
             break;
         case DOWN :
-            box.setCenterY( curY - SPEED );
+            box.setCenterY( curY + SPEED );
             break;
         case UP :
-            box.setCenterY( curY + SPEED );
+            box.setCenterY( curY - SPEED );
             break;
         case LEFTUP :
             box.setCenterX( curX - DIAG_SPEED );
-            box.setCenterY( curY + DIAG_SPEED );
+            box.setCenterY( curY - DIAG_SPEED );
             break;
         case LEFTDOWN :
             box.setCenterX( curX - DIAG_SPEED );
-            box.setCenterY( curY - DIAG_SPEED );
+            box.setCenterY( curY + DIAG_SPEED );
             break;
         case RIGHTUP :
             box.setCenterX( curX + DIAG_SPEED );
-            box.setCenterY( curY + DIAG_SPEED );
+            box.setCenterY( curY - DIAG_SPEED );
             break;
         case RIGHTDOWN :
             box.setCenterX( curX + DIAG_SPEED );
-            box.setCenterY( curY - DIAG_SPEED );
+            box.setCenterY( curY + DIAG_SPEED );
             break;
         }
         
