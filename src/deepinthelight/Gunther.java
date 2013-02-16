@@ -86,4 +86,9 @@ public class Gunther extends Element {
         }
         
     }
+
+    @Override
+    public int getSize() {
+        return 1;
+    }
 }

@@ -14,15 +14,18 @@ public class Obstacle extends Element {
 
     public void collide() {
     }
-
-    public void render() {
-    }
-
+    
     public void update() {
     }
 
     @Override
     public void render(float offsetX, float offsetY) {
+        img.draw(this.box.getX() - offsetX, this.box.getY() - offsetY);
+    }
+
+    @Override
+    public int getSize() {
+        return 1; //TODO:change -> dynamic, depend de l'obstacle
     }
 
 }

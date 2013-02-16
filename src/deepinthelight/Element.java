@@ -12,6 +12,8 @@ public abstract class Element {
 
     public abstract void collide();
 
+    public abstract int getSize();
+
     public Shape getBox() {
         return this.box;
     }
