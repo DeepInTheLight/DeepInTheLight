@@ -2,13 +2,18 @@ package deepinthelight;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Random;
 
 import org.newdawn.slick.geom.Shape;
+import org.newdawn.slick.SlickException;
 
 public class Screen {
 
-    public static HashMap<String, Screen> ScreenMap = null;
-    private final int maxObstacleSize = 10;
+    private static HashMap<String, Screen> ScreenMap = null;
+    private static Random generator = null;
+    private static final int maxObstacleSize = 10;
+    private static final int objectTypeNumber = 8;
+
     private int obstacleSize = 0;
     private boolean populated;
     private ArrayList<Element> elements;
@@ -21,6 +26,8 @@ public class Screen {
     private float y;
 
     private Screen(float x, float y) {
+
+        //System.out.println("New screen : " + x + ", " + y);
         this.x = x;
         this.y = y;
         populated = false;
@@ -35,6 +42,7 @@ public class Screen {
             allElements.addAll(getNextScreen(where).getElements());
         }
 
+        allElements.addAll(elements);
         return allElements;
     }
 
@@ -43,10 +51,12 @@ public class Screen {
     }
 
     public static Screen init(float screenX, float screenY) {
+        //System.out.println("Init screen");
         if (ScreenMap != null) {
             return null;
         }
 
+        generator = new Random();
         ScreenMap = new HashMap<String, Screen>(100);
         return new Screen(screenY, screenX);
     }
@@ -58,25 +68,25 @@ public class Screen {
         float right = x + Main.width;
         Shape box = gunther.getBox();
         Screen nextScreen = null;
-        if (box.getCenterY() > top) {
+        if (box.getCenterY() < top) {
             if (box.getCenterX() < left) {
                 nextScreen = getNextScreen(Zone.UPLEFT);
-            } else if (box.getCenterX() > right) {
+            } else if (box.getCenterX() >= right) {
                 nextScreen = getNextScreen(Zone.UPRIGHT);
             }
 
             nextScreen = getNextScreen(Zone.UP);
-        } else if (box.getCenterY() < bottom) {
+        } else if (box.getCenterY() >= bottom) {
             if (box.getCenterX() < left) {
                 nextScreen = getNextScreen(Zone.DOWNLEFT);
-            } else if (box.getCenterX() > right) {
+            } else if (box.getCenterX() >= right) {
                 nextScreen = getNextScreen(Zone.DOWNRIGHT);
             }
 
             nextScreen = getNextScreen(Zone.DOWN);
         } else if (box.getCenterX() < left) {
             nextScreen = getNextScreen(Zone.LEFT);
-        } else if (box.getCenterX() > right) {
+        } else if (box.getCenterX() >= right) {
             nextScreen = getNextScreen(Zone.RIGHT);
         }
 
@@ -112,34 +122,6 @@ public class Screen {
         return getScreen(nextx, nexty);
     }
 
-    public boolean isInScreen(Gunther gunther) {
-        float top = y;
-        float bottom = y + Main.height;
-        float left = x;
-        float right = x + Main.width;
-        Shape box = gunther.getBox();
-        if (box.getCenterY() > top || box.getCenterY() < bottom ||
-            box.getCenterX() < left || box.getCenterX() > right) {
-            return true;
-        }
-
-        return false;
-    }
-
-    public void populateNeighbors() {
-        for (Zone where : Zone.values()) {
-            this.getNextScreen(where).populate();
-        }
-    }
-
-    public void populate() {
-        if (populated) {
-            return;
-        }
-
-        populated = true;
-    }
-
     private Screen getScreen(float x, float y) {
         Screen nextScreen = ScreenMap.get(Screen.serialize(x, y));
         if (nextScreen == null) {
@@ -147,6 +129,97 @@ public class Screen {
         }
 
         return nextScreen;
+    }
+
+    public boolean isInScreen(Gunther gunther) {
+        float top = y;
+        float bottom = y + Main.height;
+        float left = x;
+        float right = x + Main.width;
+        Shape box = gunther.getBox();
+        
+        if (box.getCenterY() >= top && box.getCenterY() < bottom &&
+            box.getCenterX() >= left && box.getCenterX() < right) {
+            //System.out.println("Gunther is in screen " + x + ", " + y);
+            return true;
+        }
+
+        //System.out.println("Gunther is NOT in screen " + x + ", " + y);
+        return false;
+    }
+
+    public void populateNeighbors() {
+        System.out.println("Populating neighbors");
+        for (Zone where : Zone.values()) {
+            this.getNextScreen(where).populate();
+        }
+    }
+
+    public void populate() {
+        if (populated || (x==0 && y==0)) {
+            return;
+        }
+
+        System.out.println("Populating " + x + ", " + y);
+        final int maxIter = 20;
+        int i = 0;
+        while (obstacleSize < maxObstacleSize && i < maxIter) {
+            Obstacle obs = createObstacle();
+            if (obs != null) {
+                elements.add(obs);
+            }
+
+            Malus malus = createMalus();
+            if (malus != null) {
+                elements.add(malus);
+            }
+            i++;
+        }
+
+        populated = true;
+    }
+
+    public Obstacle createObstacle() {
+        int type = generator.nextInt(8);
+        float centerX = x + generator.nextInt(Main.width);
+        float centerY = y + generator.nextInt(Main.height);
+        Obstacle obs = null;
+        try {
+            obs = new Obstacle(type, centerX, centerY);
+        } catch (SlickException ex) {
+            ex.printStackTrace();
+            return null;
+        }
+
+        for (Element element : getAllElements()) {
+            if (obs.getBox().intersects(element.getBox())) {
+                return null;
+            }
+        }
+
+        obstacleSize += obs.getSize();
+        return obs;
+    }
+
+    public Malus createMalus() {
+        float centerX = x + generator.nextInt(Main.width);
+        float centerY = y + generator.nextInt(Main.height);
+        Malus malus = null;
+        try {
+            malus = new Malus(centerX, centerY);
+        } catch (SlickException ex) {
+            ex.printStackTrace();
+            return null;
+        }
+
+        for (Element element : getAllElements()) {
+            if (malus.getBox().intersects(element.getBox())) {
+                return null;
+            }
+        }
+
+        obstacleSize += malus.getSize();
+        return malus;
     }
 
     private String serialize() {

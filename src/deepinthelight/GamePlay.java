@@ -35,6 +35,8 @@ public class GamePlay extends BasicGameState {
 
     public float screenX;
     public float screenY;
+    public final float MIN_X_FROM_BORDER = 200;
+    public final float MIN_Y_FROM_BORDER = 110;
 
     public int score;
 
@@ -64,18 +66,14 @@ public class GamePlay extends BasicGameState {
     }
 
     public void render(GameContainer gc, StateBasedGame sbg, Graphics grphcs) throws SlickException {
-        lbackground.render(gc, sbg, grphcs);
         
 //        for (Element e : this.world.getElements()) {
 //            e.render(this.screenX, this.screenY);
 //        }
 
 //        this.gunther.render(this.screenX, this.screenY);
-
-        //renderBoxes(gc);
-        
+ 
         lbackground.render(gc, sbg, grphcs);
-        
         renderBoxes(gc);
         uiIndicators.render(grphcs);
     }
@@ -86,21 +84,51 @@ public class GamePlay extends BasicGameState {
 
         this.gunther.update();
 
+        world.update();
+
         for (Element e : this.world.getElements()) {
             e.update();
         }
 
+        boolean needToStop = manageCollisions();
 
+        if(needToStop) {
+            this.gunther.moveBack();
+        }
 
-        manageCollisions();
+        world.deletePending(); 
+        checkScreenBorders();
 
     }
 
-    private void manageCollisions() {
+    private boolean manageCollisions() {
+        boolean needToStop = false;
         for (Element e : this.world.getElements()) {
             if (e.getBox().intersects(gunther.getBox())) {
-                e.collide();
+                boolean b = e.collide();
+                needToStop = b ? true : needToStop;
             }
+        }
+
+        return needToStop;
+    }
+
+    private void checkScreenBorders() {
+        float guntherX = gunther.getBox().getCenterX();
+        float guntherY = gunther.getBox().getCenterY();
+        
+        if ( guntherX - MIN_X_FROM_BORDER < screenX ) {
+            screenX = guntherX - MIN_X_FROM_BORDER;
+        }
+        else if ( guntherX + MIN_X_FROM_BORDER > screenX + Main.width ) {
+            screenX = guntherX + MIN_X_FROM_BORDER - Main.width;
+        }
+
+        if ( guntherY - MIN_Y_FROM_BORDER < screenY ) {
+            screenY = guntherY - MIN_Y_FROM_BORDER;
+        }
+        else if ( guntherY + MIN_Y_FROM_BORDER > screenY + Main.height ) {
+            screenY = guntherY + MIN_Y_FROM_BORDER - Main.height;
         }
     }
 
