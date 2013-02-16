@@ -12,7 +12,8 @@ public class Obstacle extends Element {
         img = new Image(source);
     }
 
-    public void collide() {
+    public boolean collide() {
+        return false;
     }
     
     public void update() {
