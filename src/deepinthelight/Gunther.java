@@ -12,15 +12,15 @@ public class Gunther extends Element {
 
     int energyLeft;
 
-    public static void update() {
+    public void update() {
 
     }
 
-    public static void render() {
+    public void render() {
 
     }
 
-    public static void collide() {
+    public void collide() {
 
     }
 }
