@@ -20,7 +20,7 @@ public class Gunther extends Element {
     }
 
     private final int RADIUS = 5;
-    private final String IMAGE_PATH = "wherever/the/fuck/lol.png";
+    private final String IMAGE_PATH = "images/baleine.jpg";
     private Image image;
 
     private final int BASE_ENERGY = 42;
@@ -65,26 +65,26 @@ public class Gunther extends Element {
             box.setCenterX( curX + SPEED );
             break;
         case DOWN :
-            box.setCenterY( curY - SPEED );
+            box.setCenterY( curY + SPEED );
             break;
         case UP :
-            box.setCenterY( curY + SPEED );
+            box.setCenterY( curY - SPEED );
             break;
         case LEFTUP :
             box.setCenterX( curX - DIAG_SPEED );
-            box.setCenterY( curY + DIAG_SPEED );
+            box.setCenterY( curY - DIAG_SPEED );
             break;
         case LEFTDOWN :
             box.setCenterX( curX - DIAG_SPEED );
-            box.setCenterY( curY - DIAG_SPEED );
+            box.setCenterY( curY + DIAG_SPEED );
             break;
         case RIGHTUP :
             box.setCenterX( curX + DIAG_SPEED );
-            box.setCenterY( curY + DIAG_SPEED );
+            box.setCenterY( curY - DIAG_SPEED );
             break;
         case RIGHTDOWN :
             box.setCenterX( curX + DIAG_SPEED );
-            box.setCenterY( curY - DIAG_SPEED );
+            box.setCenterY( curY + DIAG_SPEED );
             break;
         }
         

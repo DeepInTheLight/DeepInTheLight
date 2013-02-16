@@ -72,7 +72,15 @@ public class GamePlay extends BasicGameState {
     private void manageInput(GameContainer gc, StateBasedGame sbg, int delta) throws SlickException {
         Input input = gc.getInput();
 
-        if (input.isKeyDown(Input.KEY_UP)) {
+        if (input.isKeyDown(Input.KEY_UP) && input.isKeyDown(Input.KEY_RIGHT)) {
+            gunther.move(Direction.RIGHTUP);
+        } else if (input.isKeyDown(Input.KEY_UP) && input.isKeyDown(Input.KEY_LEFT)) {
+            gunther.move(Direction.LEFTUP);
+        } else if (input.isKeyDown(Input.KEY_DOWN) && input.isKeyDown(Input.KEY_RIGHT)) {
+            gunther.move(Direction.RIGHTDOWN);
+        } else if (input.isKeyDown(Input.KEY_DOWN) && input.isKeyDown(Input.KEY_LEFT)) {
+            gunther.move(Direction.LEFTDOWN);
+        } else if (input.isKeyDown(Input.KEY_UP)) {
             gunther.move(Direction.UP);
         } else if (input.isKeyDown(Input.KEY_DOWN)) {
             gunther.move(Direction.DOWN);
