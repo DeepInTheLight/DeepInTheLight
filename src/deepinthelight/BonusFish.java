@@ -47,7 +47,7 @@ public class BonusFish extends Element {
         boolean moved = false;
         while(!moved) {
 
-            move(currentDir);
+            move();
             moved = true;
             
             for (Element e : GamePlay.getGamePlay().world.getElements()) {
