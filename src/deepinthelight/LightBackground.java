@@ -11,6 +11,7 @@ import org.newdawn.slick.state.StateBasedGame;
 
 public class LightBackground {
 
+
     public static final int MIN_RADIUS =  200;
     public static final int MAX_RADIUS = 901;
     

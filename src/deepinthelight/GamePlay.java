@@ -193,7 +193,7 @@ public class GamePlay extends BasicGameState {
     private void renderBoxes(GameContainer gc) {
         if (BOX_VISIBLE) {
             Color c = gc.getGraphics().getColor();
-            gc.getGraphics().setColor(Color.red);
+            gc.getGraphics().setColor(new Color(255, 0, 0, 100));
 
             gc.getGraphics().translate(-this.screenX, -this.screenY);
 
