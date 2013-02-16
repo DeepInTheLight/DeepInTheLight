@@ -69,7 +69,7 @@ public class BonusFish extends Element {
 
             move();
             moved = true;
-            
+
             for (Element e : GamePlay.getGamePlay().world.getElements()) {
                 if (e.getBox().intersects(this.getBox()) && e.collide()) {
                     box.setCenterX(oldX);
