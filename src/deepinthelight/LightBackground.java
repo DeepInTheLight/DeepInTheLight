@@ -9,6 +9,7 @@ import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
+import org.newdawn.slick.opengl.ImageData;
 import org.newdawn.slick.state.StateBasedGame;
 
 /**
@@ -98,6 +99,12 @@ public class LightBackground {
     }
 
     public void render(GameContainer container, StateBasedGame sbg, Graphics g) throws SlickException {
+        GamePlay gp = GamePlay.getGamePlay();
+
+//        Image img = background.copy();
+//        img.getGraphics().drawImage(gp.gunther.image, gp.gunther.box.getX(), gp.gunther.box.getY());
+
+
         //each light requires a new pass to blend with the previous lights
         //FPS will be affected with too many lights at once
         for (int i = 0; i < lights.size(); i++) {
@@ -134,12 +141,14 @@ public class LightBackground {
             g.setColor(Color.white);
 
             background.draw();
-            GamePlay gp = GamePlay.getGamePlay();
+//            GamePlay gp = GamePlay.getGamePlay();
             for (Element e : gp.world.getElements()) {
                 e.render(gp.screenX, gp.screenY);
             }
 
             gp.gunther.render(gp.screenX, gp.screenY);
+
+//            img.draw();
 
             //            for (int x = 0; x < mapWidth; x++) {
 //                for (int y = 0; y < mapHeight; y++) {
