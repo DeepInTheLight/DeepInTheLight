@@ -35,6 +35,8 @@ public class GamePlay extends BasicGameState {
 
     public float screenX;
     public float screenY;
+    public final float MIN_X_FROM_BORDER = 200;
+    public final float MIN_Y_FROM_BORDER = 110;
 
     public int score;
 
@@ -91,7 +93,7 @@ public class GamePlay extends BasicGameState {
         world.deletePending(); // TODO: check whether right place?
 
         manageCollisions();
-
+        checkScreenBorders();
     }
 
     private void manageCollisions() {
@@ -100,6 +102,26 @@ public class GamePlay extends BasicGameState {
                 e.collide();
             }
         }
+    }
+
+    private void checkScreenBorders() {
+        float guntherX = gunther.getBox().getCenterX();
+        float guntherY = gunther.getBox().getCenterY();
+        
+        if ( guntherX - MIN_X_FROM_BORDER < screenX ) {
+            screenX = gunther - MIN_X_FROM_BORDER;
+        }
+        else if ( guntherX + MIN_X_FROM_BORDER > screenX + Main.width ) {
+            screenX = guntherX + MIN_X_FROM_BORDER;
+        }
+
+        if ( guntherY - MIN_Y_FROM_BORDER < screenY ) {
+            screenY = gunther - MIN_Y_FROM_BORDER;
+        }
+        else if ( guntherY + MIN_Y_FROM_BORDER > screenY + Main.height ) {
+            screenY = guntherY + MIN_Y_FROM_BORDER;
+        }
+        
     }
 
     private void manageInput(GameContainer gc, StateBasedGame sbg, int delta) throws SlickException {
