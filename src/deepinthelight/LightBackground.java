@@ -2,24 +2,13 @@ package deepinthelight;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
-
-import javax.swing.CellEditor;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
-import org.newdawn.slick.opengl.ImageData;
 import org.newdawn.slick.state.StateBasedGame;
 
-/**
- * davedes' Tutorials
- * Alpha Map Lighting
- * http://slick.cokeandcode.com/wiki/doku.php?id=alpha_maps
- * 
- * @author davedes
- */
 public class LightBackground {
 
     public static final int MIN_RADIUS = 150;
@@ -38,8 +27,6 @@ public class LightBackground {
     
     //our lights
     private List<Light> lights = new ArrayList<Light>();
-    //a timer used for simple light scaling effect
-    private long elapsed;
 
 
     public int getID() {
