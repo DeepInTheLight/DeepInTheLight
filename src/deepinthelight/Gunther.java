@@ -4,10 +4,9 @@
  */
 package deepinthelight;
 
-import org.newdawn.slick.geom.Circle;
 import org.newdawn.slick.Image;
-import org.newdawn.slick.Renderable;
 import org.newdawn.slick.SlickException;
+import org.newdawn.slick.geom.Circle;
 
 /**
  *
@@ -32,7 +31,7 @@ public class Gunther extends Element {
     private final float SPEED = 5;
     private final float DIAG_SPEED = SPEED/(float)java.lang.Math.sqrt(2);
 
-    public Gunther() {
+    public Gunther() throws SlickException {
         box = new Circle(0, 0, RADIUS);
         image = new Image(IMAGE_PATH);
     }
@@ -44,7 +43,7 @@ public class Gunther extends Element {
 
     @Override
     public void render(float offsetX, float offsetY) {
-        
+        image.draw( box.getX() - offsetX, box.getY() - offsetY );
     }
 
     @Override
