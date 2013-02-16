@@ -1,11 +1,9 @@
 package deepinthelight;
 
-import deepinthelight.Gunther.Direction;
+import deepinthelight.Element.Direction;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
-
-
 import org.newdawn.slick.Input;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.state.BasicGameState;
@@ -27,11 +25,18 @@ public class GamePlay extends BasicGameState {
         return GamePlay.gp;
     }
     private final boolean BOX_VISIBLE = true;
+    
     int stateID = -1;
+
     public Gunther gunther;
     public World world;
+
+    public Indicators uiIndicators;
+
     public float screenX;
     public float screenY;
+
+    public int score;
 
     GamePlay(int stateID) {
         this.stateID = stateID;
@@ -49,9 +54,12 @@ public class GamePlay extends BasicGameState {
 
         this.gunther = new Gunther();
         this.world = new World();
+        this.uiIndicators = new Indicators();
 
         this.screenX = 0;
         this.screenY = 0;
+
+        this.score = 0;
 
     }
 
@@ -66,6 +74,8 @@ public class GamePlay extends BasicGameState {
         
         lbackground.render(gc, sbg, grphcs);
         renderBoxes(gc);
+
+        uiIndicators.render(grphcs);
     }
 
     public void update(GameContainer gc, StateBasedGame sbg, int i) throws SlickException {
