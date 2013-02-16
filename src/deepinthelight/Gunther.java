@@ -24,7 +24,9 @@ public class Gunther extends Element {
     private Image image;
 
     private final int BASE_ENERGY = 42;
-    private final int ENERGY_DEC = 5;
+    private final int MAX_ENERGY = 100;
+    private final int MAX_DECREASE = MAX_ENERGY / 20;
+    private final int DECREASE_THRESHOLD = MAX_ENERGY / 2;
     private int energyLeft = BASE_ENERGY;
     
     private Direction currentDir = Direction.NONE;
@@ -38,7 +40,17 @@ public class Gunther extends Element {
 
     @Override
     public void update() {
-        energyLeft-= ENERGY_DEC;
+        energyLeft-= getEnergyDecrease();
+    }
+
+    private int getEnergyDecrease() {
+
+        return ( energyLeft > DECREASE_THRESHOLD ? MAX_DECREASE :
+                 ( energyLeft * MAX_DECREASE ) / MAX_DECREASE );
+    }
+
+    public void recharge(int amount) {
+        energyLeft+= ( energyLeft + amount > MAX_ENERGY ? MAX_ENERGY : energyLeft + amount );
     }
 
     @Override
