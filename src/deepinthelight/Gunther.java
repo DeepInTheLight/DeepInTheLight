@@ -5,6 +5,7 @@
 package deepinthelight;
 
 import java.util.Date;
+import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.geom.Circle;
@@ -15,14 +16,14 @@ import org.newdawn.slick.geom.Circle;
  */
 public class Gunther extends Element {
 
-    private final int RADIUS = 40;
+    public final int RADIUS = 40;
     private final String IMAGE_PATH = "images/gunther/Gunther-finalblue.png";
     private final float IMAGE_SCALE = 0.09f;
 
     public Image image;
 
     private final int BASE_ENERGY = 42;
-    private final int MAX_ENERGY = 100;
+    public final int MAX_ENERGY = 100;
     private final int MAX_DECREASE = MAX_ENERGY / 20;
     private final int DECREASE_THRESHOLD = MAX_ENERGY / 2;
     private int energyLeft = BASE_ENERGY;
@@ -193,6 +194,7 @@ public class Gunther extends Element {
         return energyLeft;
     }
     
+
     public void die() {
         // TODO : gameover ?
     }
@@ -201,4 +203,14 @@ public class Gunther extends Element {
     public int getSize() {
         return 1;
     }
+
+    public Image getImage() {
+        return image;
+    }
+
+    public void setImage(Image image) {
+        this.image = image;
+    }
+    
+    
 }

@@ -34,7 +34,7 @@ public class Light {
 
     public void update(float time) {
         //effect: scale the light slowly using a sin func
-        scale = scaleOrig + 1f + .5f*(float)Math.sin(time);
+        //scale = scaleOrig + 1f + .5f*(float)Math.sin(time);
     }
 
     public void setOriginScale(float scale) {

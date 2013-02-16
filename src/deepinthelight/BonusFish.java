@@ -56,6 +56,8 @@ public class BonusFish extends Element {
         
         oldX = posX;
         oldY = posY;
+        box.setCenterX(oldX);
+        box.setCenterY(oldY);
 
         currentDir = Direction.NONE;
     }
@@ -74,11 +76,6 @@ public class BonusFish extends Element {
             move();
             moved = true;
 
-            if ( outOfScreen() ) {
-                abortMove();
-                moved = false;
-                continue;
-            }
             for (Element e : GamePlay.getGamePlay().world.getElements()) {
                 if ( e!=this && e.getBox().intersects(this.getBox()) && e.collide() ) {
                     abortMove();
@@ -94,11 +91,6 @@ public class BonusFish extends Element {
         box.setCenterX(oldX);
         box.setCenterY(oldY);
         changeDirection();
-    }
-
-    private boolean outOfScreen() {
-        return ( oldX < screen.getLeftBoundary() || oldX > screen.getRightBoundary()
-                 || oldY < screen.getTopBoundary() || oldY > screen.getBottomBoundary() );
     }
 
     private void changeDirection() {
@@ -148,39 +140,49 @@ public class BonusFish extends Element {
         
         oldX = box.getCenterX();
         oldY = box.getCenterY();
+        float newX = oldX;
+        float newY = oldY;
         
         switch(currentDir) {
         case LEFT :
-            box.setCenterX( oldX - SPEED );
+            newX = oldX - SPEED;
             break;
         case RIGHT :
-            box.setCenterX( oldX + SPEED );
+            newX = oldX + SPEED;
             break;
         case DOWN :
-            box.setCenterY( oldY + SPEED );
+            newY = oldY + SPEED;
             break;
         case UP :
-            box.setCenterY( oldY - SPEED );
+            newY = oldY - SPEED;
             break;
         case LEFTUP :
-            box.setCenterX( oldX - DIAG_SPEED );
-            box.setCenterY( oldY - DIAG_SPEED );
+            newY = oldY - DIAG_SPEED;
+            newX = oldX - DIAG_SPEED;
             break;
         case LEFTDOWN :
-            box.setCenterX( oldX - DIAG_SPEED );
-            box.setCenterY( oldY + DIAG_SPEED );
+            newY = oldY + DIAG_SPEED;
+            newX = oldX - DIAG_SPEED;
             break;
         case RIGHTUP :
-            box.setCenterX( oldX + DIAG_SPEED );
-            box.setCenterY( oldY - DIAG_SPEED );
+            newY = oldY - DIAG_SPEED;
+            newX = oldX + DIAG_SPEED;
             break;
         case RIGHTDOWN :
-            box.setCenterX( oldX + DIAG_SPEED );
-            box.setCenterY( oldY + DIAG_SPEED );
+            newY = oldY + DIAG_SPEED;
+            newX = oldX + DIAG_SPEED;
             break;
         }
+        
+        if (newX < screen.getLeftBoundary() || newX > screen.getRightBoundary()) {
+            newX = oldX;
+        }
+        if (newY < screen.getTopBoundary() || newY > screen.getBottomBoundary()) {
+            newY = oldY;
+        }
 
-
+        box.setCenterY(newY);
+        box.setCenterX(newX);
     }
     
     public int getSize() {

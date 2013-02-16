@@ -1,5 +1,6 @@
 package deepinthelight;
 
+import org.newdawn.slick.Graphics;
 import org.newdawn.slick.geom.Shape;
 
 public abstract class Element {

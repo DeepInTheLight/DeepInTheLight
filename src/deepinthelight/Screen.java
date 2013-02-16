@@ -13,6 +13,7 @@ public class Screen {
     private static Random generator = null;
     private static final int maxObstacleSize = 10;
     private static final int objectTypeNumber = 8;
+
     private int obstacleSize = 0;
     private boolean populated;
     private ArrayList<Element> elements;
@@ -26,6 +27,7 @@ public class Screen {
     private float y;
 
     private Screen(float x, float y) {
+
         //System.out.println("New screen : " + x + ", " + y);
         this.x = x;
         this.y = y;
@@ -138,6 +140,7 @@ public class Screen {
         float left = x;
         float right = x + Main.width;
         Shape box = gunther.getBox();
+        
         if (box.getCenterY() >= top && box.getCenterY() < bottom &&
             box.getCenterX() >= left && box.getCenterX() < right) {
             //System.out.println("Gunther is in screen " + x + ", " + y);
@@ -172,6 +175,11 @@ public class Screen {
             Malus malus = createMalus();
             if (malus != null) {
                 elements.add(malus);
+            }
+
+            BonusFish bf = createBF();
+            if (bf != null) {
+                elements.add(bf);
             }
             i++;
         }
@@ -221,6 +229,27 @@ public class Screen {
 
         obstacleSize += malus.getSize();
         return malus;
+    }
+
+    public BonusFish createBF() {
+        float centerX = x + generator.nextInt(Main.width);
+        float centerY = y + generator.nextInt(Main.height);
+        BonusFish bf = null;
+        try {
+            bf = new BonusFish(centerX, centerY, this);
+        } catch (SlickException ex) {
+            ex.printStackTrace();
+            return null;
+        }
+
+        for (Element element : getAllElements()) {
+            if (bf.getBox().intersects(element.getBox())) {
+                return null;
+            }
+        }
+
+        obstacleSize += bf.getSize();
+        return bf;
     }
 
     public void deleteElement(Element el) {
