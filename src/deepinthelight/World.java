@@ -4,18 +4,20 @@ package deepinthelight;
 import org.newdawn.slick.geom.Shape;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class World {
 
     private final String imageUrl = "images/baleine.jpg";
     private Screen currentScreen;
 
-    private ArrayList<Element> elements;
+    private List<Element> elements = new ArrayList<Element>();
+    private List<Element> toDelete = new ArrayList<Element>();
 
     public World() {
         GamePlay gc = GamePlay.getGamePlay();
-        elements = new ArrayList<Element>();
         currentScreen = Screen.init(gc.screenX, gc.screenY);
+        currentScreen.populateNeighbors();
     }
 
     public ArrayList<Element> getElements() {
@@ -24,23 +26,20 @@ public class World {
 
     public void update() {
         Gunther gunther = GamePlay.getGamePlay().gunther;
+        //System.out.println("gunther pos : " + gunther.getBox().getCenterX() + ", " + gunther.getBox().getCenterY());
         if (!currentScreen.isInScreen(gunther)) {
             currentScreen = currentScreen.getNextScreen(gunther);
             currentScreen.populateNeighbors();
         }
     }
 
-    private Obstacle genObstacles(Gunther gunther) {
-        int centerX = 0;
-        int centerY = 0;
-        Obstacle newObstacle = null;
-        try {
-            newObstacle = new Obstacle(imageUrl, centerX, centerY, 1);
-        } catch (Exception ex) {
-            System.out.println("Bad obstacle image! " + ex.getMessage());
+    public void queueForDeletion(Element e) {
+        if ( elements.remove(e) ) {
+            toDelete.add(e);
         }
-
-        return newObstacle;
     }
-
+    
+    public void deletePending() {
+        toDelete.clear();
+    }
 }

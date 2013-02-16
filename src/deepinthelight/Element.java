@@ -15,7 +15,7 @@ public abstract class Element {
 
     public abstract void render(float offsetX, float offsetY);
 
-    // true: gunther can go through ; false: collision!
+    // true: can't go through ; false: can go through
     public abstract boolean collide();
 
     public abstract int getSize();

@@ -16,7 +16,7 @@ import org.newdawn.slick.geom.Circle;
  */
 public class BonusFish extends Element {
 
-    private final int RADIUS = 5;
+    private final int RADIUS = 2;
     private final String IMAGE_PATH = "images/gunther/Gunther-eyelight-color.png"; // TODO change image
     private Image image;
 
@@ -26,13 +26,12 @@ public class BonusFish extends Element {
     private final float SPEED = 2;
     private final float DIAG_SPEED = SPEED/(float)java.lang.Math.sqrt(2);
 
-    private float oldX, oldY;
-    long lastMove = new Date().getTime();
-
+    long lastDirChange = new Date().getTime();
+    float oldX, oldY;
+    
     public BonusFish() throws SlickException {
         box = new Circle(0, 0, RADIUS);
         image = new Image(IMAGE_PATH);
-
         oldX = 0;
         oldY = 0;
     }
@@ -40,16 +39,33 @@ public class BonusFish extends Element {
     @Override
     public void update() {
         long now = new Date().getTime();
-        if ( now - lastMove >= 5000 ) {
+        if ( now - lastDirChange >= 2500 ) {
             changeDirection();
+            lastDirChange = now;
         }
-        move(currentDir);
+
+        boolean moved = false;
+        while(!moved) {
+
+            move();
+            moved = true;
+            
+            for (Element e : GamePlay.getGamePlay().world.getElements()) {
+                if (e.getBox().intersects(this.getBox()) && e.collide()) {
+                    box.setCenterX(oldX);
+                    box.setCenterY(oldY);
+                    changeDirection();
+                    moved = false;
+                    break;
+                }
+            }
+
+        }
     }
 
     private void changeDirection() {
 
         switch (new Random().nextInt(8)) {
-
         case 0:
             currentDir = Direction.LEFT;
             break;
@@ -87,16 +103,10 @@ public class BonusFish extends Element {
     public boolean collide() {
         GamePlay.getGamePlay().gunther.eat(this);
         GamePlay.getGamePlay().gunther.recharge(ENERGY_BONUS);
-        return true;
+        return false; // Gunther isn't blocked by bonus fish
     }
 
-    public void moveBack() {
-        box.setCenterX(oldX);
-        box.setCenterY(oldY);
-    }
-
-    public void move(Direction newDir) {
-        currentDir = newDir;
+    public void move() {
         
         oldX = box.getCenterX();
         oldY = box.getCenterY();
@@ -131,6 +141,8 @@ public class BonusFish extends Element {
             box.setCenterY( oldY + DIAG_SPEED );
             break;
         }
+
+
     }
     
     public int getSize() {
