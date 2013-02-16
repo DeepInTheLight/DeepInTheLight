@@ -23,6 +23,11 @@ public class World {
     }
 
     public void update() {
+        Gunther gunther = GamePlay.getGamePlay().gunther;
+        if (!currentScreen.isInScreen(gunther)) {
+            currentScreen = currentScreen.getNextScreen(gunther);
+            currentScreen.populateNeighbors();
+        }
     }
 
     private Obstacle genObstacles(Gunther gunther) {
