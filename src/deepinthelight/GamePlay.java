@@ -4,12 +4,22 @@ import deepinthelight.Gunther.Direction;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
+
+
 import org.newdawn.slick.Input;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
 
+/**
+ * davedes' Tutorials
+ * Alpha Map Lighting
+ * http://slick.cokeandcode.com/wiki/doku.php?id=alpha_maps
+ * 
+ * @author davedes
+ */
 public class GamePlay extends BasicGameState {
+    private LightBackground lbackground;
 
     private static GamePlay gp = null;
 
@@ -25,14 +35,16 @@ public class GamePlay extends BasicGameState {
 
     GamePlay(int stateID) {
         this.stateID = stateID;
+        lbackground = new LightBackground();
     }
 
     @Override
     public int getID() {
-        return stateID;
+        return 0;
     }
 
     public void init(GameContainer gc, StateBasedGame sbg) throws SlickException {
+        lbackground.init(gc);
         GamePlay.gp = this;
 
         this.gunther = new Gunther();
@@ -44,6 +56,7 @@ public class GamePlay extends BasicGameState {
     }
 
     public void render(GameContainer gc, StateBasedGame sbg, Graphics grphcs) throws SlickException {
+        lbackground.render(gc, sbg, grphcs);
         for (Element e : this.world.getElements()) {
             e.render(this.screenX, this.screenY);
         }
@@ -54,6 +67,7 @@ public class GamePlay extends BasicGameState {
     }
 
     public void update(GameContainer gc, StateBasedGame sbg, int i) throws SlickException {
+        lbackground.update(gc);
         manageInput(gc, sbg, i);
 
         this.gunther.update();
