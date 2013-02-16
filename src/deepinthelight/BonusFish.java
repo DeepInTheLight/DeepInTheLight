@@ -54,8 +54,8 @@ public class BonusFish extends Element {
 
         this.screen = screen;
         
-        posX = posX;
-        posY = posY;
+        oldX = posX;
+        oldY = posY;
 
         currentDir = Direction.NONE;
     }
@@ -74,18 +74,26 @@ public class BonusFish extends Element {
             move();
             moved = true;
 
+            if ( outOfScreen() ) {
+                abortMove();
+                moved = false;
+                continue;
+            }
             for (Element e : GamePlay.getGamePlay().world.getElements()) {
-                if ( (e.getBox().intersects(this.getBox()) && e.collide())
-                     || outOfScreen() ) {
-                    box.setCenterX(oldX);
-                    box.setCenterY(oldY);
-                    changeDirection();
+                if ( e!=this && e.getBox().intersects(this.getBox()) && e.collide() ) {
+                    abortMove();
                     moved = false;
                     break;
                 }
             }
 
         }
+    }
+
+    private void abortMove() {
+        box.setCenterX(oldX);
+        box.setCenterY(oldY);
+        changeDirection();
     }
 
     private boolean outOfScreen() {
