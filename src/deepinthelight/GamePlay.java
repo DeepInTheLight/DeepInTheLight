@@ -85,6 +85,8 @@ public class GamePlay extends BasicGameState {
 
         this.gunther.update();
 
+        world.update();
+
         for (Element e : this.world.getElements()) {
             e.update();
         }

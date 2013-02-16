@@ -65,25 +65,25 @@ public class Screen {
         float right = x + Main.width;
         Shape box = gunther.getBox();
         Screen nextScreen = null;
-        if (box.getCenterY() > top) {
+        if (box.getCenterY() < top) {
             if (box.getCenterX() < left) {
                 nextScreen = getNextScreen(Zone.UPLEFT);
-            } else if (box.getCenterX() > right) {
+            } else if (box.getCenterX() >= right) {
                 nextScreen = getNextScreen(Zone.UPRIGHT);
             }
 
             nextScreen = getNextScreen(Zone.UP);
-        } else if (box.getCenterY() < bottom) {
+        } else if (box.getCenterY() >= bottom) {
             if (box.getCenterX() < left) {
                 nextScreen = getNextScreen(Zone.DOWNLEFT);
-            } else if (box.getCenterX() > right) {
+            } else if (box.getCenterX() >= right) {
                 nextScreen = getNextScreen(Zone.DOWNRIGHT);
             }
 
             nextScreen = getNextScreen(Zone.DOWN);
         } else if (box.getCenterX() < left) {
             nextScreen = getNextScreen(Zone.LEFT);
-        } else if (box.getCenterX() > right) {
+        } else if (box.getCenterX() >= right) {
             nextScreen = getNextScreen(Zone.RIGHT);
         }
 
@@ -134,8 +134,8 @@ public class Screen {
         float left = x;
         float right = x + Main.width;
         Shape box = gunther.getBox();
-        if (box.getCenterY() > top || box.getCenterY() < bottom ||
-            box.getCenterX() < left || box.getCenterX() > right) {
+        if (box.getCenterY() >= top && box.getCenterY() < bottom &&
+            box.getCenterX() >= left && box.getCenterX() < right) {
             //System.out.println("Gunther is in screen " + x + ", " + y);
             return true;
         }
@@ -145,7 +145,7 @@ public class Screen {
     }
 
     public void populateNeighbors() {
-        //System.out.println("Populating neighbors");
+        System.out.println("Populating neighbors");
         for (Zone where : Zone.values()) {
             this.getNextScreen(where).populate();
         }
@@ -156,10 +156,7 @@ public class Screen {
             return;
         }
 
-        //System.out.println("Populating " + x + ", " + y);
-        if (true) {
-            return; // We have to wait until obstacle is implemented
-        }
+        System.out.println("Populating " + x + ", " + y);
         final int maxIter = 20;
         int i = 0;
         while (obstacleSize < maxObstacleSize && i < maxIter) {

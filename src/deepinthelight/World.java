@@ -25,6 +25,7 @@ public class World {
 
     public void update() {
         Gunther gunther = GamePlay.getGamePlay().gunther;
+        //System.out.println("gunther pos : " + gunther.getBox().getCenterX() + ", " + gunther.getBox().getCenterY());
         if (!currentScreen.isInScreen(gunther)) {
             currentScreen = currentScreen.getNextScreen(gunther);
             currentScreen.populateNeighbors();
