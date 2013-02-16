@@ -1,6 +1,7 @@
 package deepinthelight;
 
 import deepinthelight.Gunther.Direction;
+import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Input;
@@ -8,23 +9,19 @@ import org.newdawn.slick.SlickException;
 import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
 
-
 public class GamePlay extends BasicGameState {
 
     private static GamePlay gp = null;
+
     public static GamePlay getGamePlay() {
         return GamePlay.gp;
     }
-
-
+    private final boolean BOX_VISIBLE = true;
     int stateID = -1;
-
     public Gunther gunther;
     public World world;
-
     public float screenX;
     public float screenY;
-
 
     GamePlay(int stateID) {
         this.stateID = stateID;
@@ -47,23 +44,33 @@ public class GamePlay extends BasicGameState {
     }
 
     public void render(GameContainer gc, StateBasedGame sbg, Graphics grphcs) throws SlickException {
-        for(Element e : this.world.getElements()) {
+        for (Element e : this.world.getElements()) {
             e.render(this.screenX, this.screenY);
         }
 
         this.gunther.render(this.screenX, this.screenY);
+
+        renderBoxes(gc);
     }
 
     public void update(GameContainer gc, StateBasedGame sbg, int i) throws SlickException {
         manageInput(gc, sbg, i);
+
+        this.gunther.update();
+
+        for (Element e : this.world.getElements()) {
+            e.update();
+        }
+
+
 
         manageCollisions();
 
     }
 
     private void manageCollisions() {
-        for(Element e : this.world.getElements()) {
-            if(e.getBox().intersects(gunther.getBox())) {
+        for (Element e : this.world.getElements()) {
+            if (e.getBox().intersects(gunther.getBox())) {
                 e.collide();
             }
         }
@@ -91,9 +98,23 @@ public class GamePlay extends BasicGameState {
         } else {
             gunther.move(Direction.NONE);
         }
-
-
-
     }
 
+    private void renderBoxes(GameContainer gc) {
+        if (BOX_VISIBLE) {
+            Color c = gc.getGraphics().getColor();
+            gc.getGraphics().setColor(Color.red);
+
+            gc.getGraphics().translate(-this.screenX, -this.screenY);
+
+            gc.getGraphics().fill(this.gunther.getBox());
+
+            for (Element e : this.world.getElements()) {
+                gc.getGraphics().fill(e.getBox());
+            }
+
+            gc.getGraphics().translate(this.screenX, this.screenY);
+            gc.getGraphics().setColor(c);
+        }
+    }
 }
