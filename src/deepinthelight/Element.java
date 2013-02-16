@@ -1,23 +1,18 @@
 package deepinthelight;
 
-import org.newdawn.slick.GameContainer;
-import org.newdawn.slick.Graphics;
-import org.newdawn.slick.SlickException;
-import org.newdawn.slick.state.BasicGameState;
-import org.newdawn.slick.state.StateBasedGame;
+import org.newdawn.slick.geom.Shape;
 
-public class Element {
+public abstract class Element {
 
-  public void update() {
+    private Shape box = null;
 
-  }
+    public abstract void update();
 
-  public void render() {
+    public abstract void render();
 
-  }
+    public abstract void collide();
 
-  public void collide() {
-
-  }
-
+    public Shape getBox() {
+        return this.box;
+    }
 }
