@@ -177,7 +177,7 @@ public class GamePlay extends BasicGameState {
     }
 
     private boolean isRIGHT(Input input){
-        if(input.isKeyDown(Input.KEY_LEFT) || input.isKeyDown(Input.KEY_D)) {
+        if(input.isKeyDown(Input.KEY_RIGHT) || input.isKeyDown(Input.KEY_D)) {
             return true;
         } else {
             return false;
@@ -185,7 +185,7 @@ public class GamePlay extends BasicGameState {
     }
 
     private boolean isLEFT(Input input){
-        if(input.isKeyDown(Input.KEY_RIGHT) || input.isKeyDown(Input.KEY_Q) || input.isKeyDown(Input.KEY_A)) {
+        if(input.isKeyDown(Input.KEY_LEFT) || input.isKeyDown(Input.KEY_Q) || input.isKeyDown(Input.KEY_A)) {
             return true;
         } else {
             return false;
