@@ -198,6 +198,10 @@ public class Screen {
         return obs;
     }
 
+    public void deleteElement(Element el) {
+        elements.remove(el);
+    }
+
     public Malus createMalus() {
         float centerX = x + generator.nextInt(Main.width);
         float centerY = y + generator.nextInt(Main.height);
