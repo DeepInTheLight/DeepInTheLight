@@ -37,6 +37,10 @@ public class World {
             allElements.clear();
             allElements.addAll(elements);
             allElements.addAll(currentScreen.getAllElements());
+        } else if (currentScreen.elementChanged()) {
+            allElements.clear();
+            allElements.addAll(elements);
+            allElements.addAll(currentScreen.getAllElements());
         }
     }
 
