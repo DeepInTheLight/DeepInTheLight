@@ -16,6 +16,7 @@ public class Screen {
     private int obstacleSize = 0;
     private boolean populated;
     private ArrayList<Element> elements;
+    private boolean elementChanged;
 
     public enum Zone {
         UP, DOWN, LEFT, RIGHT, UPLEFT, UPRIGHT, DOWNLEFT, DOWNRIGHT
@@ -29,6 +30,7 @@ public class Screen {
         this.x = x;
         this.y = y;
         populated = false;
+        elementChanged = false;
         elements = new ArrayList<Element>();
         ScreenMap.put(this.serialize(), this);
     }
@@ -45,6 +47,7 @@ public class Screen {
     }
 
     public ArrayList<Element> getElements() {
+        elementChanged = false;
         return elements;
     }
 
@@ -173,6 +176,7 @@ public class Screen {
             i++;
         }
 
+        elementChanged = true;
         populated = true;
     }
 
@@ -200,6 +204,11 @@ public class Screen {
 
     public void deleteElement(Element el) {
         elements.remove(el);
+        elementChanged = true;
+    }
+
+    public boolean elementChanged() {
+        return elementChanged;
     }
 
     public Malus createMalus() {
