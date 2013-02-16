@@ -5,6 +5,7 @@
 package deepinthelight;
 
 import java.util.Date;
+import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.geom.Circle;
@@ -21,7 +22,7 @@ public class Gunther extends Element {
     }
 
     private final int RADIUS = 5;
-    private final String IMAGE_PATH = "images/gunther/Gunther-eyelight-color-24bit.png";
+    private final String IMAGE_PATH = "images/gunther/Gunther-bulblight-color.png";
     private Image image;
 
     private final int BASE_ENERGY = 42;
@@ -71,9 +72,9 @@ public class Gunther extends Element {
                        : energyLeft + amount );
     }
 
-    @Override
-    public void render(float offsetX, float offsetY) {
-        image.draw( box.getX() - offsetX, box.getY() - offsetY, 0.3f);
+    public void render(float offsetX, float offsetY, Graphics g) {
+           
+        image.draw( box.getX() - offsetX, box.getY() - offsetY, 0.3f);        
     }
 
     @Override

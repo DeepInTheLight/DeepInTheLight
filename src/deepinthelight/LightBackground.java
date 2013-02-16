@@ -31,6 +31,9 @@ public class LightBackground {
     //the "sprite sheet" or texture atlas image
     private Image spriteSheet;
     private Image background;
+    private Image foregroundBlack;
+    private Image spot;
+    
     //the sub-images of our sprite sheet
     private Image[] tileSprites;
     //our 2D map array
@@ -64,7 +67,8 @@ public class LightBackground {
         //alpha map is located below the tiles, at (0, TILE_SIZE+TILE_SPACING)
         spriteSheet = new Image("images/light.png", false, Image.FILTER_NEAREST);
         background = new Image("images/white.png", false);
-        background = new Image("images/white.png", false);
+        foregroundBlack = new Image("images/Black.png", false);
+        spot = new Image("images/spot.png", true);
 
         //grab the tiles
         tileSprites = new Image[TILE_COUNT];
@@ -73,7 +77,8 @@ public class LightBackground {
         }
 
         //grab the alpha map
-        alphaMap = spriteSheet.getSubImage(0, TILE_SIZE + TILE_SPACING, ALPHA_MAP_SIZE, ALPHA_MAP_SIZE);
+        alphaMap= spriteSheet.getSubImage(0, TILE_SIZE + TILE_SPACING, ALPHA_MAP_SIZE, ALPHA_MAP_SIZE);
+        //spot = spriteSheet.getSubImage(0, TILE_SIZE + TILE_SPACING, ALPHA_MAP_SIZE, ALPHA_MAP_SIZE);
 
         //reset the lighting
         lights.add(new Light(0, 0, 0.3f));
@@ -108,9 +113,9 @@ public class LightBackground {
             Light light = lights.get(i);
 
             //set up our alpha map for the light
-            g.setDrawMode(Graphics.MODE_ALPHA_MAP);
+            //g.setDrawMode(Graphics.MODE_ALPHA_MAP);
             //clear the alpha map before we draw to it...
-            g.clearAlphaMap();
+            //g.clearAlphaMap();
 
             //centre the light
             int alphaW = (int) (alphaMap.getWidth() * light.getScale());
@@ -122,31 +127,36 @@ public class LightBackground {
             sharedColor.a = light.alpha;
 
             //draw the alpha map
-            alphaMap.draw(alphaX, alphaY, alphaW, alphaH, sharedColor);
+            //alphaMap.draw(alphaX, alphaY, alphaW, alphaH, sharedColor);
 
             //start blending in our tiles
            
-            g.setDrawMode(Graphics.MODE_ALPHA_BLEND);
+            //g.setDrawMode(Graphics.MODE_ALPHA_MAP);
             //we'll clip to the alpha rectangle, since anything outside of it will be transparent
             g.setClip(alphaX, alphaY, alphaW, alphaH);
+            
             
             //we'll use startUse/drawEmbedded/endUse for efficiency
 //            spriteSheet.startUse();
             //after startUse, we can apply a new tint like so..
             //since we're in MODE_ALPHA_BLEND, the alpha value will be ignored (hence applying it above)
-            light.tint.bind();
+            //light.tint.bind();
             
+            background.draw(0,0,Color.blue);
+            //gp.gunther.render(gp.screenX, gp.screenY, g);
+
+            //foregroundBlack.draw();
+            g.setColor(Color.white);
+            gp.gunther.render(gp.screenX, gp.screenY, g);
+            
+            spot.draw(0, 0, 1000f,1000f, Color.blue);
+            
+            g.setDrawMode(Graphics.MODE_ALPHA_MAP);
             background.draw();
-            //g.setDrawMode(Graphics.MODE_NORMAL);
-            gp.gunther.render(gp.screenX, gp.screenY);
             
-//            for (int x = 0; x < mapWidth; x++) {
-//                for (int y = 0; y < mapHeight; y++) {
-//                    tileMap[x][y].drawEmbedded(x * TILE_SIZE, y * TILE_SIZE, TILE_SIZE, TILE_SIZE);
-//                }
-//            }
-//            spriteSheet.endUse();
+//          spriteSheet.endUse();
             g.clearClip();
+            
         }
 
         //reset the mode to normal before continuing..

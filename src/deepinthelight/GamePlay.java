@@ -63,7 +63,7 @@ public class GamePlay extends BasicGameState {
 
 //        this.gunther.render(this.screenX, this.screenY);
 
-        renderBoxes(gc);
+        //renderBoxes(gc);
     }
 
     public void update(GameContainer gc, StateBasedGame sbg, int i) throws SlickException {

@@ -1,5 +1,6 @@
 package deepinthelight;
 
+import org.newdawn.slick.Graphics;
 import org.newdawn.slick.geom.Shape;
 
 public abstract class Element {
@@ -8,7 +9,7 @@ public abstract class Element {
 
     public abstract void update();
 
-    public abstract void render(float offsetX, float offsetY);
+    public abstract void render(float offsetX, float offsetY, Graphics g);
 
     public abstract void collide();
 
