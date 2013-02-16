@@ -64,6 +64,7 @@ public class LightBackground {
         //alpha map is located below the tiles, at (0, TILE_SIZE+TILE_SPACING)
         spriteSheet = new Image("images/light.png", false, Image.FILTER_NEAREST);
         background = new Image("images/white.png", false);
+        background = new Image("images/white.png", false);
 
         //grab the tiles
         tileSprites = new Image[TILE_COUNT];
@@ -102,6 +103,7 @@ public class LightBackground {
     public void render(GameContainer container, StateBasedGame sbg, Graphics g) throws SlickException {
         //each light requires a new pass to blend with the previous lights
         //FPS will be affected with too many lights at once
+        GamePlay gp = GamePlay.getGamePlay();
         for (int i = 0; i < lights.size(); i++) {
             Light light = lights.get(i);
 
@@ -123,20 +125,22 @@ public class LightBackground {
             alphaMap.draw(alphaX, alphaY, alphaW, alphaH, sharedColor);
 
             //start blending in our tiles
+           
             g.setDrawMode(Graphics.MODE_ALPHA_BLEND);
-
             //we'll clip to the alpha rectangle, since anything outside of it will be transparent
             g.setClip(alphaX, alphaY, alphaW, alphaH);
-
+            
             //we'll use startUse/drawEmbedded/endUse for efficiency
 //            spriteSheet.startUse();
             //after startUse, we can apply a new tint like so..
             //since we're in MODE_ALPHA_BLEND, the alpha value will be ignored (hence applying it above)
             light.tint.bind();
-            g.setColor(Color.white);
-
+            
             background.draw();
-            //            for (int x = 0; x < mapWidth; x++) {
+            //g.setDrawMode(Graphics.MODE_NORMAL);
+            gp.gunther.render(gp.screenX, gp.screenY);
+            
+//            for (int x = 0; x < mapWidth; x++) {
 //                for (int y = 0; y < mapHeight; y++) {
 //                    tileMap[x][y].drawEmbedded(x * TILE_SIZE, y * TILE_SIZE, TILE_SIZE, TILE_SIZE);
 //                }
@@ -152,7 +156,7 @@ public class LightBackground {
     }
 
     public void update(GameContainer container) {
-        elapsed += 5;
+        //elapsed += 5;
 
         //update all lights to have them smoothly scale
         for (int zi = 0; zi < lights.size(); zi++) {

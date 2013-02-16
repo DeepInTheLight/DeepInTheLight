@@ -21,7 +21,7 @@ public class Gunther extends Element {
     }
 
     private final int RADIUS = 5;
-    private final String IMAGE_PATH = "images/baleine.jpg";
+    private final String IMAGE_PATH = "images/gunther/Gunther-eyelight-color-24bit.png";
     private Image image;
 
     private final int BASE_ENERGY = 42;
@@ -73,7 +73,7 @@ public class Gunther extends Element {
 
     @Override
     public void render(float offsetX, float offsetY) {
-        image.draw( box.getX() - offsetX, box.getY() - offsetY );
+        image.draw( box.getX() - offsetX, box.getY() - offsetY, 0.3f);
     }
 
     @Override
