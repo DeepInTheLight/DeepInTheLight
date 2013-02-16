@@ -4,6 +4,7 @@
  */
 package deepinthelight;
 
+import java.util.Date;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.geom.Circle;
@@ -24,9 +25,15 @@ public class Gunther extends Element {
     private Image image;
 
     private final int BASE_ENERGY = 42;
-    private final int ENERGY_DEC = 5;
+    private final int MAX_ENERGY = 100;
+    private final int MAX_DECREASE = MAX_ENERGY / 20;
+    private final int DECREASE_THRESHOLD = MAX_ENERGY / 2;
     private int energyLeft = BASE_ENERGY;
-    
+    private long lastDecrease = new Date().getTime();
+
+    private final int MAX_HEALTH = 100;
+    private int health = MAX_HEALTH;
+
     private Direction currentDir = Direction.NONE;
     private final float SPEED = 5;
     private final float DIAG_SPEED = SPEED/(float)java.lang.Math.sqrt(2);
@@ -38,7 +45,32 @@ public class Gunther extends Element {
 
     @Override
     public void update() {
-        energyLeft-= ENERGY_DEC;
+
+        long now = new Date().getTime();
+        if ( now - lastDecrease >= 1000 ) {
+            energyLeft-= getEnergyDecrease();
+            lastDecrease = now;
+        }
+    }
+
+    private int getEnergyDecrease() {
+
+        if ( energyLeft > DECREASE_THRESHOLD ) {
+            return MAX_DECREASE;
+        }
+
+        int dec = ( energyLeft * MAX_DECREASE ) / DECREASE_THRESHOLD;
+        if ( dec < 1 && energyLeft > 0 ) {
+            return 1;
+        }
+        else {
+            return dec;
+        }
+    }
+
+    public void recharge(int amount) {
+        energyLeft+= ( energyLeft + amount > MAX_ENERGY ? MAX_ENERGY
+                       : energyLeft + amount );
     }
 
     @Override
@@ -88,6 +120,30 @@ public class Gunther extends Element {
             break;
         }
         
+    }
+
+    public void changeHealth(int amount) {
+        if ( amount < 0 ) {
+            if ( health - amount < 0 ) {
+                health = 0;
+                die();
+            }
+            else {
+                health-= amount;
+            }
+        }
+        if ( amount > 0 ) {
+            health = ( health + amount > MAX_HEALTH ? MAX_HEALTH
+                       : health + amount );
+        }
+    }
+    
+    public int getHealth() {
+        return health;
+    }
+    
+    public void die() {
+        // TODO : gameover ?
     }
 
     @Override
