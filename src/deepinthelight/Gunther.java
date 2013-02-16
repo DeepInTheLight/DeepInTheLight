@@ -10,17 +10,31 @@ package deepinthelight;
  */
 public class Gunther extends Element {
 
-    int energyLeft;
+    public enum Direction{
+        NONE, UP, DOWN, LEFT, RIGHT
+    }
 
+    private int energyLeft;
+    private Direction currentDirection;
+    
+    
+    @Override
     public void update() {
 
     }
 
+    @Override
     public void render() {
 
     }
 
+    @Override
     public void collide() {
 
+    }
+
+    public void move(Direction dir) {
+        currentDirection = dir;
+        
     }
 }
