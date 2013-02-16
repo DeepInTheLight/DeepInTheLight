@@ -82,7 +82,7 @@ public class GamePlay extends BasicGameState {
     }
 
     public void update(GameContainer gc, StateBasedGame sbg, int i) throws SlickException {
-        lbackground.update(gc);
+        
         manageInput(gc, sbg, i);
 
         this.gunther.update();
