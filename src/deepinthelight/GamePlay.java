@@ -72,14 +72,12 @@ public class GamePlay extends BasicGameState {
 //        }
 
 //        this.gunther.render(this.screenX, this.screenY);
-
-        
+ 
         lbackground.render(gc, sbg, grphcs);
-        
         renderBoxes(gc);
 
         renderLigths();
-
+        
         uiIndicators.render(grphcs);
     }
 
