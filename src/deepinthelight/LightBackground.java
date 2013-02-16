@@ -55,8 +55,6 @@ public class LightBackground {
     }
 
     public void init(GameContainer container) throws SlickException {
-//		container.setVSync(true);
-//		container.setTargetFrameRate(60);
 
         //To reduce texture binds, our alpha map and tilesheet will be in the same texture
         //Most games will implement their own SpriteSheet class, but for simplicity's sake:
@@ -136,6 +134,13 @@ public class LightBackground {
             g.setColor(Color.white);
 
             background.draw();
+            GamePlay gp = GamePlay.getGamePlay();
+            for (Element e : gp.world.getElements()) {
+                e.render(gp.screenX, gp.screenY);
+            }
+
+            gp.gunther.render(gp.screenX, gp.screenY);
+
             //            for (int x = 0; x < mapWidth; x++) {
 //                for (int y = 0; y < mapHeight; y++) {
 //                    tileMap[x][y].drawEmbedded(x * TILE_SIZE, y * TILE_SIZE, TILE_SIZE, TILE_SIZE);
@@ -166,7 +171,7 @@ public class LightBackground {
             l.y = container.getInput().getMouseY();
         }
     }
-    
+
     public Light addLight(float x, float y, float scale, Color color) {
         Light l = new Light(x, y, scale, color);
         lights.add(l);

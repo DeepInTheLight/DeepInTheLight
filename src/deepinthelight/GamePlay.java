@@ -56,13 +56,15 @@ public class GamePlay extends BasicGameState {
     }
 
     public void render(GameContainer gc, StateBasedGame sbg, Graphics grphcs) throws SlickException {
+        
+//        for (Element e : this.world.getElements()) {
+//            e.render(this.screenX, this.screenY);
+//        }
+
+//        this.gunther.render(this.screenX, this.screenY);
+
+        
         lbackground.render(gc, sbg, grphcs);
-        for (Element e : this.world.getElements()) {
-            e.render(this.screenX, this.screenY);
-        }
-
-        this.gunther.render(this.screenX, this.screenY);
-
         renderBoxes(gc);
     }
 
