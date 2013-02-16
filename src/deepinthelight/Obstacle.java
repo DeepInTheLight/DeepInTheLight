@@ -16,7 +16,7 @@ public class Obstacle extends Element {
     }
 
     public boolean collide() {
-        return false;
+        return true; // obstacles block Gunther
     }
     
     public void update() {

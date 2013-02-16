@@ -73,6 +73,7 @@ public class GamePlay extends BasicGameState {
 
         
         lbackground.render(gc, sbg, grphcs);
+        
         renderBoxes(gc);
 
         uiIndicators.render(grphcs);
