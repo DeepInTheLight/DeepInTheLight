@@ -4,17 +4,18 @@ package deepinthelight;
 import org.newdawn.slick.geom.Shape;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class World {
 
     private final String imageUrl = "images/baleine.jpg";
     private Screen currentScreen;
 
-    private ArrayList<Element> elements;
+    private List<Element> elements = new ArrayList<Element>();
+    private List<Element> toDelete = new ArrayList<Element>();
 
     public World() {
         GamePlay gc = GamePlay.getGamePlay();
-        elements = new ArrayList<Element>();
         currentScreen = Screen.init(gc.screenX, gc.screenY);
         currentScreen.populateNeighbors();
     }
@@ -29,5 +30,15 @@ public class World {
             currentScreen = currentScreen.getNextScreen(gunther);
             currentScreen.populateNeighbors();
         }
+    }
+
+    public void queueForDeletion(Element e) {
+        if ( elements.remove(e) ) {
+            toDelete.add(e);
+        }
+    }
+    
+    public void deletePending() {
+        toDelete.clear();
     }
 }
