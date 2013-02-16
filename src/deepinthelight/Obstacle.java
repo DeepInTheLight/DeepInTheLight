@@ -8,7 +8,7 @@ public class Obstacle extends Element {
     private Image img;
 
     public Obstacle(String source, float centerX,
-                    float centerY, float radius) throws SlickException {
+                    float centerY, int size) throws SlickException {
         img = new Image(source);
     }
 
