@@ -15,9 +15,12 @@ import org.newdawn.slick.geom.Circle;
  */
 public class Gunther extends Element {
 
-    private final int RADIUS = 5;
-    private final String IMAGE_PATH = "images/gunther/Gunther-bulblight-NB.png";
+    private final int RADIUS = 40;
+    private final String IMAGE_PATH = "images/gunther/Gunther-finalblue.png";
+    private final float IMAGE_SCALE = 0.09f;
+
     public Image image;
+
 
     private final int BASE_ENERGY = 42;
     private final int MAX_ENERGY = 100;
@@ -42,11 +45,13 @@ public class Gunther extends Element {
 
         oldX = Main.width / 2;
         oldY = Main.height / 2;
+
+        boxOffsetX = 20;
+        boxOffsetY = 20;
     }
 
     @Override
     public void update() {
-
         long now = new Date().getTime();
         if ( now - lastDecrease >= 1000 ) {
             energyLeft-= getEnergyDecrease();
@@ -55,7 +60,6 @@ public class Gunther extends Element {
     }
 
     private int getEnergyDecrease() {
-
         if ( energyLeft > DECREASE_THRESHOLD ) {
             return MAX_DECREASE;
         }
@@ -80,7 +84,7 @@ public class Gunther extends Element {
 
     @Override
     public void render(float offsetX, float offsetY) {
-        image.draw( box.getX() - offsetX, box.getY() - offsetY );
+        image.draw(box.getX() - offsetX - boxOffsetX, box.getY() - offsetY - boxOffsetY, IMAGE_SCALE);
     }
 
     @Override
