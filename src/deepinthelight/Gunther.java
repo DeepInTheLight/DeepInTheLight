@@ -23,7 +23,7 @@ public class Gunther extends Element {
     public Image image;
 
     private final int BASE_ENERGY = 42;
-    private final int MAX_ENERGY = 100;
+    public final int MAX_ENERGY = 100;
     private final int MAX_DECREASE = MAX_ENERGY / 20;
     private final int DECREASE_THRESHOLD = MAX_ENERGY / 2;
     private int energyLeft = BASE_ENERGY;

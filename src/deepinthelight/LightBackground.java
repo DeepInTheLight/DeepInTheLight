@@ -11,7 +11,8 @@ import org.newdawn.slick.state.StateBasedGame;
 
 public class LightBackground {
 
-    public static final int MIN_RADIUS = 150;
+    public static final int MIN_RADIUS =  200;
+    public static final int MAX_RADIUS = 901;
     
     //number of tiles in our simple horizontal sprite sheet
     public static final int TILE_COUNT = 5;
@@ -28,11 +29,6 @@ public class LightBackground {
     //our lights
     private List<Light> lights = new ArrayList<Light>();
 
-
-    public int getID() {
-        return 0;
-    }
-
     public LightBackground() {
     }
 
@@ -45,7 +41,6 @@ public class LightBackground {
         //spriteSheet = new Image("images/light.png", false, Image.FILTER_NEAREST);
         background = new Image("images/white.png", false);
         spot = new Image("images/spot.png", true);
-
         lights.add(new Light(0, 0, 1f, new Color(0, 0, 1)));
     }
 
@@ -54,12 +49,13 @@ public class LightBackground {
 
         float enregy = gp.gunther.getEnergyLeft();
         float radius = gp.gunther.RADIUS;
-        float lightRadius = radius + enregy;
+        float maxEnergy = gp.gunther.MAX_ENERGY;
+        float lightRadius = MIN_RADIUS/2 + (enregy/maxEnergy)*(MAX_RADIUS-MIN_RADIUS/2);
         float x = gp.gunther.getBox().getCenterX();
         float y = gp.gunther.getBox().getCenterY();
 
         //Draw the clip
-        g.setClip((int) Math.ceil( (double)(x - lightRadius - MIN_RADIUS/2 - gp.screenX)+10),(int) Math.ceil( (double)(y - lightRadius -MIN_RADIUS/2 - gp.screenY)+10),(int)Math.floor((double)(lightRadius*2f + MIN_RADIUS))-25,(int) Math.floor((double)(lightRadius*2f + MIN_RADIUS))-25);
+        g.setClip((int) Math.ceil( (double)(x - lightRadius - gp.screenX)+10),(int) Math.ceil( (double)(y - lightRadius - gp.screenY)+10),(int)Math.floor((double)(lightRadius*2f))-25,(int) Math.floor((double)(lightRadius*2f))-25);
 
         //Draw the background
         background.draw(0,0,Color.blue);
@@ -73,7 +69,7 @@ public class LightBackground {
         gp.gunther.render(gp.screenX, gp.screenY);
 
         //draw the spot
-        spot.draw(x - lightRadius - gp.screenX - MIN_RADIUS/2, y - lightRadius - gp.screenY - MIN_RADIUS/2, lightRadius*2f + MIN_RADIUS, lightRadius*2f + MIN_RADIUS, Color.blue);
+        spot.draw(x - lightRadius - gp.screenX , y - lightRadius - gp.screenY , lightRadius*2f, lightRadius*2f, Color.blue);
 
         g.setDrawMode(Graphics.MODE_ALPHA_BLEND);
         
