@@ -28,7 +28,7 @@ public class BonusFish extends Element {
 
     long lastDirChange = new Date().getTime();
     float oldX, oldY;
-    
+
     public BonusFish() throws SlickException {
         box = new Circle(0, 0, RADIUS);
         image = new Image(IMAGE_PATH);
@@ -49,7 +49,7 @@ public class BonusFish extends Element {
 
             move();
             moved = true;
-            
+
             for (Element e : GamePlay.getGamePlay().world.getElements()) {
                 if (e.getBox().intersects(this.getBox()) && e.collide()) {
                     box.setCenterX(oldX);

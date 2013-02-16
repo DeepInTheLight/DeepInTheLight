@@ -41,7 +41,7 @@ public class World {
     }
 
     public void queueForDeletion(Element e) {
-        if ( elements.remove(e) ) {
+        if (elements.remove(e) ) {
             toDelete.add(e);
         }
     }
