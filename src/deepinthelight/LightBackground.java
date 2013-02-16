@@ -63,44 +63,23 @@ public class LightBackground {
         //Most games will implement their own SpriteSheet class, but for simplicity's sake:
         //map tiles are in a horizontal row starting at (0, 0)
         //alpha map is located below the tiles, at (0, TILE_SIZE+TILE_SPACING)
-        spriteSheet = new Image("images/light.png", false, Image.FILTER_NEAREST);
+        //spriteSheet = new Image("images/light.png", false, Image.FILTER_NEAREST);
         background = new Image("images/white.png", false);
         foregroundBlack = new Image("images/Black.png", false);
         spot = new Image("images/spot.png", true);
 
         //grab the tiles
-        tileSprites = new Image[TILE_COUNT];
-        for (int i = 0; i < tileSprites.length; i++) {
-            tileSprites[i] = spriteSheet.getSubImage(i * (TILE_SIZE + TILE_SPACING), 0, TILE_SIZE, TILE_SIZE);
-        }
+//        tileSprites = new Image[TILE_COUNT];
+//        for (int i = 0; i < tileSprites.length; i++) {
+//            tileSprites[i] = spriteSheet.getSubImage(i * (TILE_SIZE + TILE_SPACING), 0, TILE_SIZE, TILE_SIZE);
+//        }
 
         //grab the alpha map
-        alphaMap= spriteSheet.getSubImage(0, TILE_SIZE + TILE_SPACING, ALPHA_MAP_SIZE, ALPHA_MAP_SIZE);
+        //alphaMap= spriteSheet.getSubImage(0, TILE_SIZE + TILE_SPACING, ALPHA_MAP_SIZE, ALPHA_MAP_SIZE);
         //spot = spriteSheet.getSubImage(0, TILE_SIZE + TILE_SPACING, ALPHA_MAP_SIZE, ALPHA_MAP_SIZE);
 
         //reset the lighting
         lights.add(new Light(0, 0, 0.3f, new Color(0, 0, 1)));
-    }
-
-    Image randomTile() {
-        int r = random.nextInt(100);
-        if (r < 5) {
-            return tileSprites[1 + random.nextInt(4)];
-        } else {
-            return tileSprites[0];
-        }
-    }
-
-    void randomizeMap(GameContainer container) {
-        // create the map
-        mapWidth = container.getWidth() / TILE_SIZE + 1;
-        mapHeight = container.getHeight() / TILE_SIZE + 1;
-        tileMap = new Image[mapWidth][mapHeight];
-        for (int x = 0; x < mapWidth; x++) {
-            for (int y = 0; y < mapHeight; y++) {
-                tileMap[x][y] = randomTile();
-            }
-        }
     }
 
     public void render(GameContainer container, StateBasedGame sbg, Graphics g) throws SlickException {
@@ -116,13 +95,14 @@ public class LightBackground {
             //g.clearAlphaMap();
 
             //centre the light
-            int alphaW = (int) (alphaMap.getWidth() * light.getScale());
-            int alphaH = (int) (alphaMap.getHeight() * light.getScale());
+            
+            int alphaW = (int) (200);
+            int alphaH = (int) (200);
             int alphaX = (int) (light.x - alphaW / 2f);
             int alphaY = (int) (light.y - alphaH / 2f);
 
             //we apply the light alpha here; RGB will be ignored
-            sharedColor.a = light.alpha;
+            //sharedColor.a = light.alpha;
 
             //draw the alpha map
             //alphaMap.draw(alphaX, alphaY, alphaW, alphaH, sharedColor);
@@ -133,24 +113,14 @@ public class LightBackground {
             //we'll clip to the alpha rectangle, since anything outside of it will be transparent
             g.setClip(alphaX, alphaY, alphaW, alphaH);
             
-            
-            //we'll use startUse/drawEmbedded/endUse for efficiency
-//            spriteSheet.startUse();
-            //after startUse, we can apply a new tint like so..
-            //since we're in MODE_ALPHA_BLEND, the alpha value will be ignored (hence applying it above)
-            //light.tint.bind();
-            
             background.draw(0,0,Color.blue);
-            //gp.gunther.render(gp.screenX, gp.screenY, g);
-
-            //foregroundBlack.draw();
-            g.setColor(Color.white);
             gp.gunther.render(gp.screenX, gp.screenY);
             
+            //TODO dessiner elements
+           
             spot.draw(0, 0, 1000f,1000f, Color.blue);
             
             g.setDrawMode(Graphics.MODE_ALPHA_MAP);
-            background.draw();
 
             g.clearClip();
             
