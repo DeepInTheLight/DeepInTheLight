@@ -17,10 +17,11 @@ public class World {
     public World() {
         GamePlay gc = GamePlay.getGamePlay();
         currentScreen = Screen.init(gc.screenX, gc.screenY);
-        currentScreen.populateNeighbors();
+        currentScreen.populateNeighbors(2); // Populating 25 square might be a little slow, and we
+                                            // don't really need it there IMO
         allElements.clear();
         allElements.addAll(elements);
-        allElements.addAll(currentScreen.getAllElements());
+        allElements.addAll(currentScreen.getAllElements(2));
     }
 
     public ArrayList<Element> getElements() {
@@ -32,14 +33,14 @@ public class World {
         //System.out.println("gunther pos : " + gunther.getBox().getCenterX() + ", " + gunther.getBox().getCenterY());
         if (!currentScreen.isInScreen(gunther)) {
             currentScreen = currentScreen.getNextScreen(gunther);
-            currentScreen.populateNeighbors();
+            currentScreen.populateNeighbors(2);
             allElements.clear();
             allElements.addAll(elements);
-            allElements.addAll(currentScreen.getAllElements());
+            allElements.addAll(currentScreen.getAllElements(2));
         } else if (currentScreen.elementChanged()) {
             allElements.clear();
             allElements.addAll(elements);
-            allElements.addAll(currentScreen.getAllElements());
+            allElements.addAll(currentScreen.getAllElements(2));
         }
     }
 }

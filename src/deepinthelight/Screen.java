@@ -33,18 +33,53 @@ public class Screen {
         this.y = y;
         populated = false;
         elementChanged = false;
-        elements = new ArrayList<Element>();
+        elements = new ArrayList<Element>(100);
         ScreenMap.put(this.serialize(), this);
     }
 
-    public ArrayList<Element> getAllElements() {
+    public ArrayList<Element> getAllElements(int neighborhood, Zone propagationDirection) {
         ArrayList<Element> allElements = new ArrayList<Element>();
-        int i = 0;
-        for (Zone where : Zone.values()) {
-            allElements.addAll(getNextScreen(where).getElements());
+        allElements.addAll(elements);
+        if (neighborhood > 0) {
+            switch (propagationDirection) {
+            case UP :
+                allElements.addAll(getNextScreen(Zone.UP).getAllElements(neighborhood-1));
+                allElements.addAll(getNextScreen(Zone.UPLEFT).getAllElements(neighborhood-1));
+                allElements.addAll(getNextScreen(Zone.UPRIGHT).getAllElements(neighborhood-1));
+                break;
+            case DOWN:
+                allElements.addAll(getNextScreen(Zone.DOWN).getAllElements(neighborhood-1));
+                allElements.addAll(getNextScreen(Zone.DOWNLEFT).getAllElements(neighborhood-1));
+                allElements.addAll(getNextScreen(Zone.DOWNRIGHT).getAllElements(neighborhood-1));
+                break;
+            case LEFT:
+                allElements.addAll(getNextScreen(Zone.LEFT).getAllElements(neighborhood-1));
+                allElements.addAll(getNextScreen(Zone.DOWNLEFT).getAllElements(neighborhood-1));
+                allElements.addAll(getNextScreen(Zone.UPLEFT).getAllElements(neighborhood-1));
+                break;
+            case RIGHT:
+                allElements.addAll(getNextScreen(Zone.RIGHT).getAllElements(neighborhood-1));
+                allElements.addAll(getNextScreen(Zone.UPRIGHT).getAllElements(neighborhood-1));
+                allElements.addAll(getNextScreen(Zone.DOWNRIGHT).getAllElements(neighborhood-1));
+                break;
+            default :
+                allElements.addAll(getNextScreen(propagationDirection).getAllElements(neighborhood-1));
+            }
         }
 
+        return allElements;
+    }
+
+    public ArrayList<Element> getAllElements(int neighborhood) {
+        ArrayList<Element> allElements = new ArrayList<Element>();
         allElements.addAll(elements);
+
+        if (neighborhood > 0) {
+            for (Zone where : Zone.values()) {
+                allElements.addAll(getNextScreen(where).getAllElements(neighborhood-1, where));
+            }
+        }
+
         return allElements;
     }
 
@@ -151,10 +186,17 @@ public class Screen {
         return false;
     }
 
-    public void populateNeighbors() {
+    public void populateNeighbors(int level) {
         System.out.println("Populating neighbors");
         for (Zone where : Zone.values()) {
-            this.getNextScreen(where).populate();
+            this.getNextScreen(where).populate(level);
+        }
+    }
+
+    private void populate(int neighborhood) {
+        this.populate();
+        if (neighborhood != 0) {
+            populateNeighbors(neighborhood -1);
         }
     }
 
@@ -200,7 +242,7 @@ public class Screen {
             return null;
         }
 
-        for (Element element : getAllElements()) {
+        for (Element element : getAllElements(2)) {
             if (obs.getBox().intersects(element.getBox()) || obs.getBox().contains(element.getBox())) {
                 return null;
             }
@@ -225,7 +267,7 @@ public class Screen {
             return null;
         }
 
-        for (Element element : getAllElements()) {
+        for (Element element : getAllElements(2)) {
             if (malus.getBox().intersects(element.getBox()) || malus.getBox().contains(element.getBox())) {
                 return null;
             }
@@ -246,7 +288,7 @@ public class Screen {
             return null;
         }
 
-        for (Element element : getAllElements()) {
+        for (Element element : getAllElements(2)) {
             if (bf.getBox().intersects(element.getBox()) || bf.getBox().contains(element.getBox())) {
                 return null;
             }
