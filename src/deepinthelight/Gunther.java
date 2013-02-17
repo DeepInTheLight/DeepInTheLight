@@ -16,8 +16,8 @@ import org.newdawn.slick.geom.Circle;
 public class Gunther extends Element {
 
     public final int RADIUS = 40;
-    private final String IMAGE_PATH = "images/gunther/Gunther-finalblue.png";
-    private final float IMAGE_SCALE = 0.09f;
+    private final String IMAGE_PATH = "images/gunther/Gunther-finalblue_SMALL.png";
+    private final float IMAGE_SCALE = 0.18f;
 
     public Image imageRight;
     public Image imageLeft;

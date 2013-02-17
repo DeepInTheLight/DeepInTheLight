@@ -10,15 +10,15 @@ public class Obstacle extends Element {
     private int size;
     private float scale = 1;
 
-    private static final String[] obstacleImgRes = { "images/obstacles/bigstone1.png", "images/obstacles/bigstone2.png",
-                                                     "images/obstacles/bigstone3.png", "images/obstacles/bigstone4.png",
-                                                     "images/obstacles/smallstone1.png", "images/obstacles/smallstone2.png",
-                                                     "images/obstacles/smallstone3.png", "images/obstacles/smallstone4.png" };
+    private static final String[] obstacleImgRes = { "images/obstacles/bigstone1_SMALL.png", "images/obstacles/bigstone2_SMALL.png",
+                                                     "images/obstacles/bigstone3_SMALL.png", "images/obstacles/bigstone4_SMALL.png",
+                                                     "images/obstacles/smallstone1_SMALL.png", "images/obstacles/smallstone2_SMALL.png",
+                                                     "images/obstacles/smallstone3_SMALL.png", "images/obstacles/smallstone4_SMALL.png" };
     public Obstacle(int type, float posX, float posY)
                     throws SlickException {
 //        switch (type) {
 //            case 0:
-                this.img = new Image("images/obstacles/bigstone1.png");
+                this.img = new Image("images/obstacles/bigstone1_SMALL.png");
                 float[] b = {129,31, 204,30, 241,121, 304,79, 315,180, 394,239, 579,180, 650,593, 467,729, 306,725, 280,764, 160,766, 133,687, 23,628, 22,541, 84,489, 99,401, 27,306, 80,197, 89,78};
                 this.box = new Polygon(addOffset(b, posX, posY));
                 this.boxOffsetX = 2;
@@ -26,7 +26,7 @@ public class Obstacle extends Element {
                 this.box.setX(posX);
                 this.box.setY(posY);
                 size = 20;
-                scale = 0.307f;
+                scale = 0.614f;
 //                break;
 //            case 1:
 //                this.img = new Image("images/malus/danger2.png");
