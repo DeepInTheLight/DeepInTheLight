@@ -129,12 +129,11 @@ public class BonusFish extends Element {
         // If we are too close to gunther, we should check if we're not running into him
         Gunther gunther = GamePlay.getGamePlay().gunther;
         float norm = gunther.getDistance(this);
-        System.out.println("norm : " + norm);
+        // System.out.println("norm : " + norm);
         if (norm < Main.height) {
             float calpha = getCosAlpha(gunther, currentDir);
-            System.out.println("cos alpha : " + calpha);
+            // System.out.println("cos alpha : " + calpha);
             if (calpha > 0.707) { // alpha < Pi/4
-                System.out.println("ERMARGHERD! GUNTHER! ");
                 switch(currentDir) {
                 case UP :
                     currentDir = Direction.DOWN;
