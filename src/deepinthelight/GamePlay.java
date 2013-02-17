@@ -24,7 +24,7 @@ public class GamePlay extends BasicGameState {
     public static GamePlay getGamePlay() {
         return GamePlay.gp;
     }
-    private final boolean BOX_VISIBLE = false;
+    private final boolean BOX_VISIBLE = true;
     
     int stateID = -1;
 
