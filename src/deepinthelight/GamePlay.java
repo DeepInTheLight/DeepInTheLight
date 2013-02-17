@@ -207,11 +207,21 @@ public class GamePlay extends BasicGameState {
             gunther.move(Direction.LEFT);
         } else if (isRIGHT(input)) {
             gunther.move(Direction.RIGHT);
+        } else if (isSUICIDE(input)) {
+            gunther.die();
         } else {
             //gunther.move(Direction.NONE);
         }
     }
 
+    private boolean isSUICIDE(Input input) {
+        if (input.isKeyDown(Input.KEY_K)) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+    
     private boolean isUP(Input input){
         if(input.isKeyDown(Input.KEY_UP) || input.isKeyDown(Input.KEY_Z) || input.isKeyDown(Input.KEY_W)) {
             return true;
