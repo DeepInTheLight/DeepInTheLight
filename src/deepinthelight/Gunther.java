@@ -96,32 +96,71 @@ public class Gunther extends Element {
                 || currentDir == Direction.LEFTDOWN );
     }
 
+    private float getAngle() {
+        switch ( currentDir ) {
+        case LEFT:
+        case RIGHT:
+            return 0;
+        case LEFTUP:
+        case RIGHTDOWN:
+            return 45;
+        case RIGHTUP:
+        case LEFTDOWN:
+            return 315;
+        case UP:
+            return 270;
+        case DOWN:
+            return 90;
+        default: return 0;
+        }
+    }
+
+    private void setBoxOffset() {
+        switch ( currentDir ) {
+        case LEFT:
+            boxOffsetX = 10;
+            boxOffsetY = 20;
+            break;
+        case RIGHT:
+            boxOffsetX = 20;
+            boxOffsetY = 20;
+            break;
+        case UP:
+            boxOffsetX = 22;
+            boxOffsetY = 5;
+            break;
+        case DOWN:
+            boxOffsetX = 5;
+            boxOffsetY = 18;
+            break;
+        case LEFTUP:
+            boxOffsetX = 5;
+            boxOffsetY = 12;
+            break;
+        case LEFTDOWN:
+            boxOffsetX = 17;
+            boxOffsetY = 22;
+            break;
+        case RIGHTUP:
+            boxOffsetX = 25;
+            boxOffsetY = 14;
+            break;
+        case RIGHTDOWN:
+            boxOffsetX = 13;
+            boxOffsetY = 24;
+            break;
+        }
+    }
+    
     @Override
     public void render(float offsetX, float offsetY) {
 
         boolean left = isFacingLeft();
         Image image = ( left ? imageLeft : imageRight );
-        float rotation = 0;
+
+        setBoxOffset();
+        image.setRotation( getAngle() );
         
-        switch ( currentDir ) {
-
-        case LEFTUP:
-        case RIGHTDOWN:
-            rotation = 45;
-            break;
-        case RIGHTUP:
-        case LEFTDOWN:
-            rotation = 315;
-            break;
-
-        case UP:
-            rotation = 270 ;
-            break;
-        case DOWN:
-            rotation = 90;
-            break;            
-        }
-        image.setRotation(rotation);
         image.draw(box.getX() - offsetX - boxOffsetX, box.getY() - offsetY - boxOffsetY, IMAGE_SCALE);
     }
 
