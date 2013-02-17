@@ -172,8 +172,14 @@ public class BonusFish extends Element {
 
     @Override
     public boolean collide() {
-        GamePlay.getGamePlay().gunther.recharge(ENERGY_BONUS);
+        Gunther gunther = GamePlay.getGamePlay().gunther;
+        gunther.recharge(ENERGY_BONUS);
+        gunther.eat();
+        
         screen.deleteElement(this);
+
+        GamePlay.getGamePlay().score += 10;
+
         return false; // Gunther isn't blocked by bonus fish
     }
 

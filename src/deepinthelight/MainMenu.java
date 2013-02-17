@@ -109,27 +109,8 @@ public class MainMenu extends BasicGameState implements ComponentListener {
         }
     }
     
-//    class CustomMouseOverArea extends MouseOverArea {
-//
-//        private String perso;
-//        private boolean selected = false;
-//
-//        public CustomMouseOverArea(GUIContext container, Image image, int x, int y, ComponentListener listener) {
-//            super(container, image, x, y, listener);
-//
-//            perso = image.getResourceReference();
-//        }
-//
-//        public String getRessource() {
-//            return perso;
-//        }
-//
-//        public boolean isSelected() {
-//            return selected;
-//        }
-//
-//        public void setSelected(boolean selected) {
-//            this.selected = selected;
-//        }
-//    }
+    @Override
+    public void mouseMoved(int oldx, int oldy, int newx, int newy) {
+      super.mouseMoved(oldx, oldy, newx, newy);
+      GamePlay.getGamePlay().gunther.eat();  } 
 }
