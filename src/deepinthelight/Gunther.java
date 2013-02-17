@@ -92,7 +92,7 @@ public class Gunther extends Element {
     }
 
     public void eat() {
-        eatingSound.play();
+        eatingSound.play(1, 0.25f);
         eatingAnim.restart();
         currentAnim = Anim.EATING;
         lastFrameUpdate = new Date().getTime();
@@ -298,8 +298,8 @@ public class Gunther extends Element {
             }
 
             Main.music.setPosition(pos);
-            Main.music.setVolume(0);
-            Main.music.fade(250, 1, false);
+            Main.music.setVolume(0.2f);
+            Main.music.fade(700, 1, false);
             Main.music.loop();
 
             oldEnergyLevel = getLevel(energyLeft);
