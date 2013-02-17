@@ -19,7 +19,7 @@ public class BonusFish extends Element {
     private final int RADIUS = 2;
 
     private Image image;
-    private final float IMAGE_SCALE = 0.09f;
+    private final float IMAGE_SCALE = 0.18f;
 
     private Image ligth;
 
@@ -38,15 +38,15 @@ public class BonusFish extends Element {
 
         switch (res) {
             case 0:
-                this.image = new Image("images/bonus/foodfish1.png", flip);
+                this.image = new Image("images/bonus/foodfish1_SMALL.png", flip);
                 this.box = new Rectangle(posX, posY, 40, 40);
                 break;
             case 1:
-                this.image = new Image("images/bonus/foodfish2.png", flip);
+                this.image = new Image("images/bonus/foodfish2_SMALL.png", flip);
                 this.box = new Rectangle(posX, posY, 40, 40);
                 break;
             case 2:
-                this.image = new Image("images/bonus/foodfish3.png", flip);
+                this.image = new Image("images/bonus/foodfish3_SMALL.png", flip);
                 this.box = new Rectangle(posX, posY, 40, 40);
                 break;
         }
