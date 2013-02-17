@@ -33,7 +33,7 @@ public class Gunther extends Element {
     Sound eatingSound;
     long lastFrameUpdate = new Date().getTime();
 
-    private final int BASE_ENERGY = 42;
+    private final int BASE_ENERGY = 80;
     public final int MAX_ENERGY = 100;
     private final int MAX_DECREASE = MAX_ENERGY / 20;
     private final int DECREASE_THRESHOLD = MAX_ENERGY / 2;

@@ -114,10 +114,8 @@ public class GamePlay extends BasicGameState {
     @Override
     public void update(GameContainer gc, StateBasedGame sbg, int i) throws SlickException {
         this.sbg = sbg;
-        if(activated){
-            manageInput(gc, sbg, i);
-            this.gunther.update();
-        }
+        manageInput(gc, sbg, i);
+        this.gunther.update();
         world.update();
 
         for (Element e : this.world.getElements()) {

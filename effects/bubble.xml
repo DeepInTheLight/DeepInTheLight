@@ -1,0 +1,21 @@
+<!--?xml version="1.0" encoding="UTF-8"?-->
+<emitter imageName="" name="Flame">
+  <spawnInterval enabled="false" max="3000.0" min="1000.0"/>
+  <spawnCount enabled="true" max="90.0" min="45.0"/>
+  <initialLife enabled="true" max="150000.0" min="1000.0"/>
+  <initialSize enabled="true" max="6.0" min="2.0"/>
+  <xOffset enabled="false" max="8.0" min="-8.0"/>
+  <yOffset enabled="true" max="720.0" min="-720.0"/>
+  <initialDistance enabled="false" max="0.0" min="0.0"/>
+  <speed enabled="true" max="75.0" min="50.0"/>
+  <length enabled="false" max="100000.0" min="100000.0"/>
+  <spread value="100.0"/>
+  <angularOffset value="0.0"/>
+  <growthFactor value="0.0"/>
+  <gravityFactor value="0.0"/>
+  <startAlpha value="60.0"/>
+  <endAlpha value="50.0"/>
+  <color>
+    <step b="1.0" g="1.0" offset="0.0" r="1.0"/>
+  </color>
+</emitter>
