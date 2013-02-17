@@ -40,6 +40,7 @@ public class MainMenu extends BasicGameState implements ComponentListener {
     private UnicodeFont unicodeFont;
     int startX = Main.width/2 - 60;
     int startY = Main.height/2 + 70;
+    private Boolean animated = false; 
 
     @Override
     public int getID() {
@@ -112,7 +113,13 @@ public class MainMenu extends BasicGameState implements ComponentListener {
     @Override
     public void mouseMoved(int oldx, int oldy, int newx, int newy) {
       super.mouseMoved(oldx, oldy, newx, newy);
-      if(startButton.isMouseOver())
+      if(startButton.isMouseOver() && !animated){
         GamePlay.getGamePlay().gunther.eat();
+        animated = true;
+      }
+      
+       if(!startButton.isMouseOver()){
+          animated = false;
+      }
     } 
 }
