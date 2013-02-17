@@ -59,7 +59,7 @@ public class Screen {
             return null;
         }
 
-        generator = new Random(System.currentTimeMillis());
+        generator = new Random();
         ScreenMap = new HashMap<String, Screen>(100);
         return new Screen(screenY, screenX);
     }
@@ -201,9 +201,13 @@ public class Screen {
         }
 
         for (Element element : getAllElements()) {
-            if (obs.getBox().intersects(element.getBox())) {
+            if (obs.getBox().intersects(element.getBox()) || obs.getBox().contains(element.getBox())) {
                 return null;
             }
+        }
+
+        if(obs.getBox().intersects(GamePlay.getGamePlay().gunther.getBox()) || obs.getBox().contains(GamePlay.getGamePlay().gunther.getBox())) {
+            return null;
         }
 
         obstacleSize += obs.getSize();
@@ -222,7 +226,7 @@ public class Screen {
         }
 
         for (Element element : getAllElements()) {
-            if (malus.getBox().intersects(element.getBox())) {
+            if (malus.getBox().intersects(element.getBox()) || malus.getBox().contains(element.getBox())) {
                 return null;
             }
         }
@@ -243,7 +247,7 @@ public class Screen {
         }
 
         for (Element element : getAllElements()) {
-            if (bf.getBox().intersects(element.getBox())) {
+            if (bf.getBox().intersects(element.getBox()) || bf.getBox().contains(element.getBox())) {
                 return null;
             }
         }
