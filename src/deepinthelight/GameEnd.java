@@ -73,7 +73,7 @@ public class GameEnd extends BasicGameState implements ComponentListener {
         unicodeFont = new UnicodeFont(javaFont, 30, false, false);
         unicodeFont.getEffects().add(new ColorEffect(java.awt.Color.white));
         unicodeFont.getEffects().add(new OutlineEffect(2, new java.awt.Color(0, 255, 100, 64)));
-        unicodeFont.addGlyphs("0123456789 RESTARScore:");
+        unicodeFont.addGlyphs("0123456789 abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZàéë@,!\t");
         unicodeFont.loadGlyphs();
     }
 
@@ -81,14 +81,24 @@ public class GameEnd extends BasicGameState implements ComponentListener {
         restartButton.render(gc, gr);
         img.draw(0,0);
         String restartStr = "RESTART";
+        String creditsTeam0 = "DEEP IN THE NIGHT";
+        String creditsTeam1 = "By Stanislas Bernatt, Jonàs Bru, Raphaël Catolino";
+        String creditsTeam2 = "Anthony Clerc, Michaël Fagno et Kévin Le Gouguec ";
+        String creditsThx0 = "Merci à JV@INSA";
+        String creditsThx1 = "pour le café et les croissants !";
+        
         int textWidth = unicodeFont.getWidth(restartStr);
 
         gr.setColor(currentColor);
         gr.setFont(unicodeFont);
-
-        gr.drawString(restartStr,restartX, restartY);
         
+        gr.drawString(restartStr,restartX, restartY);
         gr.setColor(Color.white);
+        gr.drawString(creditsTeam0, Main.width/2-(unicodeFont.getWidth(creditsTeam0)/2), 2*Main.height/3);
+        gr.drawString(creditsTeam1, Main.width/2-(unicodeFont.getWidth(creditsTeam1)/2), 2*Main.height/3+unicodeFont.getHeight(creditsTeam0)+2);
+        gr.drawString(creditsTeam2, Main.width/2-(unicodeFont.getWidth(creditsTeam2)/2), 2*Main.height/3+2*unicodeFont.getHeight(creditsTeam0)+4);
+        gr.drawString(creditsThx0, Main.width/2-(unicodeFont.getWidth(creditsThx0)/2), 7*Main.height/8);
+        gr.drawString(creditsThx1, Main.width/2-(unicodeFont.getWidth(creditsThx1)/2), 7*Main.height/8+unicodeFont.getHeight(creditsThx0)+2);
         showInformation(gr);
        
     }
