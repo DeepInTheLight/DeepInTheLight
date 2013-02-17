@@ -33,7 +33,7 @@ public class BonusFish extends Element {
     float oldX, oldY;
     
     public BonusFish(float posX, float posY, Screen screen) throws SlickException {
-        int res = (int) Math.random() * 3;
+        int res = (int) (Math.random() * 3);
         boolean flip = ((int) Math.random()) == 0 ? true : false;
 
         switch (res) {
