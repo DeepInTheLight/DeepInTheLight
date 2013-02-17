@@ -28,4 +28,30 @@ public abstract class Element {
     public Shape getBox() {
         return this.box;
     }
+
+    public float getDistance(Element a) {
+        if (box == null) {
+            return 0;
+        }
+
+        float xa = a.getBox().getCenterX();
+        float xb = this.getBox().getCenterX();
+        float ya = a.getBox().getCenterY();
+        float yb = this.getBox().getCenterY();
+
+        return (float)Math.sqrt(Math.pow(xb-xa, 2) + Math.pow(yb-ya, 2));
+    }
+
+    public float dotProduct(Element a) {
+        if (box == null) {
+            return 0;
+        }
+
+        float xa = a.getBox().getCenterX();
+        float xb = this.getBox().getCenterX();
+        float ya = a.getBox().getCenterY();
+        float yb = this.getBox().getCenterY();
+
+        return xb*xa + ya*yb;
+    }
 }
