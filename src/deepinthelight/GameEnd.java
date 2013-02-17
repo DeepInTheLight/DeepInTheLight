@@ -101,7 +101,7 @@ public class GameEnd extends BasicGameState implements ComponentListener {
     private void showInformation(Graphics gr) {
         int p = GamePlay.getGamePlay().score;
         gr.setColor(Color.white);
-        gr.drawString("Score " + p, restartX +10, restartY - 100);
+        gr.drawString("Score " + p, restartX + 5, restartY - 100);
     }
 
     public void componentActivated(AbstractComponent ac) {
