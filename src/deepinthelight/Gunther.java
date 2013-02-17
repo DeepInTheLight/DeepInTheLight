@@ -16,7 +16,7 @@ import org.newdawn.slick.geom.Circle;
 public class Gunther extends Element {
 
     public final int RADIUS = 40;
-    private final String IMAGE_PATH = "images/gunther/Gunther-finalblue_SMALL.png";
+    public static final String IMAGE_PATH = "images/gunther/Gunther-finalblue_SMALL.png";
     private final float IMAGE_SCALE = 0.18f;
 
     public Image imageRight;
@@ -212,10 +212,17 @@ public class Gunther extends Element {
             break;
         }
     }
+    
+    public void setRelativePos(float x, float y) {
+        oldX = box.getCenterX();
+        oldY = box.getCenterY();
+        box.setCenterX( oldX + x );
+        box.setCenterX( oldY + y );
+    }
 
     public void changeHealth(int amount) {
         if ( amount < 0 ) {
-            if ( health + amount < 0 ) {
+            if ( health + amount <= 0 ) {
                 health = 0;
                 die();
             }
@@ -235,6 +242,10 @@ public class Gunther extends Element {
     
     public int getEnergyLeft() {
         return energyLeft;
+    }
+    
+    public void setEnergyLeft(int en) {
+        energyLeft = en;
     }
     
 

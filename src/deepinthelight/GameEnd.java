@@ -48,6 +48,7 @@ public class GameEnd extends BasicGameState implements ComponentListener {
 
     public void render(GameContainer gc, StateBasedGame sbg, Graphics gr) throws SlickException {
         img.draw(0,0);
+        GamePlay.getGamePlay().init(gc, sbg);
         showInformation(gr);
         restartButton.render(gc, gr);
        

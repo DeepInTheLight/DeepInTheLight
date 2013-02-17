@@ -37,7 +37,7 @@ public class GamePlay extends BasicGameState {
     public float screenY;
     public final float MIN_X_FROM_BORDER = Main.width/4;
     public final float MIN_Y_FROM_BORDER = Main.height/4;
-
+    public boolean activated = true;
     public int score;
 
     GamePlay(int stateID) {
@@ -86,10 +86,10 @@ public class GamePlay extends BasicGameState {
     @Override
     public void update(GameContainer gc, StateBasedGame sbg, int i) throws SlickException {
         this.sbg = sbg;
-        manageInput(gc, sbg, i);
-
-        this.gunther.update();
-
+        if(activated){
+            manageInput(gc, sbg, i);
+            this.gunther.update();
+        }
         world.update();
 
         for (Element e : this.world.getElements()) {

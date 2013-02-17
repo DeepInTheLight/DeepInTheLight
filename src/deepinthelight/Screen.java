@@ -55,9 +55,9 @@ public class Screen {
 
     public static Screen init(float screenX, float screenY) {
         //System.out.println("Init screen");
-        if (ScreenMap != null) {
-            return null;
-        }
+//        if (ScreenMap != null) {
+//            return null;
+//        }
 
         generator = new Random();
         ScreenMap = new HashMap<String, Screen>(100);
