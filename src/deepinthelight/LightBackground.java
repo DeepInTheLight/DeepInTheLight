@@ -91,7 +91,7 @@ public class LightBackground {
         g.setDrawMode(Graphics.MODE_NORMAL);
 
         g.setColor(Color.white);
-        g.drawString("" + enregy, 200, 0);        //float radius = gp.gunther.RADIUS;
+        //g.drawString("" + enregy, 200, 0);        //float radius = gp.gunther.RADIUS;
     }
 
     public Light addLight(float x, float y, float scale, Color color) {
