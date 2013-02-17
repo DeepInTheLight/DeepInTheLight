@@ -40,7 +40,10 @@ public class MainMenu extends BasicGameState implements ComponentListener {
     private UnicodeFont unicodeFont;
     int startX = Main.width/2 - 60;
     int startY = Main.height/2 + 70;
-    private Boolean animated = false; 
+    private Boolean animated = false;
+    private Color currentColor;
+    private final Color selectedColor = new Color(90, 223, 255);
+    private final Color notselectedColor = Color.white;
 
     @Override
     public int getID() {
@@ -86,14 +89,12 @@ public class MainMenu extends BasicGameState implements ComponentListener {
         startButton.render(gc, gr);
         //lbackground.render(gc, sbg, gr);  
         GamePlay.getGamePlay().render(gc, sbg, gr);
-        gr.setColor(Color.white);
-       
         
         String startStr = "START";
         int textWidth = unicodeFont.getWidth(startStr);
         
 
-        gr.setColor(Color.white);
+        gr.setColor(currentColor);
         gr.setFont(unicodeFont);
 
         gr.drawString(startStr, Main.width/2 - 60, Main.height/2 + 70);
@@ -115,13 +116,17 @@ public class MainMenu extends BasicGameState implements ComponentListener {
     @Override
     public void mouseMoved(int oldx, int oldy, int newx, int newy) {
       super.mouseMoved(oldx, oldy, newx, newy);
+      
       if(startButton.isMouseOver() && !animated){
         GamePlay.getGamePlay().gunther.eat();
         animated = true;
       }
-      
+
        if(!startButton.isMouseOver()){
           animated = false;
-      }
+          currentColor = notselectedColor;
+      }else{
+           currentColor = selectedColor;
+       }
     } 
 }
