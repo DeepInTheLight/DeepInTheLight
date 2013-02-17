@@ -61,6 +61,35 @@ public class BonusFish extends Element {
 
         currentDir = Direction.NONE;
     }
+    
+    public BonusFish(float posX, float posY, Screen screen,int res) throws SlickException {
+
+        switch (res) {
+            case 0:
+                this.image = new Image("images/bonus/foodfish1_SMALL.png");
+                this.box = new Rectangle(posX, posY, 40, 40);
+                break;
+            case 1:
+                this.image = new Image("images/bonus/foodfish2_SMALL.png");
+                this.box = new Rectangle(posX, posY, 40, 40);
+                break;
+            case 2:
+                this.image = new Image("images/bonus/foodfish3_SMALL.png");
+                this.box = new Rectangle(posX, posY, 40, 40);
+                break;
+        }
+
+        this.light = new Image("images/light-small.png");
+
+        this.screen = screen;
+        
+        oldX = posX;
+        oldY = posY;
+        box.setCenterX(oldX);
+        box.setCenterY(oldY);
+
+        currentDir = Direction.NONE;
+    }
 
     @Override
     public void update(int delta) {
