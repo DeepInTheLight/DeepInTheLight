@@ -108,7 +108,7 @@ public class GamePlay extends BasicGameState {
         renderBoxes(gc);
         
         uiIndicators.render(grphcs);
-        psystem.render();
+        //psystem.render();
     }
 
     @Override
@@ -129,17 +129,33 @@ public class GamePlay extends BasicGameState {
             this.gunther.moveBack();
         }
 
+        updatePSystem(delta);
+//        float screenDiffX = screenX;
+//        float screenDiffY = screenY;
+//        checkScreenBorders();
+//        screenDiffX -= screenX;
+//        screenDiffY -= screenY;
+//        
+//        for (int j = 0; j < emitterNb; j++) {
+//            psystem.moveAll(emitters[j], screenDiffX, screenDiffY);
+//        }
+//
+//        psystem.update(i);
+
+    }
+    
+    public void updatePSystem(int delta){
         float screenDiffX = screenX;
         float screenDiffY = screenY;
         checkScreenBorders();
         screenDiffX -= screenX;
         screenDiffY -= screenY;
+        
         for (int j = 0; j < emitterNb; j++) {
             psystem.moveAll(emitters[j], screenDiffX, screenDiffY);
         }
 
         psystem.update(delta);
-
     }
 
     private boolean manageCollisions() {
