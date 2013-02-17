@@ -32,7 +32,7 @@ public class GamePlay extends BasicGameState {
     public World world;
 
     public Indicators uiIndicators;
-
+    StateBasedGame sbg;
     public float screenX;
     public float screenY;
     public final float MIN_X_FROM_BORDER = Main.width/4;
@@ -47,9 +47,10 @@ public class GamePlay extends BasicGameState {
 
     @Override
     public int getID() {
-        return 0;
+        return this.stateID;
     }
 
+    @Override
     public void init(GameContainer gc, StateBasedGame sbg) throws SlickException {
         lbackground.init(gc);
         GamePlay.gp = this;
@@ -65,6 +66,7 @@ public class GamePlay extends BasicGameState {
 
     }
 
+    @Override
     public void render(GameContainer gc, StateBasedGame sbg, Graphics grphcs) throws SlickException {
         
 //        for (Element e : this.world.getElements()) {
@@ -81,8 +83,9 @@ public class GamePlay extends BasicGameState {
         uiIndicators.render(grphcs);
     }
 
+    @Override
     public void update(GameContainer gc, StateBasedGame sbg, int i) throws SlickException {
-        
+        this.sbg = sbg;
         manageInput(gc, sbg, i);
 
         this.gunther.update();

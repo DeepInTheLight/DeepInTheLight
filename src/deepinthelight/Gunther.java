@@ -196,6 +196,7 @@ public class Gunther extends Element {
     
 
     public void die() {
+        GamePlay.getGamePlay().sbg.enterState(Main.GAMEOVER);
         // TODO : gameover ?
     }
 

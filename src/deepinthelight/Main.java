@@ -14,9 +14,9 @@ public class Main extends StateBasedGame {
     public static final boolean showFPS = true;
     public static final String title = "Deep In The Light"; //thks AnisB
     public static final int fpslimit = 60;
-    public static final int MAINMENU = 0;
-    public static final int GAMEPLAY = 1;
-    public static final int GAMEOVER = 2;
+    public static final int MAINMENU = 1;
+    public static final int GAMEPLAY = 2;
+    public static final int GAMEOVER = 3;
 
     public static void main(String[] args) throws NoSuchFieldException, IllegalArgumentException, SlickException, IllegalAccessException {
         //Hack for set the library path
@@ -39,8 +39,9 @@ public class Main extends StateBasedGame {
 
     @Override
     public void initStatesList(GameContainer gc) throws SlickException {
-//        this.addState(new MainMenu(MAINMENU));
+        this.addState(new MainMenu(MAINMENU));;
         this.addState(new GamePlay(GAMEPLAY));
+        this.addState(new GameEnd(GAMEOVER));
 //        this.addState(new GameOver(GAMEOVER));
     }
 
