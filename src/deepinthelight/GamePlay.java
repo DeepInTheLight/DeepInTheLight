@@ -13,6 +13,7 @@ import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
 
 import java.io.File;
+import org.newdawn.slick.Image;
 /**
  * davedes' Tutorials
  * Alpha Map Lighting
@@ -28,12 +29,14 @@ public class GamePlay extends BasicGameState {
     public static GamePlay getGamePlay() {
         return GamePlay.gp;
     }
-    private final boolean BOX_VISIBLE = true;
+    private final boolean BOX_VISIBLE = false;
     
     int stateID = -1;
 
     public Gunther gunther;
     public World world;
+
+    public Image tuto;
 
     public Indicators uiIndicators;
     StateBasedGame sbg;
@@ -67,6 +70,8 @@ public class GamePlay extends BasicGameState {
         this.gunther = new Gunther();
         this.world = new World();
         this.uiIndicators = new Indicators();
+
+        this.tuto = new Image("images/tuto.png");
 
         this.screenX = 0;
         this.screenY = 0;

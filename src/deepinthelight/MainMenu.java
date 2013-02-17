@@ -82,7 +82,6 @@ public class MainMenu extends BasicGameState implements ComponentListener {
         unicodeFont.getEffects().add(new OutlineEffect(2, new java.awt.Color(0, 255, 100, 64)));
         unicodeFont.addGlyphs("START");
         unicodeFont.loadGlyphs();
-        
     }
 
     public void render(GameContainer gc, StateBasedGame sbg, Graphics gr) throws SlickException {
