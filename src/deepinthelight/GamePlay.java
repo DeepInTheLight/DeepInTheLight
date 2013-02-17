@@ -86,16 +86,16 @@ public class GamePlay extends BasicGameState {
     }
 
     @Override
-    public void update(GameContainer gc, StateBasedGame sbg, int i) throws SlickException {
+    public void update(GameContainer gc, StateBasedGame sbg, int delta) throws SlickException {
         this.sbg = sbg;
         if(activated){
-            manageInput(gc, sbg, i);
-            this.gunther.update();
+            manageInput(gc, sbg, delta);
+            this.gunther.update(delta);
         }
-        world.update();
+        world.update(delta);
 
         for (Element e : this.world.getElements()) {
-            e.update();
+            e.update(delta);
         }
 
         boolean needToStop = manageCollisions();
@@ -143,21 +143,21 @@ public class GamePlay extends BasicGameState {
         Input input = gc.getInput();
 
         if (isUP(input) && isRIGHT(input)) {
-            gunther.move(Direction.RIGHTUP);
+            gunther.move(Direction.RIGHTUP, delta);
         } else if (isUP(input) && isLEFT(input)) {
-            gunther.move(Direction.LEFTUP);
+            gunther.move(Direction.LEFTUP, delta);
         } else if (isDOWN(input) && isRIGHT(input)) {
-            gunther.move(Direction.RIGHTDOWN);
+            gunther.move(Direction.RIGHTDOWN, delta);
         } else if (isDOWN(input) && isLEFT(input)) {
-            gunther.move(Direction.LEFTDOWN);
+            gunther.move(Direction.LEFTDOWN, delta);
         } else if (isUP(input)) {
-            gunther.move(Direction.UP);
+            gunther.move(Direction.UP, delta);
         } else if (isDOWN(input)) {
-            gunther.move(Direction.DOWN);
+            gunther.move(Direction.DOWN, delta);
         } else if (isLEFT(input)) {
-            gunther.move(Direction.LEFT);
+            gunther.move(Direction.LEFT, delta);
         } else if (isRIGHT(input)) {
-            gunther.move(Direction.RIGHT);
+            gunther.move(Direction.RIGHT, delta);
         } else {
             //gunther.move(Direction.NONE);
         }
