@@ -13,7 +13,7 @@ public class Malus extends Element {
 
     private Image img;
     private int damage = 10;
-    private final float IMAGE_SCALE = 0.09f;
+    private final float IMAGE_SCALE = 0.18f;
 
     public Malus(float posX, float posY, Screen screen) throws SlickException {
         int res = (int) (Math.random() * 3);
@@ -21,19 +21,19 @@ public class Malus extends Element {
 
         switch (res) {
             case 0:
-                this.img = new Image("images/malus/danger1.png", flip);
+                this.img = new Image("images/malus/danger1_SMALL.png", flip);
                 this.box = new Circle(posX, posY, 25);
                 this.boxOffsetX = 2;
                 this.boxOffsetY = 12;
                 break;
             case 1:
-                this.img = new Image("images/malus/danger2.png", flip);
+                this.img = new Image("images/malus/danger2_SMALL.png", flip);
                 this.box = new Circle(posX, posY, 25);
                 this.boxOffsetX = 10;
                 this.boxOffsetY = 10;
                 break;
             case 2:
-                this.img = new Image("images/malus/danger3.png", flip);
+                this.img = new Image("images/malus/danger3_SMALL.png", flip);
                 this.box = new Circle(posX, posY, 25);
                 this.boxOffsetX = 4;
                 this.boxOffsetY = 7;
