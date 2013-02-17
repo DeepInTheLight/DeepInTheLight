@@ -164,7 +164,7 @@ public class Screen {
         }
 
         System.out.println("Populating " + x + ", " + y);
-        final int maxIter = 20;
+        final int maxIter = 40;
         int i = 0;
         while (obstacleSize < maxObstacleSize && i < maxIter) {
             Obstacle obs = createObstacle();
