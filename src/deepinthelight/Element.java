@@ -1,6 +1,5 @@
 package deepinthelight;
 
-import org.newdawn.slick.Graphics;
 import org.newdawn.slick.geom.Shape;
 
 public abstract class Element {
@@ -45,5 +44,5 @@ public abstract class Element {
     public static float computeNorm(float x, float y) {
         return (float)Math.sqrt(Math.pow(x, 2) + Math.pow(y, 2));
     }
-
+    
 }
