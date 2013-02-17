@@ -45,22 +45,24 @@ public class Screen {
             case UP :
                 allElements.addAll(getNextScreen(Zone.UP).getAllElements(neighborhood-1));
                 allElements.addAll(getNextScreen(Zone.UPLEFT).getAllElements(neighborhood-1));
-                allElements.addAll(getNextScreen(Zone.UPRIGHT).getAllElements(neighborhood-1));
+                //allElements.addAll(getNextScreen(Zone.UPRIGHT).getAllElements(neighborhood-1));
                 break;
             case DOWN:
-                allElements.addAll(getNextScreen(Zone.DOWN).getAllElements(neighborhood-1));
-                allElements.addAll(getNextScreen(Zone.DOWNLEFT).getAllElements(neighborhood-1));
-                allElements.addAll(getNextScreen(Zone.DOWNRIGHT).getAllElements(neighborhood-1));
+                //allElements.addAll(getNextScreen(Zone.DOWN).getAllElements(neighborhood-1));
+                //allElements.addAll(getNextScreen(Zone.DOWNLEFT).getAllElements(neighborhood-1));
+                //allElements.addAll(getNextScreen(Zone.DOWNRIGHT).getAllElements(neighborhood-1));
                 break;
             case LEFT:
                 allElements.addAll(getNextScreen(Zone.LEFT).getAllElements(neighborhood-1));
-                allElements.addAll(getNextScreen(Zone.DOWNLEFT).getAllElements(neighborhood-1));
+                //allElements.addAll(getNextScreen(Zone.DOWNLEFT).getAllElements(neighborhood-1));
                 allElements.addAll(getNextScreen(Zone.UPLEFT).getAllElements(neighborhood-1));
                 break;
             case RIGHT:
-                allElements.addAll(getNextScreen(Zone.RIGHT).getAllElements(neighborhood-1));
-                allElements.addAll(getNextScreen(Zone.UPRIGHT).getAllElements(neighborhood-1));
-                allElements.addAll(getNextScreen(Zone.DOWNRIGHT).getAllElements(neighborhood-1));
+                //allElements.addAll(getNextScreen(Zone.RIGHT).getAllElements(neighborhood-1));
+                //allElements.addAll(getNextScreen(Zone.UPRIGHT).getAllElements(neighborhood-1));
+                //allElements.addAll(getNextScreen(Zone.DOWNRIGHT).getAllElements(neighborhood-1));
+                break;
+            case UPRIGHT:
                 break;
             default :
                 allElements.addAll(getNextScreen(propagationDirection).getAllElements(neighborhood-1));
