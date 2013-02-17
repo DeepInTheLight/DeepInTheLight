@@ -272,7 +272,7 @@ public class BonusFish extends Element {
     }
     
     public int getSize() {
-        return 1;
+        return 3;
     }
 
     public void drawLight(float offsetX, float offsetY) {
