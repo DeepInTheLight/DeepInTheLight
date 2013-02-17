@@ -27,7 +27,7 @@ public class World {
         return allElements;
     }
 
-    public void update() {
+    public void update(int delta) {
         Gunther gunther = GamePlay.getGamePlay().gunther;
         //System.out.println("gunther pos : " + gunther.getBox().getCenterX() + ", " + gunther.getBox().getCenterY());
         if (!currentScreen.isInScreen(gunther)) {

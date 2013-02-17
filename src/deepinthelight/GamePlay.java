@@ -112,14 +112,15 @@ public class GamePlay extends BasicGameState {
     }
 
     @Override
-    public void update(GameContainer gc, StateBasedGame sbg, int i) throws SlickException {
+    public void update(GameContainer gc, StateBasedGame sbg, int delta) throws SlickException {
         this.sbg = sbg;
-        manageInput(gc, sbg, i);
-        this.gunther.update();
-        world.update();
+
+        manageInput(gc, sbg, delta);
+        this.gunther.update(delta);
+        world.update(delta);
 
         for (Element e : this.world.getElements()) {
-            e.update();
+            e.update(delta);
         }
 
         boolean needToStop = manageCollisions();
@@ -128,7 +129,7 @@ public class GamePlay extends BasicGameState {
             this.gunther.moveBack();
         }
 
-        updatePSystem(i);
+        updatePSystem(delta);
 //        float screenDiffX = screenX;
 //        float screenDiffY = screenY;
 //        checkScreenBorders();
@@ -143,7 +144,7 @@ public class GamePlay extends BasicGameState {
 
     }
     
-    public void updatePSystem(int i){
+    public void updatePSystem(int delta){
         float screenDiffX = screenX;
         float screenDiffY = screenY;
         checkScreenBorders();
@@ -154,7 +155,7 @@ public class GamePlay extends BasicGameState {
             psystem.moveAll(emitters[j], screenDiffX, screenDiffY);
         }
 
-        psystem.update(i);
+        psystem.update(delta);
     }
 
     private boolean manageCollisions() {
@@ -192,26 +193,35 @@ public class GamePlay extends BasicGameState {
         Input input = gc.getInput();
 
         if (isUP(input) && isRIGHT(input)) {
-            gunther.move(Direction.RIGHTUP);
+            gunther.move(Direction.RIGHTUP, delta);
         } else if (isUP(input) && isLEFT(input)) {
-            gunther.move(Direction.LEFTUP);
+            gunther.move(Direction.LEFTUP, delta);
         } else if (isDOWN(input) && isRIGHT(input)) {
-            gunther.move(Direction.RIGHTDOWN);
+            gunther.move(Direction.RIGHTDOWN, delta);
         } else if (isDOWN(input) && isLEFT(input)) {
-            gunther.move(Direction.LEFTDOWN);
+            gunther.move(Direction.LEFTDOWN, delta);
         } else if (isUP(input)) {
-            gunther.move(Direction.UP);
+            gunther.move(Direction.UP, delta);
         } else if (isDOWN(input)) {
-            gunther.move(Direction.DOWN);
+            gunther.move(Direction.DOWN, delta);
         } else if (isLEFT(input)) {
-            gunther.move(Direction.LEFT);
+            gunther.move(Direction.LEFT, delta);
         } else if (isRIGHT(input)) {
-            gunther.move(Direction.RIGHT);
-        } else {
+            gunther.move(Direction.RIGHT, delta);
+        } else if (isSUICIDE(input)) {
+            gunther.die();
+        }
             //gunther.move(Direction.NONE);
+     }
+
+    private boolean isSUICIDE(Input input) {
+        if (input.isKeyDown(Input.KEY_K)) {
+            return true;
+        } else {
+            return false;
         }
     }
-
+    
     private boolean isUP(Input input){
         if(input.isKeyDown(Input.KEY_UP) || input.isKeyDown(Input.KEY_Z) || input.isKeyDown(Input.KEY_W)) {
             return true;
