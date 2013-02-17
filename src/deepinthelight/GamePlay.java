@@ -24,7 +24,7 @@ public class GamePlay extends BasicGameState {
     public static GamePlay getGamePlay() {
         return GamePlay.gp;
     }
-    private final boolean BOX_VISIBLE = true;
+    private final boolean BOX_VISIBLE = false;
     
     int stateID = -1;
 
@@ -72,11 +72,13 @@ public class GamePlay extends BasicGameState {
 //        }
 
 //        this.gunther.render(this.screenX, this.screenY);
+
  
         lbackground.render(gc, sbg, grphcs);
-        renderBoxes(gc);
 
         renderLigths();
+
+        renderBoxes(gc);
         
         uiIndicators.render(grphcs);
     }
