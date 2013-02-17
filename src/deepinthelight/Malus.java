@@ -3,7 +3,6 @@ package deepinthelight;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.geom.Circle;
-import org.newdawn.slick.geom.Rectangle;
 
 /**
  *
@@ -12,7 +11,7 @@ import org.newdawn.slick.geom.Rectangle;
 public class Malus extends Element {
 
     private Image img;
-    private int damage = 10;
+    private int damage = 20;
     private final float IMAGE_SCALE = 0.18f;
 
     public Malus(float posX, float posY, Screen screen) throws SlickException {

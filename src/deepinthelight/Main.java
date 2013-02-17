@@ -20,6 +20,8 @@ public class Main extends StateBasedGame {
     public static final int GAMEPLAY = 2;
     public static final int GAMEOVER = 3;
 
+    public static Main main;
+
     public static void main(String[] args) throws NoSuchFieldException, IllegalArgumentException, SlickException, IllegalAccessException {
         //Hack for set the library path
         System.setProperty( "java.library.path", "./slick/lib" );
@@ -32,7 +34,7 @@ public class Main extends StateBasedGame {
             public void musicEnded(Music intro) {
                 System.out.println("Swithching to loop");
                 try {
-                    Music music = new Music("music/ditlBoucle.wav");
+                    Music music = new Music("music/niveau1.wav");
                     music.loop();
                 } catch (SlickException ex) {
                     ex.printStackTrace();
@@ -55,6 +57,7 @@ public class Main extends StateBasedGame {
 
     public Main() {
         super(title);
+        Main.main = this;
     }
 
     @Override
