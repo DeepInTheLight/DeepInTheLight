@@ -28,7 +28,7 @@ public class GamePlay extends BasicGameState {
     public static GamePlay getGamePlay() {
         return GamePlay.gp;
     }
-    private final boolean BOX_VISIBLE = false;
+    private final boolean BOX_VISIBLE = true;
     
     int stateID = -1;
 
@@ -36,12 +36,12 @@ public class GamePlay extends BasicGameState {
     public World world;
 
     public Indicators uiIndicators;
-
+    StateBasedGame sbg;
     public float screenX;
     public float screenY;
     public final float MIN_X_FROM_BORDER = Main.width/4;
     public final float MIN_Y_FROM_BORDER = Main.height/4;
-
+    public boolean activated = true;
     public int score;
 
     public ParticleSystem psystem;
@@ -56,9 +56,10 @@ public class GamePlay extends BasicGameState {
 
     @Override
     public int getID() {
-        return 0;
+        return this.stateID;
     }
 
+    @Override
     public void init(GameContainer gc, StateBasedGame sbg) throws SlickException {
         lbackground.init(gc);
         GamePlay.gp = this;
@@ -90,6 +91,7 @@ public class GamePlay extends BasicGameState {
         psystem.setUsePoints(false);
     }
 
+    @Override
     public void render(GameContainer gc, StateBasedGame sbg, Graphics grphcs) throws SlickException {
         
 //        for (Element e : this.world.getElements()) {
@@ -97,22 +99,25 @@ public class GamePlay extends BasicGameState {
 //        }
 
 //        this.gunther.render(this.screenX, this.screenY);
+
  
         lbackground.render(gc, sbg, grphcs);
-        renderBoxes(gc);
 
         renderLigths();
+
+        renderBoxes(gc);
         
         uiIndicators.render(grphcs);
         psystem.render();
     }
 
+    @Override
     public void update(GameContainer gc, StateBasedGame sbg, int i) throws SlickException {
-        
-        manageInput(gc, sbg, i);
-
-        this.gunther.update();
-
+        this.sbg = sbg;
+        if(activated){
+            manageInput(gc, sbg, i);
+            this.gunther.update();
+        }
         world.update();
 
         for (Element e : this.world.getElements()) {

@@ -21,7 +21,7 @@ public class BonusFish extends Element {
     private Image image;
     private final float IMAGE_SCALE = 0.18f;
 
-    private Image ligth;
+    private Image light;
 
     private final int ENERGY_BONUS = 20;
 
@@ -51,7 +51,7 @@ public class BonusFish extends Element {
                 break;
         }
 
-        this.ligth = new Image("images/ligth-small.png");
+        this.light = new Image("images/light-small.png");
 
         this.screen = screen;
         
@@ -172,8 +172,14 @@ public class BonusFish extends Element {
 
     @Override
     public boolean collide() {
-        GamePlay.getGamePlay().gunther.recharge(ENERGY_BONUS);
+        Gunther gunther = GamePlay.getGamePlay().gunther;
+        gunther.recharge(ENERGY_BONUS);
+        gunther.eat();
+        
         screen.deleteElement(this);
+
+        GamePlay.getGamePlay().score += 10;
+
         return false; // Gunther isn't blocked by bonus fish
     }
 
@@ -235,7 +241,7 @@ public class BonusFish extends Element {
     }
 
     public void drawLight(float offsetX, float offsetY) {
-        ligth.draw(box.getX() - offsetX, box.getY() - offsetY );
+        light.draw(box.getX() - offsetX, box.getY() - offsetY );
     }
  
     public float getCosAlpha(Element a, Direction where) {

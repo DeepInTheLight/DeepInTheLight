@@ -5,6 +5,7 @@
 package deepinthelight;
 
 import java.util.Date;
+import org.newdawn.slick.Animation;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.geom.Circle;
@@ -16,11 +17,19 @@ import org.newdawn.slick.geom.Circle;
 public class Gunther extends Element {
 
     public final int RADIUS = 40;
-    private final String IMAGE_PATH = "images/gunther/Gunther-finalblue_SMALL.png";
+
+    public static final String IMAGE_PATH = "images/gunther/Gunther-static.png";
+    private final String EATING_ANIM = "images/gunther/Gunther-eating-";
     private final float IMAGE_SCALE = 0.18f;
 
-    public Image imageRight;
-    public Image imageLeft;
+    private Image image;
+
+    private enum Anim {
+        STATIC, EATING
+    }
+    Anim currentAnim;
+    Animation eatingAnim;
+    long lastFrameUpdate = new Date().getTime();
 
     private final int BASE_ENERGY = 42;
     public final int MAX_ENERGY = 100;
@@ -43,13 +52,18 @@ public class Gunther extends Element {
 
     public Gunther() throws SlickException {
         box = new Circle(Main.width / 2, Main.height / 2, RADIUS);
-        imageRight = new Image(IMAGE_PATH);
-        imageRight.setCenterOfRotation( imageRight.getWidth() * IMAGE_SCALE / 2,
-                                   imageRight.getHeight() * IMAGE_SCALE / 2 );
-        imageLeft = imageRight.getFlippedCopy(true, false);
-        imageLeft.setCenterOfRotation( imageLeft.getWidth() * IMAGE_SCALE / 2,
-                                   imageLeft.getHeight() * IMAGE_SCALE / 2 );
+        image = new Image(IMAGE_PATH);
+        image.setCenterOfRotation( image.getWidth() * IMAGE_SCALE / 2,
+                                   image.getHeight() * IMAGE_SCALE / 2 );
 
+        Image anim[] = new Image[6];
+        for (int i = 0 ; i < anim.length ; i++) {
+            anim[i] = new Image(EATING_ANIM+i+".png");
+        }
+        eatingAnim = new Animation(anim, 50, false);
+        eatingAnim.setLooping(false);
+        
+        currentAnim = Anim.STATIC;
 
         oldX = Main.width / 2;
         oldY = Main.height / 2;
@@ -81,8 +95,10 @@ public class Gunther extends Element {
         }
     }
 
-    public void eat(Element e) {
-        // TODO: change animation
+    public void eat() {
+        eatingAnim.restart();
+        currentAnim = Anim.EATING;
+        lastFrameUpdate = new Date().getTime();
     }
 
     public void recharge(int amount) {
@@ -156,12 +172,33 @@ public class Gunther extends Element {
     public void render(float offsetX, float offsetY) {
 
         boolean left = isFacingLeft();
-        Image image = ( left ? imageLeft : imageRight );
 
+        Image toRender;
+        switch( currentAnim ) {
+
+        case STATIC:
+            toRender = image;
+            break;
+        case EATING:
+            long now = new Date().getTime();
+            if ( now - lastFrameUpdate > 50 ) {
+                eatingAnim.update( now - lastFrameUpdate );
+                lastFrameUpdate = now;
+            }
+            toRender = eatingAnim.getCurrentFrame();
+            break;
+        default: 
+            toRender = image;
+            break;
+        }
+        toRender = ( left ? toRender.getFlippedCopy(true, false) : toRender );
+
+        toRender.setCenterOfRotation( toRender.getWidth() * IMAGE_SCALE / 2,
+                                      toRender.getHeight() * IMAGE_SCALE / 2 );
         setBoxOffset();
-        image.setRotation( getAngle() );
+        toRender.setRotation( getAngle() );
         
-        image.draw(box.getX() - offsetX - boxOffsetX, box.getY() - offsetY - boxOffsetY, IMAGE_SCALE);
+        toRender.draw(box.getX() - offsetX - boxOffsetX, box.getY() - offsetY - boxOffsetY, IMAGE_SCALE);
     }
 
     @Override
@@ -212,10 +249,17 @@ public class Gunther extends Element {
             break;
         }
     }
+    
+    public void setRelativePos(float x, float y) {
+        oldX = box.getCenterX();
+        oldY = box.getCenterY();
+        box.setCenterX( oldX + x );
+        box.setCenterX( oldY + y );
+    }
 
     public void changeHealth(int amount) {
         if ( amount < 0 ) {
-            if ( health + amount < 0 ) {
+            if ( health + amount <= 0 ) {
                 health = 0;
                 die();
             }
@@ -237,8 +281,13 @@ public class Gunther extends Element {
         return energyLeft;
     }
     
+    public void setEnergyLeft(int en) {
+        energyLeft = en;
+    }
+    
 
     public void die() {
+        GamePlay.getGamePlay().sbg.enterState(Main.GAMEOVER);
         // TODO : gameover ?
     }
 
