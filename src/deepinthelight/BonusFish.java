@@ -72,13 +72,16 @@ public class BonusFish extends Element {
         }
 
         boolean moved = false;
-        while(!moved) {
+        int trial = 0;
+        while(!moved && trial < 10) {
 
             move();
+            trial++;
             moved = true;
 
             for (Element e : GamePlay.getGamePlay().world.getElements()) {
-                if ( e!=this && e.getBox().intersects(this.getBox()) && e.collide() ) {
+                if ( e.getBox().intersects(this.getBox()) 
+                     && e.getClass()==Obstacle.class ) {
                     abortMove();
                     moved = false;
                     break;
@@ -122,6 +125,18 @@ public class BonusFish extends Element {
             currentDir = Direction.RIGHTDOWN;
             break;
         }
+
+        // If we are too close to gunther, we should check if we're not running into him
+        Gunther gunther = GamePlay.getGamePlay().gunther;
+        float norm = gunther.getDistance(this);
+        System.out.println("norm : " + norm);
+        if (norm < Main.height) {
+            System.out.println("dot product : " );
+            if (Math.abs(gunther.dotProduct(this)/norm) < (3.14159/6)) {
+                System.out.println("ERMARGHERD! GUNTHER! " +  ", alpha : " + Math.abs(gunther.dotProduct(this)/norm) + ", pi/6 : " + 3.14159/6);
+            }
+        }
+
     }
 
 
@@ -176,10 +191,14 @@ public class BonusFish extends Element {
         }
         
         if (newX < screen.getLeftBoundary() || newX > screen.getRightBoundary()) {
-            newX = oldX;
+            // WE HAVE TO GO BACK!
+            float diff = oldX - newX;
+            newX = oldX + diff;
         }
+
         if (newY < screen.getTopBoundary() || newY > screen.getBottomBoundary()) {
-            newY = oldY;
+            float diff = oldY - newY;
+            newY = oldY + diff;
         }
 
         box.setCenterY(newY);

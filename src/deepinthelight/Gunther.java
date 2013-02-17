@@ -5,7 +5,6 @@
 package deepinthelight;
 
 import java.util.Date;
-import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.geom.Circle;
@@ -20,7 +19,8 @@ public class Gunther extends Element {
     private final String IMAGE_PATH = "images/gunther/Gunther-finalblue.png";
     private final float IMAGE_SCALE = 0.09f;
 
-    public Image image;
+    public Image imageRight;
+    public Image imageLeft;
 
     private final int BASE_ENERGY = 42;
     public final int MAX_ENERGY = 100;
@@ -34,6 +34,8 @@ public class Gunther extends Element {
     private int health = MAX_HEALTH;
 
     private Direction currentDir = Direction.NONE;
+    //private Direction oldDir = Direction.NONE;
+
     private final float SPEED = 5;
     private final float DIAG_SPEED = SPEED/(float)java.lang.Math.sqrt(2);
 
@@ -41,7 +43,13 @@ public class Gunther extends Element {
 
     public Gunther() throws SlickException {
         box = new Circle(Main.width / 2, Main.height / 2, RADIUS);
-        image = new Image(IMAGE_PATH);
+        imageRight = new Image(IMAGE_PATH);
+        imageRight.setCenterOfRotation( imageRight.getWidth() * IMAGE_SCALE / 2,
+                                   imageRight.getHeight() * IMAGE_SCALE / 2 );
+        imageLeft = imageRight.getFlippedCopy(true, false);
+        imageLeft.setCenterOfRotation( imageLeft.getWidth() * IMAGE_SCALE / 2,
+                                   imageLeft.getHeight() * IMAGE_SCALE / 2 );
+
 
         oldX = Main.width / 2;
         oldY = Main.height / 2;
@@ -78,12 +86,42 @@ public class Gunther extends Element {
     }
 
     public void recharge(int amount) {
-        energyLeft+= ( energyLeft + amount > MAX_ENERGY ? MAX_ENERGY
+        energyLeft= ( energyLeft + amount > MAX_ENERGY ? MAX_ENERGY
                        : energyLeft + amount );
+    }
+
+    // considering up and down as facing right
+    private boolean isFacingLeft() {
+        return ( currentDir == Direction.LEFT || currentDir == Direction.LEFTUP 
+                || currentDir == Direction.LEFTDOWN );
     }
 
     @Override
     public void render(float offsetX, float offsetY) {
+
+        boolean left = isFacingLeft();
+        Image image = ( left ? imageLeft : imageRight );
+        float rotation = 0;
+        
+        switch ( currentDir ) {
+
+        case LEFTUP:
+        case RIGHTDOWN:
+            rotation = 45;
+            break;
+        case RIGHTUP:
+        case LEFTDOWN:
+            rotation = 315;
+            break;
+
+        case UP:
+            rotation = 270 ;
+            break;
+        case DOWN:
+            rotation = 90;
+            break;            
+        }
+        image.setRotation(rotation);
         image.draw(box.getX() - offsetX - boxOffsetX, box.getY() - offsetY - boxOffsetY, IMAGE_SCALE);
     }
 
@@ -98,6 +136,7 @@ public class Gunther extends Element {
     }
 
     public void move(Direction newDir) {
+        //oldDir = currentDir;
         currentDir = newDir;
         
         oldX = box.getCenterX();
@@ -133,7 +172,6 @@ public class Gunther extends Element {
             box.setCenterY( oldY + DIAG_SPEED );
             break;
         }
-        
     }
 
     public void changeHealth(int amount) {
@@ -169,7 +207,7 @@ public class Gunther extends Element {
     public int getSize() {
         return 1;
     }
-
+/*
     public Image getImage() {
         return image;
     }
@@ -177,6 +215,6 @@ public class Gunther extends Element {
     public void setImage(Image image) {
         this.image = image;
     }
-    
+  */  
     
 }
