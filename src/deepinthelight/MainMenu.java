@@ -38,6 +38,9 @@ public class MainMenu extends BasicGameState implements ComponentListener {
     //List<String> playersSelected = new ArrayList<String>();
     Image play;
     private UnicodeFont unicodeFont;
+    int startX = Main.width/2 - 60;
+    int startY = Main.height/2 + 70;
+    private Boolean animated = false; 
 
     @Override
     public int getID() {
@@ -47,16 +50,16 @@ public class MainMenu extends BasicGameState implements ComponentListener {
     MainMenu(int stateID) {
         this.stateID = stateID;//stateID;
         lbackground = new LightBackground();
-        GamePlay.getGamePlay();
+        //GamePlay.getGamePlay();
     }
     
     @Override
     public void init(GameContainer gc, StateBasedGame sbg) throws SlickException {
-        lbackground.init(gc);
-
+        //lbackground.init(gc);
+        GamePlay.getGamePlay();
         Image start = new Image("images/menu/play.png");
 
-        startButton = new MouseOverArea(gc, start, Main.width/2 - start.getWidth()/2, 450, this);
+        startButton = new MouseOverArea(gc, start, startX, startY, 140, 40, this);
         startButton.setMouseOverColor(Color.blue);
         startButton.setNormalColor(Color.white);
         
@@ -80,9 +83,9 @@ public class MainMenu extends BasicGameState implements ComponentListener {
     }
 
     public void render(GameContainer gc, StateBasedGame sbg, Graphics gr) throws SlickException {
-        GamePlay.getGamePlay().gunther.setEnergyLeft(80);
-         startButton.render(gc, gr);
-        lbackground.render(gc, sbg, gr);  
+        startButton.render(gc, gr);
+        //lbackground.render(gc, sbg, gr);  
+        GamePlay.getGamePlay().render(gc, sbg, gr);
         gr.setColor(Color.white);
        
         
@@ -97,6 +100,7 @@ public class MainMenu extends BasicGameState implements ComponentListener {
     }
 
     public void update(GameContainer gc, StateBasedGame sbg, int i) throws SlickException {
+        GamePlay.getGamePlay().updatePSystem(i);
         this.sbg = sbg;
     }
 
@@ -104,33 +108,20 @@ public class MainMenu extends BasicGameState implements ComponentListener {
     public void componentActivated(AbstractComponent source) { //methode de l'interface ComponentListener
 
         if (source == startButton) {
-            GamePlay.getGamePlay().gunther.setEnergyLeft(42);
-            GamePlay.getGamePlay().activated = true;
             sbg.enterState(Main.GAMEPLAY);
         }
     }
     
-//    class CustomMouseOverArea extends MouseOverArea {
-//
-//        private String perso;
-//        private boolean selected = false;
-//
-//        public CustomMouseOverArea(GUIContext container, Image image, int x, int y, ComponentListener listener) {
-//            super(container, image, x, y, listener);
-//
-//            perso = image.getResourceReference();
-//        }
-//
-//        public String getRessource() {
-//            return perso;
-//        }
-//
-//        public boolean isSelected() {
-//            return selected;
-//        }
-//
-//        public void setSelected(boolean selected) {
-//            this.selected = selected;
-//        }
-//    }
+    @Override
+    public void mouseMoved(int oldx, int oldy, int newx, int newy) {
+      super.mouseMoved(oldx, oldy, newx, newy);
+      if(startButton.isMouseOver() && !animated){
+        GamePlay.getGamePlay().gunther.eat();
+        animated = true;
+      }
+      
+       if(!startButton.isMouseOver()){
+          animated = false;
+      }
+    } 
 }

@@ -15,7 +15,7 @@ public abstract class Element {
     protected float boxOffsetX = 0;
     protected float boxOffsetY = 0;
     
-    public abstract void update();
+    public abstract void update(int delta);
 
     public abstract void render(float offsetX, float offsetY);
 

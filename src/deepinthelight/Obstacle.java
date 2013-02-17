@@ -21,7 +21,7 @@ public class Obstacle extends Element {
                 this.boxOffsetY = 30;
                 this.box.setX(posX);
                 this.box.setY(posY);
-                size = 10;
+                size = 7;
                 scale = 0.66f;
                 break;
             case 1:
@@ -30,7 +30,7 @@ public class Obstacle extends Element {
                 this.box = new Polygon(b1);
                 this.box.setX(posX);
                 this.box.setY(posY);
-                size = 10;
+                size = 7;
                 scale = 0.572f;
                 break;
             case 2:
@@ -41,7 +41,7 @@ public class Obstacle extends Element {
                 this.boxOffsetY = 20;
                 this.box.setX(posX);
                 this.box.setY(posY);
-                size = 10;
+                size = 7;
                 scale = 0.388f;
                 break;
             case 3:
@@ -52,7 +52,7 @@ public class Obstacle extends Element {
                 this.boxOffsetY = 70;
                 this.box.setX(posX);
                 this.box.setY(posY);
-                size = 10;
+                size = 7;
                 scale = 0.6f;
                 break;
             case 4:
@@ -63,7 +63,7 @@ public class Obstacle extends Element {
                 this.boxOffsetY = 30;
                 this.box.setX(posX);
                 this.box.setY(posY);
-                size = 5;
+                size = 4;
                 scale = 0.50f;
                 break;
             case 5:
@@ -74,7 +74,7 @@ public class Obstacle extends Element {
                 this.boxOffsetY = 30;
                 this.box.setX(posX);
                 this.box.setY(posY);
-                size = 5;
+                size = 4;
                 scale = 0.50f;
                 break;
             case 6:
@@ -85,7 +85,7 @@ public class Obstacle extends Element {
                 this.boxOffsetY = 25;
                 this.box.setX(posX);
                 this.box.setY(posY);
-                size = 5;
+                size = 4;
                 scale = 0.5f;
                 break;
             case 7:
@@ -96,7 +96,7 @@ public class Obstacle extends Element {
                 this.boxOffsetY = 25;
                 this.box.setX(posX);
                 this.box.setY(posY);
-                size = 5;
+                size = 4;
                 scale = 0.5f;
                 break;
         }
@@ -107,7 +107,7 @@ public class Obstacle extends Element {
         return true; // obstacles block Gunther
     }
     
-    public void update() {
+    public void update(int delta) {
     }
 
     @Override

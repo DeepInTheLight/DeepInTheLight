@@ -8,6 +8,7 @@ import java.util.Date;
 import org.newdawn.slick.Animation;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
+import org.newdawn.slick.Sound;
 import org.newdawn.slick.geom.Circle;
 
 /**
@@ -29,9 +30,10 @@ public class Gunther extends Element {
     }
     Anim currentAnim;
     Animation eatingAnim;
+    Sound eatingSound;
     long lastFrameUpdate = new Date().getTime();
 
-    private final int BASE_ENERGY = 42;
+    private final int BASE_ENERGY = 80;
     public final int MAX_ENERGY = 100;
     private final int MAX_DECREASE = MAX_ENERGY / 20;
     private final int DECREASE_THRESHOLD = MAX_ENERGY / 2;
@@ -62,6 +64,7 @@ public class Gunther extends Element {
         }
         eatingAnim = new Animation(anim, 50, false);
         eatingAnim.setLooping(false);
+        eatingSound = new Sound("music/gro 02.wav");
         
         currentAnim = Anim.STATIC;
 
@@ -73,7 +76,7 @@ public class Gunther extends Element {
     }
 
     @Override
-    public void update() {
+    public void update(int delta) {
         long now = new Date().getTime();
         if ( now - lastDecrease >= 1000 ) {
             energyLeft-= getEnergyDecrease();
@@ -96,6 +99,7 @@ public class Gunther extends Element {
     }
 
     public void eat() {
+        eatingSound.play();
         eatingAnim.restart();
         currentAnim = Anim.EATING;
         lastFrameUpdate = new Date().getTime();
@@ -211,7 +215,7 @@ public class Gunther extends Element {
         box.setCenterY(oldY);
     }
 
-    public void move(Direction newDir) {
+    public void move(Direction newDir, int delta) {
         //oldDir = currentDir;
         currentDir = newDir;
         
@@ -220,32 +224,32 @@ public class Gunther extends Element {
         
         switch(currentDir) {
         case LEFT :
-            box.setCenterX( oldX - SPEED );
+            box.setCenterX( oldX - (SPEED * (delta / 17f)));
             break;
         case RIGHT :
-            box.setCenterX( oldX + SPEED );
+            box.setCenterX( oldX + (SPEED * (delta / 17f)));
             break;
         case DOWN :
-            box.setCenterY( oldY + SPEED );
+            box.setCenterY( oldY + (SPEED * (delta / 17f)));
             break;
         case UP :
-            box.setCenterY( oldY - SPEED );
+            box.setCenterY( oldY - (SPEED * (delta / 17f)));
             break;
         case LEFTUP :
-            box.setCenterX( oldX - DIAG_SPEED );
-            box.setCenterY( oldY - DIAG_SPEED );
+            box.setCenterX( oldX - (DIAG_SPEED * (delta / 17f)) );
+            box.setCenterY( oldY - (DIAG_SPEED * (delta / 17f)) );
             break;
         case LEFTDOWN :
-            box.setCenterX( oldX - DIAG_SPEED );
-            box.setCenterY( oldY + DIAG_SPEED );
+            box.setCenterX( oldX - (DIAG_SPEED * (delta / 17f)) );
+            box.setCenterY( oldY + (DIAG_SPEED * (delta / 17f)) );
             break;
         case RIGHTUP :
-            box.setCenterX( oldX + DIAG_SPEED );
-            box.setCenterY( oldY - DIAG_SPEED );
+            box.setCenterX( oldX + (DIAG_SPEED * (delta / 17f)) );
+            box.setCenterY( oldY - (DIAG_SPEED * (delta / 17f)) );
             break;
         case RIGHTDOWN :
-            box.setCenterX( oldX + DIAG_SPEED );
-            box.setCenterY( oldY + DIAG_SPEED );
+            box.setCenterX( oldX + (DIAG_SPEED * (delta / 17f)) );
+            box.setCenterY( oldY + (DIAG_SPEED * (delta / 17f)) );
             break;
         }
     }

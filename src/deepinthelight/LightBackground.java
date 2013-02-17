@@ -49,7 +49,7 @@ public class LightBackground {
 
         float enregy = gp.gunther.getEnergyLeft();
        //float radius = gp.gunther.RADIUS;
-        float maxEnergy = 100;//gp.gunther.MAX_ENERGY;
+        float maxEnergy = gp.gunther.MAX_ENERGY;
         float lightRadius = MIN_RADIUS + (enregy/maxEnergy)*(MAX_RADIUS-MIN_RADIUS);
         float x = gp.gunther.getBox().getCenterX();
         float y = gp.gunther.getBox().getCenterY();
@@ -68,6 +68,8 @@ public class LightBackground {
         //render gunther
         gp.gunther.render(gp.screenX, gp.screenY);
 
+        gp.psystem.render();
+        
         //draw the spot
         spot.draw(x - lightRadius - gp.screenX , y - lightRadius - gp.screenY , lightRadius*2f, lightRadius*2f, Color.blue);
 
