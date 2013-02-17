@@ -15,6 +15,8 @@ package deepinthelight;
 import java.awt.Font;
 import java.awt.FontFormatException;
 import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import org.newdawn.slick.*;
 import org.newdawn.slick.font.effects.ColorEffect;
 import org.newdawn.slick.font.effects.OutlineEffect;
@@ -35,6 +37,7 @@ public class GameEnd extends BasicGameState implements ComponentListener {
     private UnicodeFont unicodeFont;
     float restartX =  Main.width/2 - 50;
     float restartY = Main.height/2;
+    GameContainer gc;
 
     GameEnd(int stateID) {
         this.stateID = stateID;
@@ -88,7 +91,7 @@ public class GameEnd extends BasicGameState implements ComponentListener {
 
     public void update(GameContainer gc, StateBasedGame sbg, int delta) throws SlickException {
         this.sbg = sbg;
-         GamePlay.getGamePlay().init(gc, sbg);
+        this.gc = gc;     
     }
 
     private void showInformation(Graphics gr) {
@@ -99,6 +102,11 @@ public class GameEnd extends BasicGameState implements ComponentListener {
 
     public void componentActivated(AbstractComponent ac) {
         if (ac == restartButton) {
+            try {
+                GamePlay.getGamePlay().init(gc, sbg);
+            } catch (SlickException ex) {
+                Logger.getLogger(GameEnd.class.getName()).log(Level.SEVERE, null, ex);
+            }
             sbg.enterState(2);
         }
     }
