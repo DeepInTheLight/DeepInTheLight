@@ -28,4 +28,22 @@ public abstract class Element {
     public Shape getBox() {
         return this.box;
     }
+
+    public float getDistance(Element a) {
+        if (box == null) {
+            return 0;
+        }
+
+        float xa = a.getBox().getCenterX();
+        float xb = this.getBox().getCenterX();
+        float ya = a.getBox().getCenterY();
+        float yb = this.getBox().getCenterY();
+
+        return computeNorm(xb-xa, yb-ya);
+    }
+
+    public static float computeNorm(float x, float y) {
+        return (float)Math.sqrt(Math.pow(x, 2) + Math.pow(y, 2));
+    }
+
 }

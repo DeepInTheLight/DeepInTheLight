@@ -1,10 +1,12 @@
 package deepinthelight;
 
-import org.newdawn.slick.SlickException;
-import java.lang.reflect.Field;
 import org.newdawn.slick.AppGameContainer;
 import org.newdawn.slick.GameContainer;
+import org.newdawn.slick.Music;
+import org.newdawn.slick.MusicListener;
+import org.newdawn.slick.SlickException;
 import org.newdawn.slick.state.StateBasedGame;
+import java.lang.reflect.Field;
 
 public class Main extends StateBasedGame {
 
@@ -25,6 +27,24 @@ public class Main extends StateBasedGame {
         fieldSysPath.setAccessible( true );
         fieldSysPath.set( null, null );
 
+        Music intro = new Music("music/ditlIntro.wav");
+        intro.addListener(new MusicListener() {
+            public void musicEnded(Music intro) {
+                System.out.println("Swithching to loop");
+                try {
+                    Music music = new Music("music/ditlBoucle.wav");
+                    music.loop();
+                } catch (SlickException ex) {
+                    ex.printStackTrace();
+                }
+            }
+
+            public void musicSwapped(Music music, Music newMusic) {
+                return;
+            }
+        });
+
+        intro.play();
         AppGameContainer app = new AppGameContainer(new Main());
         app.setDisplayMode(Main.width, Main.height, Main.fullscreen);
         app.setSmoothDeltas(true);

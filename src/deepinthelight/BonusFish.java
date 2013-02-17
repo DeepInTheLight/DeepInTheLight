@@ -17,10 +17,11 @@ import org.newdawn.slick.geom.Rectangle;
 public class BonusFish extends Element {
 
     private final int RADIUS = 2;
-    private final String IMAGE_PATH = "images/gunther/Gunther-eyelight-color.png"; // TODO change image
-    private Image image;
 
-    private Image ligth;
+    private Image image;
+    private final float IMAGE_SCALE = 0.18f;
+
+    private Image light;
 
     private final int ENERGY_BONUS = 20;
 
@@ -32,25 +33,25 @@ public class BonusFish extends Element {
     float oldX, oldY;
     
     public BonusFish(float posX, float posY, Screen screen) throws SlickException {
-        int res = (int) Math.random() * 3;
+        int res = (int) (Math.random() * 3);
         boolean flip = ((int) Math.random()) == 0 ? true : false;
 
         switch (res) {
             case 0:
-                this.image = new Image("images/baleine.png", flip);
+                this.image = new Image("images/bonus/foodfish1_SMALL.png", flip);
                 this.box = new Rectangle(posX, posY, 40, 40);
                 break;
             case 1:
-                this.image = new Image("images/baleine.png", flip);
+                this.image = new Image("images/bonus/foodfish2_SMALL.png", flip);
                 this.box = new Rectangle(posX, posY, 40, 40);
                 break;
             case 2:
-                this.image = new Image("images/baleine.png", flip);
+                this.image = new Image("images/bonus/foodfish3_SMALL.png", flip);
                 this.box = new Rectangle(posX, posY, 40, 40);
                 break;
         }
 
-        this.ligth = new Image("images/ligth-small.png");
+        this.light = new Image("images/light-small.png");
 
         this.screen = screen;
         
@@ -71,13 +72,15 @@ public class BonusFish extends Element {
         }
 
         boolean moved = false;
-        while(!moved) {
+        int trial = 0;
+        while(!moved && trial < 10) {
 
             move();
+            trial++;
             moved = true;
 
             for (Element e : GamePlay.getGamePlay().world.getElements()) {
-                if ( e.getBox().intersects(this.getBox()) 
+                if ( e.getBox().intersects(this.getBox())
                      && e.getClass()==Obstacle.class ) {
                     abortMove();
                     moved = false;
@@ -122,12 +125,49 @@ public class BonusFish extends Element {
             currentDir = Direction.RIGHTDOWN;
             break;
         }
+
+        // If we are too close to gunther, we should check if we're not running into him
+        Gunther gunther = GamePlay.getGamePlay().gunther;
+        float norm = gunther.getDistance(this);
+        // System.out.println("norm : " + norm);
+        if (norm < Main.height) {
+            float calpha = getCosAlpha(gunther, currentDir);
+            // System.out.println("cos alpha : " + calpha);
+            if (calpha > 0.707) { // alpha < Pi/4
+                switch(currentDir) {
+                case UP :
+                    currentDir = Direction.DOWN;
+                    break;
+                case DOWN :
+                    currentDir = Direction.UP;
+                    break;
+                case LEFT :
+                    currentDir = Direction.RIGHT;
+                    break;
+                case RIGHT :
+                    currentDir = Direction.LEFT;
+                    break;
+                case LEFTUP:
+                    currentDir = Direction.RIGHTDOWN;
+                    break;
+                case RIGHTUP :
+                    currentDir = Direction.LEFTDOWN;
+                    break;
+                case LEFTDOWN :
+                    currentDir = Direction.RIGHTUP;
+                    break;
+                case RIGHTDOWN :
+                    currentDir = Direction.LEFTUP;
+                    break;
+                }
+            }
+        }
     }
 
 
     @Override
     public void render(float offsetX, float offsetY) {
-        image.draw( box.getX() - offsetX, box.getY() - offsetY );
+        image.draw( box.getX() - offsetX, box.getY() - offsetY, IMAGE_SCALE);
     }
 
     @Override
@@ -195,7 +235,51 @@ public class BonusFish extends Element {
     }
 
     public void drawLight(float offsetX, float offsetY) {
-        ligth.draw(box.getX() - offsetX, box.getY() - offsetY );
+        light.draw(box.getX() - offsetX, box.getY() - offsetY );
     }
-    
+ 
+    public float getCosAlpha(Element a, Direction where) {
+        if (box == null) {
+            return 0;
+        }
+
+        float x1 = a.getBox().getCenterX() - this.getBox().getCenterX();
+        float y1 = a.getBox().getCenterY() - this.getBox().getCenterY();
+        float x2 = 0;
+        float y2 = 0;
+
+        switch(where) {
+        case UP :
+            y2 = -1;
+            break;
+        case DOWN :
+            y2 = 1;
+            break;
+        case LEFT :
+            x2 = -1;
+            break;
+        case RIGHT :
+            x2 = 1;
+            break;
+        case LEFTDOWN :
+            x2 = -1;
+            y2 = 1;
+            break;
+        case LEFTUP :
+            x2 = -1;
+            y2 = -1;
+            break;
+        case RIGHTDOWN :
+            x2 = 1;
+            y2 = 1;
+            break;
+        case RIGHTUP :
+            x2 = 1;
+            y2 = -1;
+            break;
+        }
+
+        float dotProduct = x1*x2 + y1*y2;
+        return dotProduct/(Element.computeNorm(x1,y1)*Element.computeNorm(x2, y2));
+    }
 }

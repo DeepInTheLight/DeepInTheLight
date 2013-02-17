@@ -5,7 +5,6 @@
 package deepinthelight;
 
 import java.util.Date;
-import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.geom.Circle;
@@ -17,10 +16,11 @@ import org.newdawn.slick.geom.Circle;
 public class Gunther extends Element {
 
     public final int RADIUS = 40;
-    private final String IMAGE_PATH = "images/gunther/Gunther-finalblue.png";
-    private final float IMAGE_SCALE = 0.09f;
+    private final String IMAGE_PATH = "images/gunther/Gunther-finalblue_SMALL.png";
+    private final float IMAGE_SCALE = 0.18f;
 
-    public Image image;
+    public Image imageRight;
+    public Image imageLeft;
 
     private final int BASE_ENERGY = 42;
     public final int MAX_ENERGY = 100;
@@ -34,6 +34,8 @@ public class Gunther extends Element {
     private int health = MAX_HEALTH;
 
     private Direction currentDir = Direction.NONE;
+    //private Direction oldDir = Direction.NONE;
+
     private final float SPEED = 5;
     private final float DIAG_SPEED = SPEED/(float)java.lang.Math.sqrt(2);
 
@@ -41,7 +43,13 @@ public class Gunther extends Element {
 
     public Gunther() throws SlickException {
         box = new Circle(Main.width / 2, Main.height / 2, RADIUS);
-        image = new Image(IMAGE_PATH);
+        imageRight = new Image(IMAGE_PATH);
+        imageRight.setCenterOfRotation( imageRight.getWidth() * IMAGE_SCALE / 2,
+                                   imageRight.getHeight() * IMAGE_SCALE / 2 );
+        imageLeft = imageRight.getFlippedCopy(true, false);
+        imageLeft.setCenterOfRotation( imageLeft.getWidth() * IMAGE_SCALE / 2,
+                                   imageLeft.getHeight() * IMAGE_SCALE / 2 );
+
 
         oldX = Main.width / 2;
         oldY = Main.height / 2;
@@ -82,44 +90,78 @@ public class Gunther extends Element {
                        : energyLeft + amount );
     }
 
+    // considering up and down as facing right
+    private boolean isFacingLeft() {
+        return ( currentDir == Direction.LEFT || currentDir == Direction.LEFTUP 
+                || currentDir == Direction.LEFTDOWN );
+    }
+
+    private float getAngle() {
+        switch ( currentDir ) {
+        case LEFT:
+        case RIGHT:
+            return 0;
+        case LEFTUP:
+        case RIGHTDOWN:
+            return 45;
+        case RIGHTUP:
+        case LEFTDOWN:
+            return 315;
+        case UP:
+            return 270;
+        case DOWN:
+            return 90;
+        default: return 0;
+        }
+    }
+
+    private void setBoxOffset() {
+        switch ( currentDir ) {
+        case LEFT:
+            boxOffsetX = 10;
+            boxOffsetY = 20;
+            break;
+        case RIGHT:
+            boxOffsetX = 20;
+            boxOffsetY = 20;
+            break;
+        case UP:
+            boxOffsetX = 22;
+            boxOffsetY = 5;
+            break;
+        case DOWN:
+            boxOffsetX = 5;
+            boxOffsetY = 18;
+            break;
+        case LEFTUP:
+            boxOffsetX = 5;
+            boxOffsetY = 12;
+            break;
+        case LEFTDOWN:
+            boxOffsetX = 17;
+            boxOffsetY = 22;
+            break;
+        case RIGHTUP:
+            boxOffsetX = 25;
+            boxOffsetY = 14;
+            break;
+        case RIGHTDOWN:
+            boxOffsetX = 13;
+            boxOffsetY = 24;
+            break;
+        }
+    }
+    
     @Override
     public void render(float offsetX, float offsetY) {
 
-        image.setCenterOfRotation( image.getWidth() * IMAGE_SCALE / 2,
-                                   image.getHeight() * IMAGE_SCALE / 2 );
-        float rotate = 0;
+        boolean left = isFacingLeft();
+        Image image = ( left ? imageLeft : imageRight );
 
-        switch (currentDir) {
-        case LEFT :
-            rotate = 180;
-            break;
-        case RIGHT :
-            rotate = 0;
-            break;
-        case DOWN :
-            rotate = 90;
-            break;
-        case UP :
-            rotate = 270;
-            break;
-        case LEFTUP :
-            rotate = 135;
-            break;
-        case LEFTDOWN :
-            rotate = 225;
-            break;
-        case RIGHTUP :
-            rotate = 45;
-            break;
-        case RIGHTDOWN :
-            rotate = 315;
-            break;
-        }
-
-        float angle = rotate - image.getRotation();
-        image.rotate(angle);
-        image.draw(box.getX() - offsetX - boxOffsetX, box.getY() - offsetY - boxOffsetY, IMAGE_SCALE);
+        setBoxOffset();
+        image.setRotation( getAngle() );
         
+        image.draw(box.getX() - offsetX - boxOffsetX, box.getY() - offsetY - boxOffsetY, IMAGE_SCALE);
     }
 
     @Override
@@ -133,6 +175,7 @@ public class Gunther extends Element {
     }
 
     public void move(Direction newDir) {
+        //oldDir = currentDir;
         currentDir = newDir;
         
         oldX = box.getCenterX();
@@ -204,7 +247,7 @@ public class Gunther extends Element {
     public int getSize() {
         return 1;
     }
-
+/*
     public Image getImage() {
         return image;
     }
@@ -212,6 +255,6 @@ public class Gunther extends Element {
     public void setImage(Image image) {
         this.image = image;
     }
-    
+  */  
     
 }
