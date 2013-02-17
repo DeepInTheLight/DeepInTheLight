@@ -154,7 +154,7 @@ public class GamePlay extends BasicGameState {
         } else if (isRIGHT(input)) {
             gunther.move(Direction.RIGHT);
         } else {
-            gunther.move(Direction.NONE);
+            //gunther.move(Direction.NONE);
         }
     }
 
