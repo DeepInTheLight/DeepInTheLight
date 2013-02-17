@@ -13,6 +13,7 @@ import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
 
 import java.io.File;
+import java.util.ArrayList;
 import org.newdawn.slick.Image;
 /**
  * davedes' Tutorials
@@ -34,9 +35,16 @@ public class GamePlay extends BasicGameState {
     int stateID = -1;
 
     public Gunther gunther;
+    public ArrayList<Element> bonus = new ArrayList<Element>();
     public World world;
 
     public Image tuto;
+    public Image tutoFish1;
+    public Image tutoFish2;
+    public Image tutoFish3;
+    public Image tutoFish4;
+    public Image tutoFish5;
+    public Image tutoFish6;
 
     public Indicators uiIndicators;
     StateBasedGame sbg;
@@ -72,6 +80,13 @@ public class GamePlay extends BasicGameState {
         this.uiIndicators = new Indicators();
 
         this.tuto = new Image("images/tuto.png");
+        this.tutoFish1 = new Image("images/bonus/foodfish1.png");
+        this.tutoFish2 = new Image("images/bonus/foodfish2.png");
+        this.tutoFish3 = new Image("images/bonus/foodfish3.png");
+        this.tutoFish4 = new Image("images/malus/danger1.png");
+        this.tutoFish5 = new Image("images/malus/danger2.png");
+        this.tutoFish6 = new Image("images/malus/danger3.png");
+  
 
         this.screenX = 0;
         this.screenY = 0;
