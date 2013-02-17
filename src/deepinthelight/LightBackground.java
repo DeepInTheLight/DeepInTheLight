@@ -68,6 +68,8 @@ public class LightBackground {
         //render gunther
         gp.gunther.render(gp.screenX, gp.screenY);
 
+        gp.psystem.render();
+        
         //draw the spot
         spot.draw(x - lightRadius - gp.screenX , y - lightRadius - gp.screenY , lightRadius*2f, lightRadius*2f, Color.blue);
 

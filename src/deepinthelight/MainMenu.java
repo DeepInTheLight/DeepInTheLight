@@ -55,8 +55,8 @@ public class MainMenu extends BasicGameState implements ComponentListener {
     
     @Override
     public void init(GameContainer gc, StateBasedGame sbg) throws SlickException {
-        lbackground.init(gc);
-
+        //lbackground.init(gc);
+        GamePlay.getGamePlay();
         Image start = new Image("images/menu/play.png");
 
         startButton = new MouseOverArea(gc, start, startX, startY, 140, 40, this);
@@ -84,7 +84,8 @@ public class MainMenu extends BasicGameState implements ComponentListener {
 
     public void render(GameContainer gc, StateBasedGame sbg, Graphics gr) throws SlickException {
         startButton.render(gc, gr);
-        lbackground.render(gc, sbg, gr);  
+        //lbackground.render(gc, sbg, gr);  
+        GamePlay.getGamePlay().render(gc, sbg, gr);
         gr.setColor(Color.white);
        
         
@@ -99,6 +100,7 @@ public class MainMenu extends BasicGameState implements ComponentListener {
     }
 
     public void update(GameContainer gc, StateBasedGame sbg, int i) throws SlickException {
+        GamePlay.getGamePlay().updatePSystem(i);
         this.sbg = sbg;
     }
 
