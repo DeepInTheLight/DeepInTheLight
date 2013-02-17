@@ -17,8 +17,9 @@ import org.newdawn.slick.geom.Rectangle;
 public class BonusFish extends Element {
 
     private final int RADIUS = 2;
-    private final String IMAGE_PATH = "images/gunther/Gunther-eyelight-color.png"; // TODO change image
+
     private Image image;
+    private final float IMAGE_SCALE = 0.09f;
 
     private Image ligth;
 
@@ -37,15 +38,15 @@ public class BonusFish extends Element {
 
         switch (res) {
             case 0:
-                this.image = new Image("images/baleine.png", flip);
+                this.image = new Image("images/bonus/foodfish1.png", flip);
                 this.box = new Rectangle(posX, posY, 40, 40);
                 break;
             case 1:
-                this.image = new Image("images/baleine.png", flip);
+                this.image = new Image("images/bonus/foodfish2.png", flip);
                 this.box = new Rectangle(posX, posY, 40, 40);
                 break;
             case 2:
-                this.image = new Image("images/baleine.png", flip);
+                this.image = new Image("images/bonus/foodfish3.png", flip);
                 this.box = new Rectangle(posX, posY, 40, 40);
                 break;
         }
@@ -126,7 +127,7 @@ public class BonusFish extends Element {
 
     @Override
     public void render(float offsetX, float offsetY) {
-        image.draw( box.getX() - offsetX, box.getY() - offsetY );
+        image.draw( box.getX() - offsetX, box.getY() - offsetY, IMAGE_SCALE);
     }
 
     @Override

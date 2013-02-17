@@ -59,7 +59,7 @@ public class Screen {
             return null;
         }
 
-        generator = new Random();
+        generator = new Random(System.currentTimeMillis());
         ScreenMap = new HashMap<String, Screen>(100);
         return new Screen(screenY, screenX);
     }
