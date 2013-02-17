@@ -8,6 +8,7 @@ import java.util.Date;
 import org.newdawn.slick.Animation;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
+import org.newdawn.slick.Sound;
 import org.newdawn.slick.geom.Circle;
 
 /**
@@ -29,6 +30,7 @@ public class Gunther extends Element {
     }
     Anim currentAnim;
     Animation eatingAnim;
+    Sound eatingSound;
     long lastFrameUpdate = new Date().getTime();
 
     private final int BASE_ENERGY = 42;
@@ -62,6 +64,7 @@ public class Gunther extends Element {
         }
         eatingAnim = new Animation(anim, 50, false);
         eatingAnim.setLooping(false);
+        eatingSound = new Sound("music/gro 02.wav");
         
         currentAnim = Anim.STATIC;
 
@@ -96,6 +99,7 @@ public class Gunther extends Element {
     }
 
     public void eat() {
+        eatingSound.play();
         eatingAnim.restart();
         currentAnim = Anim.EATING;
         lastFrameUpdate = new Date().getTime();
