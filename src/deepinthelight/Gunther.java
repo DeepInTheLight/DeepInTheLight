@@ -218,7 +218,7 @@ public class Gunther extends Element {
     public void move(Direction newDir, int delta) {
         //oldDir = currentDir;
         currentDir = newDir;
-        System.out.println("delta : " + (delta / 17f));
+        
         oldX = box.getCenterX();
         oldY = box.getCenterY();
         
