@@ -44,7 +44,7 @@ public class Malus extends Element {
     }
 
     @Override
-    public void update() {
+    public void update(int delta) {
     }
 
     @Override

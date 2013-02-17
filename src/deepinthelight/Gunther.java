@@ -76,7 +76,7 @@ public class Gunther extends Element {
     }
 
     @Override
-    public void update() {
+    public void update(int delta) {
         long now = new Date().getTime();
         if ( now - lastDecrease >= 1000 ) {
             energyLeft-= getEnergyDecrease();
@@ -215,7 +215,7 @@ public class Gunther extends Element {
         box.setCenterY(oldY);
     }
 
-    public void move(Direction newDir) {
+    public void move(Direction newDir, int delta) {
         //oldDir = currentDir;
         currentDir = newDir;
         
@@ -224,32 +224,32 @@ public class Gunther extends Element {
         
         switch(currentDir) {
         case LEFT :
-            box.setCenterX( oldX - SPEED );
+            box.setCenterX( oldX - (SPEED * (delta / 17f)));
             break;
         case RIGHT :
-            box.setCenterX( oldX + SPEED );
+            box.setCenterX( oldX + (SPEED * (delta / 17f)));
             break;
         case DOWN :
-            box.setCenterY( oldY + SPEED );
+            box.setCenterY( oldY + (SPEED * (delta / 17f)));
             break;
         case UP :
-            box.setCenterY( oldY - SPEED );
+            box.setCenterY( oldY - (SPEED * (delta / 17f)));
             break;
         case LEFTUP :
-            box.setCenterX( oldX - DIAG_SPEED );
-            box.setCenterY( oldY - DIAG_SPEED );
+            box.setCenterX( oldX - (DIAG_SPEED * (delta / 17f)) );
+            box.setCenterY( oldY - (DIAG_SPEED * (delta / 17f)) );
             break;
         case LEFTDOWN :
-            box.setCenterX( oldX - DIAG_SPEED );
-            box.setCenterY( oldY + DIAG_SPEED );
+            box.setCenterX( oldX - (DIAG_SPEED * (delta / 17f)) );
+            box.setCenterY( oldY + (DIAG_SPEED * (delta / 17f)) );
             break;
         case RIGHTUP :
-            box.setCenterX( oldX + DIAG_SPEED );
-            box.setCenterY( oldY - DIAG_SPEED );
+            box.setCenterX( oldX + (DIAG_SPEED * (delta / 17f)) );
+            box.setCenterY( oldY - (DIAG_SPEED * (delta / 17f)) );
             break;
         case RIGHTDOWN :
-            box.setCenterX( oldX + DIAG_SPEED );
-            box.setCenterY( oldY + DIAG_SPEED );
+            box.setCenterX( oldX + (DIAG_SPEED * (delta / 17f)) );
+            box.setCenterY( oldY + (DIAG_SPEED * (delta / 17f)) );
             break;
         }
     }

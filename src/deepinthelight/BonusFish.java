@@ -63,7 +63,7 @@ public class BonusFish extends Element {
     }
 
     @Override
-    public void update() {
+    public void update(int delta) {
         long now = new Date().getTime();
         if ( now - lastDirChange >= 4000 ) {
             changeDirection();
@@ -74,7 +74,7 @@ public class BonusFish extends Element {
         int trial = 0;
         while(!moved && trial < 10) {
 
-            move();
+            move(delta);
             trial++;
             moved = true;
 
@@ -215,7 +215,7 @@ public class BonusFish extends Element {
         return false; // Gunther isn't blocked by bonus fish
     }
 
-    public void move() {
+    public void move(int delta) {
         
         oldX = box.getCenterX();
         oldY = box.getCenterY();
@@ -224,32 +224,32 @@ public class BonusFish extends Element {
         
         switch(currentDir) {
         case LEFT :
-            newX = oldX - SPEED;
+            newX = oldX - (SPEED * (delta / 17f));
             break;
         case RIGHT :
-            newX = oldX + SPEED;
+            newX = oldX + (SPEED * (delta / 17f));
             break;
         case DOWN :
-            newY = oldY + SPEED;
+            newY = oldY + (SPEED * (delta / 17f));
             break;
         case UP :
-            newY = oldY - SPEED;
+            newY = oldY - (SPEED * (delta / 17f));
             break;
         case LEFTUP :
-            newY = oldY - DIAG_SPEED;
-            newX = oldX - DIAG_SPEED;
+            newY = oldY - (DIAG_SPEED * (delta / 17f));
+            newX = oldX - (DIAG_SPEED * (delta / 17f));
             break;
         case LEFTDOWN :
-            newY = oldY + DIAG_SPEED;
-            newX = oldX - DIAG_SPEED;
+            newY = oldY + (DIAG_SPEED * (delta / 17f));
+            newX = oldX - (DIAG_SPEED * (delta / 17f));
             break;
         case RIGHTUP :
-            newY = oldY - DIAG_SPEED;
-            newX = oldX + DIAG_SPEED;
+            newY = oldY - (DIAG_SPEED * (delta / 17f));
+            newX = oldX + (DIAG_SPEED * (delta / 17f));
             break;
         case RIGHTDOWN :
-            newY = oldY + DIAG_SPEED;
-            newX = oldX + DIAG_SPEED;
+            newY = oldY + (DIAG_SPEED * (delta / 17f));
+            newX = oldX + (DIAG_SPEED * (delta / 17f));
             break;
         }
         
