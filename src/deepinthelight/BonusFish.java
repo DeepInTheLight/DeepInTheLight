@@ -34,19 +34,18 @@ public class BonusFish extends Element {
     
     public BonusFish(float posX, float posY, Screen screen) throws SlickException {
         int res = (int) (Math.random() * 3);
-        boolean flip = ((int) Math.random()) == 0 ? true : false;
 
         switch (res) {
             case 0:
-                this.image = new Image("images/bonus/foodfish1_SMALL.png", flip);
+                this.image = new Image("images/bonus/foodfish1_SMALL.png");
                 this.box = new Rectangle(posX, posY, 40, 40);
                 break;
             case 1:
-                this.image = new Image("images/bonus/foodfish2_SMALL.png", flip);
+                this.image = new Image("images/bonus/foodfish2_SMALL.png");
                 this.box = new Rectangle(posX, posY, 40, 40);
                 break;
             case 2:
-                this.image = new Image("images/bonus/foodfish3_SMALL.png", flip);
+                this.image = new Image("images/bonus/foodfish3_SMALL.png");
                 this.box = new Rectangle(posX, posY, 40, 40);
                 break;
         }
@@ -164,10 +163,43 @@ public class BonusFish extends Element {
         }
     }
 
+    // considering up and down as facing right
+    private boolean isFacingLeft() {
+        return ( currentDir == Direction.LEFT || currentDir == Direction.LEFTUP 
+                || currentDir == Direction.LEFTDOWN );
+    }
+
+    private float getAngle() {
+        switch ( currentDir ) {
+        case LEFT:
+        case RIGHT:
+            return 0;
+        case LEFTUP:
+        case RIGHTDOWN:
+            return 45;
+        case RIGHTUP:
+        case LEFTDOWN:
+            return 315;
+        case UP:
+            return 270;
+        case DOWN:
+            return 90;
+        default: return 0;
+        }
+    }
 
     @Override
     public void render(float offsetX, float offsetY) {
-        image.draw( box.getX() - offsetX, box.getY() - offsetY, IMAGE_SCALE);
+        boolean left = isFacingLeft();
+
+        Image toRender = image.getFlippedCopy((!left), false );
+
+        toRender.setCenterOfRotation( toRender.getWidth() * IMAGE_SCALE / 2,
+                                      toRender.getHeight() * IMAGE_SCALE / 2 );
+        //setBoxOffset();
+        toRender.setRotation( getAngle() );
+        
+        toRender.draw(box.getX() - offsetX - boxOffsetX, box.getY() - offsetY - boxOffsetY, IMAGE_SCALE);
     }
 
     @Override
