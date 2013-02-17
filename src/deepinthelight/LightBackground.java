@@ -11,9 +11,8 @@ import org.newdawn.slick.state.StateBasedGame;
 
 public class LightBackground {
 
-
-    public static final int MIN_RADIUS =  200;
-    public static final int MAX_RADIUS = 901;
+    public static final float MIN_RADIUS =  100;
+    public static final float MAX_RADIUS = 800;
     
     //number of tiles in our simple horizontal sprite sheet
     public static final int TILE_COUNT = 5;
@@ -49,9 +48,9 @@ public class LightBackground {
         GamePlay gp = GamePlay.getGamePlay();
 
         float enregy = gp.gunther.getEnergyLeft();
-        float radius = gp.gunther.RADIUS;
-        float maxEnergy = gp.gunther.MAX_ENERGY;
-        float lightRadius = MIN_RADIUS/2 + (enregy/maxEnergy)*(MAX_RADIUS-MIN_RADIUS/2);
+       //float radius = gp.gunther.RADIUS;
+        float maxEnergy = 100;//gp.gunther.MAX_ENERGY;
+        float lightRadius = MIN_RADIUS + (enregy/maxEnergy)*(MAX_RADIUS-MIN_RADIUS);
         float x = gp.gunther.getBox().getCenterX();
         float y = gp.gunther.getBox().getCenterY();
 
@@ -80,6 +79,7 @@ public class LightBackground {
         g.setDrawMode(Graphics.MODE_NORMAL);
 
         g.setColor(Color.white);
+         g.drawString(""+enregy, 200, 0);        //float radius = gp.gunther.RADIUS;
     }
 
     public Light addLight(float x, float y, float scale, Color color) {

@@ -86,7 +86,7 @@ public class Gunther extends Element {
     }
 
     public void recharge(int amount) {
-        energyLeft+= ( energyLeft + amount > MAX_ENERGY ? MAX_ENERGY
+        energyLeft= ( energyLeft + amount > MAX_ENERGY ? MAX_ENERGY
                        : energyLeft + amount );
     }
 
