@@ -209,6 +209,9 @@ public class BonusFish extends Element {
         gunther.eat();
         
         screen.deleteElement(this);
+
+        GamePlay.getGamePlay().score += 10;
+
         return false; // Gunther isn't blocked by bonus fish
     }
 
