@@ -38,6 +38,8 @@ public class MainMenu extends BasicGameState implements ComponentListener {
     //List<String> playersSelected = new ArrayList<String>();
     Image play;
     private UnicodeFont unicodeFont;
+    int startX = Main.width/2 - 60;
+    int startY = Main.height/2 + 70;
 
     @Override
     public int getID() {
@@ -47,7 +49,7 @@ public class MainMenu extends BasicGameState implements ComponentListener {
     MainMenu(int stateID) {
         this.stateID = stateID;//stateID;
         lbackground = new LightBackground();
-        GamePlay.getGamePlay();
+        //GamePlay.getGamePlay();
     }
     
     @Override
@@ -56,7 +58,7 @@ public class MainMenu extends BasicGameState implements ComponentListener {
 
         Image start = new Image("images/menu/play.png");
 
-        startButton = new MouseOverArea(gc, start, Main.width/2 - start.getWidth()/2, 450, this);
+        startButton = new MouseOverArea(gc, start, startX, startY, 140, 40, this);
         startButton.setMouseOverColor(Color.blue);
         startButton.setNormalColor(Color.white);
         
@@ -80,8 +82,7 @@ public class MainMenu extends BasicGameState implements ComponentListener {
     }
 
     public void render(GameContainer gc, StateBasedGame sbg, Graphics gr) throws SlickException {
-        GamePlay.getGamePlay().gunther.setEnergyLeft(80);
-         startButton.render(gc, gr);
+        startButton.render(gc, gr);
         lbackground.render(gc, sbg, gr);  
         gr.setColor(Color.white);
        
@@ -104,8 +105,6 @@ public class MainMenu extends BasicGameState implements ComponentListener {
     public void componentActivated(AbstractComponent source) { //methode de l'interface ComponentListener
 
         if (source == startButton) {
-            GamePlay.getGamePlay().gunther.setEnergyLeft(42);
-            GamePlay.getGamePlay().activated = true;
             sbg.enterState(Main.GAMEPLAY);
         }
     }
