@@ -79,7 +79,7 @@ public class BonusFish extends Element {
             moved = true;
 
             for (Element e : GamePlay.getGamePlay().world.getElements()) {
-                if ( e.getBox().intersects(this.getBox()) 
+                if ( e.getBox().intersects(this.getBox())
                      && e.getClass()==Obstacle.class ) {
                     abortMove();
                     moved = false;
@@ -130,12 +130,38 @@ public class BonusFish extends Element {
         float norm = gunther.getDistance(this);
         System.out.println("norm : " + norm);
         if (norm < Main.height) {
-            System.out.println("dot product : " );
-            if (Math.abs(gunther.dotProduct(this)/norm) < (3.14159/6)) {
-                System.out.println("ERMARGHERD! GUNTHER! " +  ", alpha : " + Math.abs(gunther.dotProduct(this)/norm) + ", pi/6 : " + 3.14159/6);
+            float calpha = getCosAlpha(gunther, currentDir);
+            System.out.println("cos alpha : " + calpha);
+            if (calpha > 0.707) { // alpha < Pi/4
+                System.out.println("ERMARGHERD! GUNTHER! ");
+                switch(currentDir) {
+                case UP :
+                    currentDir = Direction.DOWN;
+                    break;
+                case DOWN :
+                    currentDir = Direction.UP;
+                    break;
+                case LEFT :
+                    currentDir = Direction.RIGHT;
+                    break;
+                case RIGHT :
+                    currentDir = Direction.LEFT;
+                    break;
+                case LEFTUP:
+                    currentDir = Direction.RIGHTDOWN;
+                    break;
+                case RIGHTUP :
+                    currentDir = Direction.LEFTDOWN;
+                    break;
+                case LEFTDOWN :
+                    currentDir = Direction.RIGHTUP;
+                    break;
+                case RIGHTDOWN :
+                    currentDir = Direction.LEFTUP;
+                    break;
+                }
             }
         }
-
     }
 
 
@@ -211,5 +237,49 @@ public class BonusFish extends Element {
     public void drawLight(float offsetX, float offsetY) {
         ligth.draw(box.getX() - offsetX, box.getY() - offsetY );
     }
-    
+ 
+    public float getCosAlpha(Element a, Direction where) {
+        if (box == null) {
+            return 0;
+        }
+
+        float x1 = a.getBox().getCenterX() - this.getBox().getCenterX();
+        float y1 = a.getBox().getCenterY() - this.getBox().getCenterY();
+        float x2 = 0;
+        float y2 = 0;
+
+        switch(where) {
+        case UP :
+            y2 = -1;
+            break;
+        case DOWN :
+            y2 = 1;
+            break;
+        case LEFT :
+            x2 = -1;
+            break;
+        case RIGHT :
+            x2 = 1;
+            break;
+        case LEFTDOWN :
+            x2 = -1;
+            y2 = 1;
+            break;
+        case LEFTUP :
+            x2 = -1;
+            y2 = -1;
+            break;
+        case RIGHTDOWN :
+            x2 = 1;
+            y2 = 1;
+            break;
+        case RIGHTUP :
+            x2 = 1;
+            y2 = -1;
+            break;
+        }
+
+        float dotProduct = x1*x2 + y1*y2;
+        return dotProduct/(Element.computeNorm(x1,y1)*Element.computeNorm(x2, y2));
+    }
 }

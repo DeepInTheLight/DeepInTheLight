@@ -39,19 +39,11 @@ public abstract class Element {
         float ya = a.getBox().getCenterY();
         float yb = this.getBox().getCenterY();
 
-        return (float)Math.sqrt(Math.pow(xb-xa, 2) + Math.pow(yb-ya, 2));
+        return computeNorm(xb-xa, yb-ya);
     }
 
-    public float dotProduct(Element a) {
-        if (box == null) {
-            return 0;
-        }
-
-        float xa = a.getBox().getCenterX();
-        float xb = this.getBox().getCenterX();
-        float ya = a.getBox().getCenterY();
-        float yb = this.getBox().getCenterY();
-
-        return xb*xa + ya*yb;
+    public static float computeNorm(float x, float y) {
+        return (float)Math.sqrt(Math.pow(x, 2) + Math.pow(y, 2));
     }
+
 }
