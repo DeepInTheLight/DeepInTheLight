@@ -270,6 +270,9 @@ public class Screen {
         }
 
         for (Element element : getAllElements(2)) {
+            if (element.getScreen() != this && element.getSize() == 1) {
+                continue;
+            }
             if (malus.getBox().intersects(element.getBox()) || malus.getBox().contains(element.getBox())) {
                 return null;
             }
@@ -291,6 +294,9 @@ public class Screen {
         }
 
         for (Element element : getAllElements(2)) {
+            if (element.getScreen() != this && element.getSize() == 1) {
+                continue;
+            }
             if (bf.getBox().intersects(element.getBox()) || bf.getBox().contains(element.getBox())) {
                 return null;
             }

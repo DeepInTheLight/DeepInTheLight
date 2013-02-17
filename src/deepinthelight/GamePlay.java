@@ -161,6 +161,9 @@ public class GamePlay extends BasicGameState {
     private boolean manageCollisions() {
         boolean needToStop = false;
         for (Element e : this.world.getElements()) {
+            if (e.getScreen() != this.world.getCurrentScreen() && e.getSize() == 1) {
+                continue;
+            }
             if (e.getBox().intersects(gunther.getBox())) {
                 boolean b = e.collide();
                 needToStop = b ? true : needToStop;

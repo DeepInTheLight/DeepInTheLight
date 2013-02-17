@@ -43,4 +43,8 @@ public class World {
             allElements.addAll(currentScreen.getAllElements(2));
         }
     }
+
+    public Screen getCurrentScreen() {
+        return currentScreen;
+    }
 }
