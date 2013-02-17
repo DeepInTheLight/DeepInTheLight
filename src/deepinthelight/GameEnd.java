@@ -38,6 +38,9 @@ public class GameEnd extends BasicGameState implements ComponentListener {
     float restartX =  Main.width/2 - 50;
     float restartY = Main.height/2;
     GameContainer gc;
+    private Color currentColor;
+    private final Color selectedColor = new Color(90, 223, 255);
+    private final Color notselectedColor = Color.white;
 
     GameEnd(int stateID) {
         this.stateID = stateID;
@@ -52,9 +55,9 @@ public class GameEnd extends BasicGameState implements ComponentListener {
 
     public void init(GameContainer gc, StateBasedGame sbg) throws SlickException {
         img = new Image("images/Black.png");
-        restartButton = new MouseOverArea(gc, img, (int)restartX, (int)restartY, 100, 40, this);
-        restartButton.setMouseOverColor(new Color(90, 223, 255));
-        restartButton.setNormalColor(Color.white);
+        restartButton = new MouseOverArea(gc, img, (int)restartX, (int)restartY, 130, 40, this);
+        //restartButton.setMouseOverColor(new Color(90, 223, 255));
+        //restartButton.setNormalColor(Color.white);
         
         Font javaFont = null;
         try {
@@ -80,11 +83,12 @@ public class GameEnd extends BasicGameState implements ComponentListener {
         String restartStr = "RESTART";
         int textWidth = unicodeFont.getWidth(restartStr);
 
-        gr.setColor(Color.white);
+        gr.setColor(currentColor);
         gr.setFont(unicodeFont);
 
         gr.drawString(restartStr,restartX, restartY);
         
+        gr.setColor(Color.white);
         showInformation(gr);
        
     }
@@ -97,7 +101,7 @@ public class GameEnd extends BasicGameState implements ComponentListener {
     private void showInformation(Graphics gr) {
         int p = GamePlay.getGamePlay().score;
         gr.setColor(Color.white);
-        gr.drawString("Score " + p, restartX +10, restartY - 100);
+        gr.drawString("Score " + p, restartX + 5, restartY - 100);
     }
 
     public void componentActivated(AbstractComponent ac) {
@@ -110,4 +114,14 @@ public class GameEnd extends BasicGameState implements ComponentListener {
             sbg.enterState(2);
         }
     }
+    
+    @Override
+    public void mouseMoved(int oldx, int oldy, int newx, int newy) {
+      super.mouseMoved(oldx, oldy, newx, newy);
+      if(restartButton.isMouseOver()){
+          currentColor = selectedColor;
+      }else{
+          currentColor = notselectedColor;
+      }
+    } 
 }
