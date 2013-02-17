@@ -23,7 +23,7 @@ public class Obstacle extends Element {
                 this.box = new Polygon(addOffset(b, posX, posY));
                 this.box.setX(posX);
                 this.box.setY(posY);
-                size = 20;
+                size = 16;
                 scale = 0.614f;
                 break;
             case 1:
@@ -32,7 +32,7 @@ public class Obstacle extends Element {
                 this.box = new Polygon(addOffset(b1, posX, posY));
                 this.box.setX(posX);
                 this.box.setY(posY);
-                size = 20;
+                size = 16;
                 scale = 0.572f;
                 break;
             case 2:
@@ -43,10 +43,10 @@ public class Obstacle extends Element {
                 this.boxOffsetY = 20;
                 this.box.setX(posX);
                 this.box.setY(posY);
-                size = 20;
+                size = 16;
                 scale = 0.388f;
                 break;
-            default:
+            case 3:
                 this.img = new Image("images/obstacles/bigstone4_SMALL.png");
                 float[] b3 = {162,66, 258,137, 407,73, 532,135, 675,77, 901,242, 872,407, 675,476, 554,449, 423,584, 336,523, 68,777, 76,270};
                 this.box = new Polygon(addOffset(b3, posX, posY));
@@ -54,8 +54,52 @@ public class Obstacle extends Element {
                 this.boxOffsetY = 70;
                 this.box.setX(posX);
                 this.box.setY(posY);
-                size = 20;
+                size = 16;
                 scale = 0.6f;
+                break;
+            case 4:
+                this.img = new Image("images/obstacles/smallstone1_SMALL.png");
+                float[] b4 = {36,285, 82,227, 175,24, 304,133, 195,316};
+                this.box = new Polygon(addOffset(b4, posX, posY));
+                this.boxOffsetX = 30;
+                this.boxOffsetY = 30;
+                this.box.setX(posX);
+                this.box.setY(posY);
+                size = 8;
+                scale = 0.50f;
+                break;
+            case 5:
+                this.img = new Image("images/obstacles/smallstone2_SMALL.png");
+                float[] b5 = {44,140, 164,38, 249,92, 293,55, 333,90, 337,135, 248,223, 222,264, 95,197, 33,237};
+                this.box = new Polygon(addOffset(b5, posX, posY));
+                this.boxOffsetX = 30;
+                this.boxOffsetY = 30;
+                this.box.setX(posX);
+                this.box.setY(posY);
+                size = 8;
+                scale = 0.50f;
+                break;
+            case 6:
+                this.img = new Image("images/obstacles/smallstone3_SMALL.png");
+                float[] b6 = {34,105, 127,15, 208,75, 262,48, 313,120, 268,249, 124,288, 25,205};
+                this.box = new Polygon(addOffset(b6, posX, posY));
+                this.boxOffsetX = 25;
+                this.boxOffsetY = 25;
+                this.box.setX(posX);
+                this.box.setY(posY);
+                size = 8;
+                scale = 0.5f;
+                break;
+            case 7:
+                this.img = new Image("images/obstacles/smallstone4_SMALL.png");
+                float[] b7 = {21,154, 76,20, 241,37, 250,76, 299,121, 199,220, 150,230, 101,160};
+                this.box = new Polygon(addOffset(b7, posX, posY));
+                this.boxOffsetX = 25;
+                this.boxOffsetY = 25;
+                this.box.setX(posX);
+                this.box.setY(posY);
+                size = 8;
+                scale = 0.5f;
                 break;
         }
         
