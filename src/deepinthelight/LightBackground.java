@@ -66,6 +66,13 @@ public class LightBackground {
         //Draw the tuto image
         if (Main.main.getCurrentState() instanceof GamePlay) {
             GamePlay.getGamePlay().tuto.draw(200 - gp.screenX, 60 - gp.screenY);
+            GamePlay.getGamePlay().tutoFish1.draw(735 - gp.screenX, 390 - gp.screenY, 45, 45);
+            GamePlay.getGamePlay().tutoFish2.draw(787 - gp.screenX, 390 - gp.screenY, 45, 45);
+            GamePlay.getGamePlay().tutoFish3.draw(835 - gp.screenX, 390 - gp.screenY, 45, 45);
+            
+            GamePlay.getGamePlay().tutoFish4.draw(735 - gp.screenX, 550 - gp.screenY, 45, 45);
+            GamePlay.getGamePlay().tutoFish5.draw(787 - gp.screenX, 550 - gp.screenY, 45, 45);
+            GamePlay.getGamePlay().tutoFish6.draw(835 - gp.screenX, 550 - gp.screenY, 45, 45);
         }
 
         //render gunther
