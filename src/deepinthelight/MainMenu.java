@@ -112,5 +112,7 @@ public class MainMenu extends BasicGameState implements ComponentListener {
     @Override
     public void mouseMoved(int oldx, int oldy, int newx, int newy) {
       super.mouseMoved(oldx, oldy, newx, newy);
-      GamePlay.getGamePlay().gunther.eat();  } 
+      if(startButton.isMouseOver())
+        GamePlay.getGamePlay().gunther.eat();
+    } 
 }
