@@ -8,6 +8,7 @@ import java.util.Date;
 import org.newdawn.slick.Animation;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
+import org.newdawn.slick.Sound;
 import org.newdawn.slick.geom.Circle;
 
 /**
@@ -29,9 +30,10 @@ public class Gunther extends Element {
     }
     Anim currentAnim;
     Animation eatingAnim;
+    Sound eatingSound;
     long lastFrameUpdate = new Date().getTime();
 
-    private final int BASE_ENERGY = 42;
+    private final int BASE_ENERGY = 80;
     public final int MAX_ENERGY = 100;
     private final int MAX_DECREASE = MAX_ENERGY / 20;
     private final int DECREASE_THRESHOLD = MAX_ENERGY / 2;
@@ -62,6 +64,7 @@ public class Gunther extends Element {
         }
         eatingAnim = new Animation(anim, 50, false);
         eatingAnim.setLooping(false);
+        eatingSound = new Sound("music/gro 02.wav");
         
         currentAnim = Anim.STATIC;
 
@@ -96,6 +99,7 @@ public class Gunther extends Element {
     }
 
     public void eat() {
+        eatingSound.play();
         eatingAnim.restart();
         currentAnim = Anim.EATING;
         lastFrameUpdate = new Date().getTime();
@@ -191,7 +195,7 @@ public class Gunther extends Element {
             toRender = image;
             break;
         }
-        toRender = ( left ? toRender.getFlippedCopy(true, false) : toRender );
+        toRender = toRender.getFlippedCopy(left, false);
 
         toRender.setCenterOfRotation( toRender.getWidth() * IMAGE_SCALE / 2,
                                       toRender.getHeight() * IMAGE_SCALE / 2 );

@@ -5,10 +5,14 @@ import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Input;
+import org.newdawn.slick.particles.ParticleIO;
+import org.newdawn.slick.particles.ParticleSystem;
+import org.newdawn.slick.particles.ConfigurableEmitter;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
 
+import java.io.File;
 /**
  * davedes' Tutorials
  * Alpha Map Lighting
@@ -40,6 +44,11 @@ public class GamePlay extends BasicGameState {
     public boolean activated = true;
     public int score;
 
+    public ParticleSystem psystem;
+    private ParticleIO particleIO;
+    private final int emitterNb = 18;
+    private ConfigurableEmitter[] emitters;
+
     GamePlay(int stateID) {
         this.stateID = stateID;
         lbackground = new LightBackground();
@@ -63,7 +72,23 @@ public class GamePlay extends BasicGameState {
         this.screenY = 0;
 
         this.score = 0;
+        psystem = new ParticleSystem("images/particles/bubble15x15.png");
+        emitters = new ConfigurableEmitter[emitterNb];
+        try {
+            File xmlFile = new File("effects/bubble.xml");
+            for (int i = 0; i < emitterNb; i++)  {
+                emitters[i] = ParticleIO.loadEmitter(xmlFile);
+                emitters[i].setPosition(2*Main.width - (int)Math.round(2*i*Main.width/emitterNb), 720);
+                psystem.addEmitter(emitters[i]);
+            }
+        } catch (Exception e) {
+            System.out.println("Exception: " +e.getMessage());
+            e.printStackTrace();
+            System.exit(0);
+        }
 
+        psystem.setBlendingMode(ParticleSystem.BLEND_ADDITIVE);
+        psystem.setUsePoints(false);
     }
 
     @Override
@@ -83,15 +108,15 @@ public class GamePlay extends BasicGameState {
         renderBoxes(gc);
         
         uiIndicators.render(grphcs);
+        psystem.render();
     }
 
     @Override
     public void update(GameContainer gc, StateBasedGame sbg, int delta) throws SlickException {
         this.sbg = sbg;
-        if(activated){
-            manageInput(gc, sbg, delta);
-            this.gunther.update(delta);
-        }
+
+        manageInput(gc, sbg, delta);
+        this.gunther.update(delta);
         world.update(delta);
 
         for (Element e : this.world.getElements()) {
@@ -104,7 +129,16 @@ public class GamePlay extends BasicGameState {
             this.gunther.moveBack();
         }
 
+        float screenDiffX = screenX;
+        float screenDiffY = screenY;
         checkScreenBorders();
+        screenDiffX -= screenX;
+        screenDiffY -= screenY;
+        for (int j = 0; j < emitterNb; j++) {
+            psystem.moveAll(emitters[j], screenDiffX, screenDiffY);
+        }
+
+        psystem.update(delta);
 
     }
 
