@@ -191,7 +191,7 @@ public class Gunther extends Element {
             toRender = image;
             break;
         }
-        toRender = ( left ? toRender.getFlippedCopy(true, false) : toRender );
+        toRender = toRender.getFlippedCopy(left, false);
 
         toRender.setCenterOfRotation( toRender.getWidth() * IMAGE_SCALE / 2,
                                       toRender.getHeight() * IMAGE_SCALE / 2 );
